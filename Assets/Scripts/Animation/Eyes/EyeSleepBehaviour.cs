@@ -18,7 +18,6 @@ public class EyeSleepBehaviour : EyeBehaviour {
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         base.OnStateExit(animator, stateInfo, layerIndex);
         if (stateInfo.IsName(SLEEP_POST))
-            Debug.Log(animator.gameObject.name + ": What a nice nap!");
             ChangeEyes(OPEN, EXPR_SEMI_CLOSED, new Expr(CLOSED, 0.1f), EXPR_SEMI_OPEN);
     }
 }

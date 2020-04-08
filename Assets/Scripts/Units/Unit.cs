@@ -9,9 +9,10 @@ public abstract class Unit : MonoBehaviour{
 
     public UnitStats baseStats;
 
-    protected virtual void Start() {
+    protected virtual void Awake() {
         gameObject.AddComponent<UnitGestureAnimation>();
         gameObject.AddComponent<UnitCarryAnimation>();
+        gameObject.AddComponent<UnitStoreAnimation>();
     }
 
     public enum Evl_Chain { One, Two, Three }; //number represents how far down in evolution chain (one is base, two is first evo, etc.)

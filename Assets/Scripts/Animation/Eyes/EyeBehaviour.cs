@@ -31,13 +31,14 @@ public abstract class EyeBehaviour : StateMachineBehaviour
 
     Material eye = null;
 
+    private Coroutine _changeEyesHandle;
     private Coroutine ChangeEyesHandle {
-        get { return ChangeEyesHandle; }
+        get { return _changeEyesHandle; }
         set {
-            if (ChangeEyesHandle != null) {
-                GameMan.Instance.StopCoroutine(ChangeEyesHandle);
+            if (_changeEyesHandle != null) {
+                GameMan.Instance.StopCoroutine(_changeEyesHandle);
             }
-            ChangeEyesHandle = value;
+            _changeEyesHandle = value;
         }
     }
 

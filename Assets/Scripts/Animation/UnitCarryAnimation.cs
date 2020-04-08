@@ -2,23 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class UnitCarryAnimation : MonoBehaviour {
-
-    #region Animator Strings
-    //PARAMETER NAMES
-    private const string //CARRY
-        TRIGGER_PICKED_UP = "Picked Up",
-        BOOL_CARRIED = "Carried",
-        FLOAT_CARRY_PRE_CLIP_SPEED = "CarryPre Clip Speed Normalizer",
-        FLOAT_CARRY_POST_CLIP_SPEED = "CarryPost Clip Speed Normalizer";
-    #endregion
+public class UnitCarryAnimation : UnitAnimation {
 
     #region Constants
     private readonly float pickUpDropClipLength = 0.33f; //in seconds
     #endregion
 
     #region Containers
-    private Animator anim;
     #endregion
 
     #region Variables
@@ -26,7 +16,6 @@ public class UnitCarryAnimation : MonoBehaviour {
 
     #region Unity Methods
     private void Start() {
-        anim = GetComponent<Animator>();
         InitEventSubscribers();
         SetSpeedCarryClips();
     }
@@ -70,12 +59,6 @@ public class UnitCarryAnimation : MonoBehaviour {
 
     private void HandleUnitDeselectEvent(Unit unit) {
         if (IsThisUnit(unit)) anim.SetBool(BOOL_CARRIED, false);
-    }
-    #endregion
-
-    #region Helpers
-    private bool IsThisUnit(Unit unit) {
-        return unit.gameObject.GetInstanceID() == gameObject.GetInstanceID();
     }
     #endregion
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class UIMan : MonoBehaviour {
+public class UIMan : ManagerBehaviour {
     [SerializeField] private GameObject catchButtonContainer = null;
     [SerializeField] private GameObject catchButtonTemplate = null;
 

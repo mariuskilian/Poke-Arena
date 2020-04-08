@@ -4,34 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class UnitGestureAnimation : MonoBehaviour {
-
-    #region Animator Strings
-    //PARAMETER NAMES
-    private const string //GESTURES
-        TYPE_REACTIVE_GESTURE = "Reactive Gesture",
-        TYPE_NON_REACTIVE_GESTURE = "Non-Reactive Gesture",
-        //clips without versions
-        COME_HERE = "Come Here",
-        DISTRACTED = "Distracted",
-        LOOK_THERE = "Look There",
-        NO_THANKS = "No Thanks",
-        NAME = "Name",
-        DOZE = "Doze",
-        SLEEP = "Sleep",
-        //clips with versions
-        EXCITED = "Excited",
-        SHAKE = "Shake";
-    private const string //HELPERS
-        INDEX = " Index"; //postfix for versioned gestures
-
-    private readonly List<string> ClipsTriggerOnly = new List<string> {
-            COME_HERE, DISTRACTED, LOOK_THERE, NO_THANKS, NAME };
-    private readonly List<string> ClipsBoolOnly = new List<string> {
-            DOZE, SLEEP };
-    private readonly List<string> ClipsTriggerWithVersions = new List<string> {
-            EXCITED, SHAKE };
-    #endregion
+public class UnitGestureAnimation : UnitAnimation {
 
     #region Constants
     private const int
@@ -48,8 +21,14 @@ public class UnitGestureAnimation : MonoBehaviour {
     #endregion
 
     #region Containers
-    private Animator anim;
     private Dictionary<string, Action<bool>> AvailableGestures;
+
+    private readonly List<string> ClipsTriggerOnly = new List<string> {
+            COME_HERE, DISTRACTED, LOOK_THERE, NO_THANKS, NAME };
+    private readonly List<string> ClipsBoolOnly = new List<string> {
+            DOZE, SLEEP };
+    private readonly List<string> ClipsTriggerWithVersions = new List<string> {
+            EXCITED, SHAKE };
     #endregion
 
     #region Variables
@@ -57,7 +36,6 @@ public class UnitGestureAnimation : MonoBehaviour {
 
     #region Unity Methods
     private void Start() {
-        anim = GetComponent<Animator>();
         InitEventSubscribers();
         InitAvailableGestures();
         InitIdleAnimation();
@@ -133,7 +111,8 @@ public class UnitGestureAnimation : MonoBehaviour {
 
     private IEnumerator RandomGesture() {
         while (true) {
-            yield return new WaitForSeconds(((float) GameMan.random.NextDouble() * 8f) + 2f);
+            float random = (float) GameMan.random.NextDouble();
+            yield return new WaitForSeconds((random * random * 10f) + 5f);
             if (GameMan.random.Next(0, 10) < 5) {
                 int index = GameMan.random.Next(0, AvailableGestures.Count);
                 List<string> Keys = new List<string>(AvailableGestures.Keys);
@@ -143,21 +122,11 @@ public class UnitGestureAnimation : MonoBehaviour {
         }
     }
 
-    public void EyeGesture(Vector2 expression) {
-
-    }
-
     #region Event Handlers
     private void HandleUnitTeleportEvent(Unit unit) {
         if (IsThisUnit(unit))
             if (AvailableGestures.TryGetValue(SHAKE, out Action<bool> shake))
                 shake(true);
-    }
-    #endregion
-
-    #region Helper Methods
-    private bool IsThisUnit(Unit unit) {
-        return unit.gameObject.GetInstanceID() == gameObject.GetInstanceID();
     }
     #endregion
 }

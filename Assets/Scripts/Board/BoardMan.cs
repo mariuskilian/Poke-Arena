@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
-public class BoardMan : MonoBehaviour{
+public class BoardMan : ManagerBehaviour {
 
     #region Singleton
     private static BoardMan _instance;
@@ -56,12 +56,12 @@ public class BoardMan : MonoBehaviour{
     }
 
     private void Start() {
-        InitBoardAndBench();
         InitEventSubscribers();
+        InitBoardAndBench();
         unitContainers = new Dictionary<string, UnitContainer>();
     }
 
-    private void Update() {
+    private new void Update() {
         UpdpateTileHovered();
         CheckForInput();
         if (selectedTile != null) DragSelectedUnit();

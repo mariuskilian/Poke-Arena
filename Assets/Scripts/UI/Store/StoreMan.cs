@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
-public class StoreMan : MonoBehaviour {
+public class StoreMan : ManagerBehaviour {
 
     #region Singleton
     private static StoreMan _instance;
@@ -45,14 +46,15 @@ public class StoreMan : MonoBehaviour {
     #region Unity Methods (Awake, Start, Update)
     private void Awake() {
         _instance = this; // Singleton
+        currentStore = new Unit[storeSize];
     }
 
     private void Start() {
-        currentStore = new Unit[storeSize];
         InitEventSubscribers();
     }
-
-    private void Update() {
+    
+    protected override void LateStart() {
+        SpawnNewShop();
     }
     #endregion
 

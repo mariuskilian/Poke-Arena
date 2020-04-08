@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-public class InputMan : MonoBehaviour {
+public class InputMan : ManagerBehaviour {
 
     #region Singleton
     private static InputMan _instance;
@@ -45,7 +45,7 @@ public class InputMan : MonoBehaviour {
         _instance = this; //Singleton
     }
 
-    private void Update() {
+    private new void Update() {
         CheckForInput();
     }
 
