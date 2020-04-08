@@ -1,0 +1,180 @@
+fileFormatVersion: 2
+guid: 0e4fb6856bcf1b64793edb1bd3da60db
+ModelImporter:
+  serializedVersion: 19300
+  internalIDToNameTable:
+  - first:
+      74: -4318332292623812031
+    second: 001Bulbasaur_skeleton|Attack
+  - first:
+      74: -7573581429477534781
+    second: 001Bulbasaur_skeleton|AttackSP
+  - first:
+      74: -5221886139511454053
+    second: 001Bulbasaur_skeleton|Carry
+  - first:
+      74: -2402696998995326139
+    second: 001Bulbasaur_skeleton|CarryPost
+  - first:
+      74: 2216579758699399752
+    second: 001Bulbasaur_skeleton|CarryPre
+  - first:
+      74: 580543523245081044
+    second: 001Bulbasaur_skeleton|ComeHere
+  - first:
+      74: 8237423031118371154
+    second: 001Bulbasaur_skeleton|Distracted
+  - first:
+      74: 2181569063384325740
+    second: 001Bulbasaur_skeleton|Doze1
+  - first:
+      74: 2602721736641427663
+    second: 001Bulbasaur_skeleton|Doze2
+  - first:
+      74: 3685394346686777022
+    second: 001Bulbasaur_skeleton|Doze3
+  - first:
+      74: -578599595661069661
+    second: 001Bulbasaur_skeleton|ExcitedV1
+  - first:
+      74: 4408878550127805246
+    second: 001Bulbasaur_skeleton|ExcitedV2
+  - first:
+      74: 8441893484935916122
+    second: 001Bulbasaur_skeleton|ExcitedV3
+  - first:
+      74: 416595957360136290
+    second: 001Bulbasaur_skeleton|Hit
+  - first:
+      74: -2356144308391332750
+    second: 001Bulbasaur_skeleton|Idle
+  - first:
+      74: -8627367870908665431
+    second: 001Bulbasaur_skeleton|IdleB
+  - first:
+      74: -6115222757814947983
+    second: 001Bulbasaur_skeleton|LookThere
+  - first:
+      74: -574703012492929638
+    second: 001Bulbasaur_skeleton|Name1
+  - first:
+      74: -8735080066788673668
+    second: 001Bulbasaur_skeleton|Name2
+  - first:
+      74: 858653057116329280
+    second: 001Bulbasaur_skeleton|Name3
+  - first:
+      74: -6363523208735406564
+    second: 001Bulbasaur_skeleton|NoThanks
+  - first:
+      74: 7219769018278789944
+    second: 001Bulbasaur_skeleton|Passout
+  - first:
+      74: -1959244186784770077
+    second: 001Bulbasaur_skeleton|Run
+  - first:
+      74: -7442091771194350436
+    second: 001Bulbasaur_skeleton|ShakeV1
+  - first:
+      74: -5707962496718388198
+    second: 001Bulbasaur_skeleton|ShakeV2
+  - first:
+      74: 7365129708691043932
+    second: 001Bulbasaur_skeleton|Sleep
+  - first:
+      74: 5379831199010623078
+    second: 001Bulbasaur_skeleton|SleepPost
+  - first:
+      74: -4371318708554254747
+    second: 001Bulbasaur_skeleton|Walk
+  externalObjects: {}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

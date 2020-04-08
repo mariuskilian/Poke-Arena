@@ -1,0 +1,150 @@
+fileFormatVersion: 2
+guid: ca2a705a717e8a84bb5752defa51333d
+ModelImporter:
+  serializedVersion: 19300
+  internalIDToNameTable:
+  - first:
+      74: 4518291749591128940
+    second: 003Venusaur_skeleton|Attack
+  - first:
+      74: 2806728423710354424
+    second: 003Venusaur_skeleton|AttackSp
+  - first:
+      74: 4502612064905726071
+    second: 003Venusaur_skeleton|Carry
+  - first:
+      74: 8582895205691544581
+    second: 003Venusaur_skeleton|CarryPost
+  - first:
+      74: -3410459588785385097
+    second: 003Venusaur_skeleton|CarryPre
+  - first:
+      74: -96693862013255757
+    second: 003Venusaur_skeleton|Excited
+  - first:
+      74: 6376741355649238300
+    second: 003Venusaur_skeleton|Hit
+  - first:
+      74: -3277537266880181615
+    second: 003Venusaur_skeleton|Idle
+  - first:
+      74: 1117709786717118686
+    second: 003Venusaur_skeleton|IdleB
+  - first:
+      74: -3469276335675241667
+    second: 003Venusaur_skeleton|Name1
+  - first:
+      74: -2584710303460325839
+    second: 003Venusaur_skeleton|Name2
+  - first:
+      74: 5129946502908275768
+    second: 003Venusaur_skeleton|Name3
+  - first:
+      74: -989415037337693557
+    second: 003Venusaur_skeleton|NoThanks
+  - first:
+      74: -4985294090922272151
+    second: 003Venusaur_skeleton|Passout
+  - first:
+      74: 3579727806504569835
+    second: 003Venusaur_skeleton|Run
+  - first:
+      74: -3407432782310956397
+    second: 003Venusaur_skeleton|ShakeV1
+  - first:
+      74: 4828660795360204372
+    second: 003Venusaur_skeleton|ShakeV2
+  - first:
+      74: -4998096891829519520
+    second: 003Venusaur_skeleton|Walk
+  externalObjects: {}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

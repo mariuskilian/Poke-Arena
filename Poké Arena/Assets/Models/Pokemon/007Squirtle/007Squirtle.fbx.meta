@@ -1,0 +1,186 @@
+fileFormatVersion: 2
+guid: 1c1d88e2dee6eb14baaedc15c5248376
+ModelImporter:
+  serializedVersion: 19300
+  internalIDToNameTable:
+  - first:
+      74: 2417138904703483319
+    second: 007Squirtle_skeleton|Attack
+  - first:
+      74: -4059306976619916788
+    second: 007Squirtle_skeleton|AttackSp
+  - first:
+      74: 7207148302110929968
+    second: 007Squirtle_skeleton|Carry
+  - first:
+      74: -1959115452307687980
+    second: 007Squirtle_skeleton|CarryPost
+  - first:
+      74: -8130639849958060706
+    second: 007Squirtle_skeleton|CarryPre
+  - first:
+      74: 575836361038540989
+    second: 007Squirtle_skeleton|ComeHere
+  - first:
+      74: 4456099886285625934
+    second: 007Squirtle_skeleton|Distracted
+  - first:
+      74: -2449022516824927356
+    second: 007Squirtle_skeleton|Doze1
+  - first:
+      74: 6263481028592547129
+    second: 007Squirtle_skeleton|Doze2
+  - first:
+      74: -3664674574676684804
+    second: 007Squirtle_skeleton|Doze3
+  - first:
+      74: 4304964251644847022
+    second: 007Squirtle_skeleton|ExcitedV1
+  - first:
+      74: -3168168418881774397
+    second: 007Squirtle_skeleton|ExcitedV2
+  - first:
+      74: -3365466421406638905
+    second: 007Squirtle_skeleton|ExcitedV3
+  - first:
+      74: 4805301525846744288
+    second: 007Squirtle_skeleton|ExcitedV4
+  - first:
+      74: 274170920587605780
+    second: 007Squirtle_skeleton|ExcitedV5
+  - first:
+      74: -110486215616790512
+    second: 007Squirtle_skeleton|Hit
+  - first:
+      74: -8116761968234768685
+    second: 007Squirtle_skeleton|Idle
+  - first:
+      74: -2834242962430656235
+    second: 007Squirtle_skeleton|IdleB
+  - first:
+      74: 8483972556942557190
+    second: 007Squirtle_skeleton|LookThere
+  - first:
+      74: 7668800995584241378
+    second: 007Squirtle_skeleton|Name1
+  - first:
+      74: -3661837589744704167
+    second: 007Squirtle_skeleton|Name2
+  - first:
+      74: -6599034310460044652
+    second: 007Squirtle_skeleton|Name3
+  - first:
+      74: 7277024266938148127
+    second: 007Squirtle_skeleton|NoThanks
+  - first:
+      74: -6193603303541287315
+    second: 007Squirtle_skeleton|Passout
+  - first:
+      74: -6087843059604209436
+    second: 007Squirtle_skeleton|Run
+  - first:
+      74: 6411954224454241979
+    second: 007Squirtle_skeleton|Shake
+  - first:
+      74: 2643418482700260383
+    second: 007Squirtle_skeleton|Sleep
+  - first:
+      74: -6191023815495513546
+    second: 007Squirtle_skeleton|SleepPost
+  - first:
+      74: -8120479785164660150
+    second: 007Squirtle_skeleton|SleepPost2
+  - first:
+      74: -4402399406302320216
+    second: 007Squirtle_skeleton|Walk
+  externalObjects: {}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
