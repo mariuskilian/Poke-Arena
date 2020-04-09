@@ -45,10 +45,10 @@ public abstract class UnitAnimation : MonoBehaviour {
     private const int
         MAX_NUM_VERSIONS = 5; //maximum number of versions any unit has for a single animation
     private const float
-        MIN_SLEEP_LENGTH = 2f,
-        MAX_SLEEP_LENGTH = 5f,
-        MIN_DOZE_LENGTH = 0.5f,
-        MAX_DOZE_LENGTH = 2f;
+        MIN_SLEEP_LENGTH = 3f,
+        MAX_SLEEP_LENGTH = 15f,
+        MIN_DOZE_LENGTH = 1f,
+        MAX_DOZE_LENGTH = 5f;
     private readonly Dictionary<string, KeyValuePair<float, float>> TimedGestureLengths = new Dictionary<string, KeyValuePair<float, float>> {
         {SLEEP, new KeyValuePair<float, float>(MIN_SLEEP_LENGTH, MAX_SLEEP_LENGTH) },
         {DOZE, new KeyValuePair<float, float>(MIN_DOZE_LENGTH, MAX_DOZE_LENGTH) }

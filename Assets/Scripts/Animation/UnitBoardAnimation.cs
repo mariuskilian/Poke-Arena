@@ -33,26 +33,18 @@ public class UnitBoardAnimation : UnitGestureAnimation {
 
     #region Event Handlers
     private void HandleUnitBoughtEvent(Unit unit) {
-        if (IsThisUnit(unit)) {
-            AvailableAnimations.TryGetValue(EXCITED, out Action<bool> excited);
-            excited?.Invoke(true);
-        }
+        if (IsThisUnit(unit)) TryPerformAnimation(EXCITED, true);
     }
 
     private void HandleUnitSoldEvent(Unit unit) {
     }
 
     private void HandleEvolutionEvent(List<Tile> tiles, Unit unit) {
-        if (IsThisUnit(unit)) {
-            AvailableAnimations.TryGetValue(SHAKE, out Action<bool> excited);
-            excited?.Invoke();
-        }
+        if (IsThisUnit(unit)) TryPerformAnimation(SHAKE, true);
     }
 
     private void HandleUnitTeleportEvent(Unit unit) {
-        if (IsThisUnit(unit))
-            if (AvailableAnimations.TryGetValue(SHAKE, out Action<bool> shake))
-                shake?.Invoke(true);
+        if (IsThisUnit(unit)) TryPerformAnimation(SHAKE, true);
     }
     #endregion
 }

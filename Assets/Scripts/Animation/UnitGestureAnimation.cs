@@ -9,7 +9,7 @@ public class UnitGestureAnimation : UnitAnimation {
     #endregion
 
     protected void PerformRandomGesture() {
-        if (!isDoingRandomGesture) RandomGesture();
+        if (!isDoingRandomGesture) StartCoroutine(RandomGesture());
     }
 
     protected sealed override void Update() {
@@ -27,7 +27,7 @@ public class UnitGestureAnimation : UnitAnimation {
     private IEnumerator RandomGesture() {
         isDoingRandomGesture = true;
         float random = (float) GameMan.random.NextDouble();
-        yield return new WaitForSeconds((random * random * 10f) + 5f);
+        yield return new WaitForSeconds((random * random * 20f) + 5f);
         if (!anim.GetBool(TYPE_NON_REACTIVE_GESTURE)) {
             if (GameMan.random.Next(0, 10) < 5) {
                 int index = GameMan.random.Next(0, AvailableAnimations.Count);
