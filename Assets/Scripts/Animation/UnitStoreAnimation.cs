@@ -1,10 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UnitStoreAnimation : UnitAnimation {
+public class UnitStoreAnimation : UnitGestureAnimation {
 
-    void Start() {
+    private new void Awake() {
+        base.Awake();
         InitEventSubscribers();
+    }
+
+    protected override void StoreUpdate() {
+        base.StoreUpdate();
     }
 
     private void InitEventSubscribers() {
@@ -12,14 +17,16 @@ public class UnitStoreAnimation : UnitAnimation {
         store.NewUnitInStoreEvent += HandleNewUnitInStoreEvent;
     }
 
-    private IEnumerator WaitThenDrop() {
+    private IEnumerator WaitThenDrop(int index) {
         gameObject.transform.Translate(Vector3.up * 1000);
-        yield return new WaitForSeconds((float) GameMan.random.NextDouble() / 3f);
+        float normalizedIndex = (float) index / (float) (StoreMan.Instance.GetStoreSize() - 1); // 0 <= normalizedIndex <= 1
+        yield return new WaitForSeconds(normalizedIndex * 0.3f);
         gameObject.transform.Translate(Vector3.down * 1000);
-        anim.SetTrigger(TRIGGER_DROPPED_IN_STORE);
+
+        anim.SetTrigger(DROPPED_IN_STORE);
     }
 
-    private void HandleNewUnitInStoreEvent(Unit unit) {
-        if (IsThisUnit(unit)) GameMan.Instance.StartCoroutine(WaitThenDrop());
+    private void HandleNewUnitInStoreEvent(Unit unit, int index) {
+        if (IsThisUnit(unit)) GameMan.Instance.StartCoroutine(WaitThenDrop(index));
     }
 }

@@ -37,7 +37,7 @@ public class StoreMan : ManagerBehaviour {
 
     #region Events
     public Func<Unit> SpawnRandomUnitEvent;
-    public Action<Unit> NewUnitInStoreEvent;
+    public Action<Unit, int> NewUnitInStoreEvent;
     public Func<Unit, bool> BuyRequestEvent;
     public Action<Unit> UnitBoughtEvent;
     public Action<Unit> DespawnUnitEvent;
@@ -46,17 +46,17 @@ public class StoreMan : ManagerBehaviour {
     #region Unity Methods (Awake, Start, Update)
     private void Awake() {
         _instance = this; // Singleton
-        currentStore = new Unit[storeSize];
     }
 
     private void Start() {
         InitEventSubscribers();
     }
-    
-    protected override void LateStart() {
+    #endregion
+
+    private void InitializeStore() {
+        currentStore = new Unit[storeSize];
         SpawnNewShop();
     }
-    #endregion
 
     private void InitEventSubscribers() {
         InputMan input = InputMan.Instance;
@@ -77,7 +77,7 @@ public class StoreMan : ManagerBehaviour {
                 unit.transform.localPosition = GetUnitPosition(index);
                 unit.transform.localRotation = Quaternion.Euler(0, 180, 0);
                 currentStore[index] = unit;
-                NewUnitInStoreEvent?.Invoke(unit);
+                NewUnitInStoreEvent?.Invoke(unit, index);
             }
         }
     }
@@ -119,6 +119,7 @@ public class StoreMan : ManagerBehaviour {
 
     #region Event Handlers
     private void HandleHideShowShopEvent() {
+        if (currentStore == null) InitializeStore();
         store.SetActive(!store.activeSelf);
     }
 

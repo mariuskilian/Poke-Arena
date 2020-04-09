@@ -47,7 +47,7 @@ public class BoardMan : ManagerBehaviour {
     public Action<Unit> UnitSelectEvent;
     public Action<Unit> UnitDeselectEvent;
     public Action<Unit> UnitTeleportEvent;
-    public Action<List<Tile>> EvolutionEvent;
+    public Action<List<Tile>, Unit> EvolutionEvent;
     #endregion
 
     #region Unity Methods (Awake, Start, Update)
@@ -205,11 +205,10 @@ public class BoardMan : ManagerBehaviour {
     }
 
     private void Evolve(List<Tile> tiles) {
-        EvolutionEvent?.Invoke(tiles);
         Unit evolvedUnit = GameMan.Instance.InstantiateUnit(tiles[0].GetUnit().evolution);
+        EvolutionEvent?.Invoke(tiles, evolvedUnit);
         foreach (Tile t in tiles) t.ClearTile().gameObject.SetActive(false);
         InitializeUnit(evolvedUnit, tiles[0]);
-
     }
     #endregion
 

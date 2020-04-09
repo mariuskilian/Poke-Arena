@@ -117,10 +117,9 @@ public class GameMan : ManagerBehaviour {
     private string DetermineRandomUnit(QUALITY quality) {
 
         int numUnits = 0; //total number of individual (!) pokemon of this rarity
-        QUALITY _quality = quality;
         Dictionary<string, Queue<Unit>> pools;
 
-        pools = poolsByQuality[(int) _quality];
+        pools = poolsByQuality[(int) quality];
         foreach (KeyValuePair<string, Queue<Unit>> entry in pools) {
             numUnits += entry.Value.Count;
         }

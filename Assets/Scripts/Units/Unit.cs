@@ -10,7 +10,7 @@ public abstract class Unit : MonoBehaviour{
     public UnitStats baseStats;
 
     protected virtual void Awake() {
-        gameObject.AddComponent<UnitGestureAnimation>();
+        gameObject.AddComponent<UnitBoardAnimation>();
         gameObject.AddComponent<UnitCarryAnimation>();
         gameObject.AddComponent<UnitStoreAnimation>();
     }
@@ -22,8 +22,12 @@ public abstract class Unit : MonoBehaviour{
         this.tile = tile;
     }
 
-    public bool IsUnitBenched() {
+    public bool IsBenched() {
         return tile.GetTilePosition().y == -1;
+    }
+
+    public bool IsInStore() {
+        return tile == null;
     }
 
     public Tile GetTile() {

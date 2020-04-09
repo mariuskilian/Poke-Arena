@@ -15,12 +15,17 @@ public class UnitCarryAnimation : UnitAnimation {
     #endregion
 
     #region Unity Methods
-    private void Start() {
+    private new void Awake() {
+        base.Awake();
         InitEventSubscribers();
+    }
+
+    private void Start() {
         SetSpeedCarryClips();
     }
 
-    private void Update() {
+    protected override void Update() {
+        base.Update();
     }
     #endregion
 
@@ -42,23 +47,23 @@ public class UnitCarryAnimation : UnitAnimation {
             pair => pair.Key.name, pair => { if (pair.Value != null) return pair.Value.length; else return -1;});
 
         float clipLength;
-        if (overrideClipNames.TryGetValue(FLOAT_CARRY_PRE_CLIP_SPEED, out clipLength))
-            anim.SetFloat(FLOAT_CARRY_PRE_CLIP_SPEED, clipLength / pickUpDropClipLength);
-        if (overrideClipNames.TryGetValue(FLOAT_CARRY_POST_CLIP_SPEED, out clipLength))
-            anim.SetFloat(FLOAT_CARRY_POST_CLIP_SPEED, clipLength / pickUpDropClipLength);
+        if (overrideClipNames.TryGetValue(CARRY_PRE_CLIP_SPEED, out clipLength))
+            anim.SetFloat(CARRY_PRE_CLIP_SPEED, clipLength / pickUpDropClipLength);
+        if (overrideClipNames.TryGetValue(CARRY_POST_CLIP_SPEED, out clipLength))
+            anim.SetFloat(CARRY_POST_CLIP_SPEED, clipLength / pickUpDropClipLength);
     }
     #endregion
 
     #region Event Handlers
     private void HandleUnitSelectEvent(Unit unit) {
         if (IsThisUnit(unit)) {
-            anim.SetTrigger(TRIGGER_PICKED_UP);
-            anim.SetBool(BOOL_CARRIED, true);
+            anim.SetTrigger(PICKED_UP);
+            anim.SetBool(CARRIED, true);
         }
     }
 
     private void HandleUnitDeselectEvent(Unit unit) {
-        if (IsThisUnit(unit)) anim.SetBool(BOOL_CARRIED, false);
+        if (IsThisUnit(unit)) anim.SetBool(CARRIED, false);
     }
     #endregion
 }

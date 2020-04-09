@@ -57,13 +57,8 @@ public class UIMan : ManagerBehaviour {
         store.DespawnUnitEvent += HandleUnitBoughtAndDespawnEvents;
     }
 
-    private void ActivateStoreButton(Unit unit) {
-        foreach (CatchUnitButton button in CatchUnitButtons) {
-            if (!button.gameObject.activeSelf) {
-                button.SetUnit(unit);
-                break;
-            }
-        }
+    private void ActivateStoreButton(Unit unit, int index) {
+        CatchUnitButtons[index].SetUnit(unit);
     }
 
     private void DeactivateStoreButtonWithUnitObject(Unit unit) {
@@ -74,8 +69,8 @@ public class UIMan : ManagerBehaviour {
         }
     }
 
-    private void HandleNewUnitInStoreEvent(Unit unit) {
-        ActivateStoreButton(unit);
+    private void HandleNewUnitInStoreEvent(Unit unit, int index) {
+        ActivateStoreButton(unit, index);
     }
 
     private void HandleUnitBoughtAndDespawnEvents(Unit unit) {
