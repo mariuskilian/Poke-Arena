@@ -6,7 +6,9 @@ using System.Collections.Generic;
 public class UnitBoardAnimation : UnitGestureAnimation {
 
     #region Variables
-    Coroutine randomGestureHandle;
+    bool isRunning = false;
+    Vector3 currentPos;
+    Vector3 newPos;
     #endregion
 
     #region Unity Methods
@@ -18,6 +20,15 @@ public class UnitBoardAnimation : UnitGestureAnimation {
     protected override void BoardUpdate() {
         base.BoardUpdate();
         PerformRandomGesture();
+        if (isRunning) {
+            float speed = 3 * Time.deltaTime;
+            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, newPos, speed);
+            if (Vector3.Equals(gameObject.transform.position, newPos)) {
+                isRunning = false;
+                gameObject.GetComponent<Unit>().GetTile().UpdateUnitTransform();
+                anim.SetBool("Running", false);
+            }
+        }
     }
     #endregion
 
@@ -31,6 +42,15 @@ public class UnitBoardAnimation : UnitGestureAnimation {
     }
     #endregion
 
+    private void TriggerUnitRunAnimation(Vector3 from, Vector3 to) {
+        currentPos = from;
+        newPos = to;
+        gameObject.transform.position = from;
+        gameObject.transform.LookAt(to);
+        anim.SetBool("Running", true);
+        isRunning = true;
+    }
+
     #region Event Handlers
     private void HandleUnitBoughtEvent(Unit unit) {
         if (IsThisUnit(unit)) TryPerformAnimation(EXCITED, true);
@@ -43,8 +63,12 @@ public class UnitBoardAnimation : UnitGestureAnimation {
         if (IsThisUnit(unit)) TryPerformAnimation(SHAKE, true);
     }
 
-    private void HandleUnitTeleportEvent(Unit unit) {
-        if (IsThisUnit(unit)) TryPerformAnimation(SHAKE, true);
+    private void HandleUnitTeleportEvent(Unit unit, Tile fromTile, Tile toTile) {
+        if (IsThisUnit(unit)) {
+            if (fromTile.IsBoardTile() && toTile.IsBoardTile())
+                TriggerUnitRunAnimation(fromTile.GetWorldPosition(), toTile.GetWorldPosition());
+            else TryPerformAnimation(SHAKE, true);
+        }
     }
     #endregion
 }

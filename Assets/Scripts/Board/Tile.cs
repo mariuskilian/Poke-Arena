@@ -51,7 +51,7 @@ public class Tile {
         }
     }
 
-    private void UpdateUnitTransform() {
+    public void UpdateUnitTransform() {
         unit.gameObject.transform.position = worldPosition;
         float facing = (unit.IsBenched()) ? 180f : 0f;
         unit.gameObject.transform.rotation = Quaternion.Euler(0f,facing,0f);
