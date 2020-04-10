@@ -112,7 +112,7 @@ public abstract class UnitAnimation : MonoBehaviour {
             if (numVersions > 0) {
                 var copy = clip;
                 AvailableAnimations.Add(copy, isReactive => {
-                    int version = GameMan.random.Next(1, numVersions + 1);
+                    int version = PoolMan.random.Next(1, numVersions + 1);
                     anim.SetInteger(copy + INDEX, version);
                     TriggerGesture(copy, isReactive);
                 });
@@ -141,7 +141,7 @@ public abstract class UnitAnimation : MonoBehaviour {
         string gestureType = (isReactive) ? TYPE_REACTIVE_GESTURE : TYPE_NON_REACTIVE_GESTURE;
         anim.SetTrigger(gestureType);
         anim.SetBool(gestureName, true);
-        yield return new WaitForSeconds(((float) GameMan.random.NextDouble() * (max_length - min_length)) + min_length);
+        yield return new WaitForSeconds(((float) PoolMan.random.NextDouble() * (max_length - min_length)) + min_length);
         anim.SetBool(gestureName, false);
     }
 

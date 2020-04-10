@@ -29,7 +29,6 @@ public class BoardMan : ManagerBehaviour {
     private Tile hoveredTile = null; // Currently hovered (by mouse) tile. null if nothing
     private Tile selectedTile = null; // Currently selected tile. null if nothing
 
-    public GameMan.LEVEL currentLevel = GameMan.LEVEL.ONE;
     [SerializeField] private GameObject team = null;
 
     [SerializeField] private float dragUnitZOffset = -0.3f;
@@ -205,7 +204,7 @@ public class BoardMan : ManagerBehaviour {
     }
 
     private void Evolve(List<Tile> tiles) {
-        Unit evolvedUnit = GameMan.Instance.InstantiateUnit(tiles[0].GetUnit().evolution);
+        Unit evolvedUnit = PoolMan.Instance.InstantiateUnit(tiles[0].GetUnit().evolution);
         EvolutionEvent?.Invoke(tiles, evolvedUnit);
         foreach (Tile t in tiles) t.ClearTile().gameObject.SetActive(false);
         InitializeUnit(evolvedUnit, tiles[0]);

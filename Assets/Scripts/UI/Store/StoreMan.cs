@@ -19,20 +19,23 @@ public class StoreMan : ManagerBehaviour {
     #endregion
 
     #region Constants
-    [SerializeField] private int storeSize = 5;
+    public int StoreSize { get; private set; } = 5;
+
     [SerializeField] private float yOffset = -0.3f;
     [SerializeField] private float zOffset = 175f;
     [SerializeField] private float xOffsetMax = 2f;
     #endregion
 
     #region Variables
-    [SerializeField] private GameObject store = null;
     [SerializeField] private GameObject storeUnits = null;
-    private bool forcedHidden = false; // used if a unit is selected while shop is open to hide shop until deselection
+    #endregion
+
+    #region Helper Variables
+    public bool IsLocked { get; private set; }
     #endregion
 
     #region Containers
-    private Unit[] currentStore;
+    public Unit[] CurrentStore { get; private set; }
     #endregion
 
     #region Events
@@ -53,40 +56,36 @@ public class StoreMan : ManagerBehaviour {
     }
     #endregion
 
-    private void InitializeStore() {
-        currentStore = new Unit[storeSize];
-        SpawnNewShop();
-    }
-
     private void InitEventSubscribers() {
-        InputMan input = InputMan.Instance;
-        input.HideShowShopEvent += HandleHideShowShopEvent;
-        input.RerollShopEvent += HandleRerollShopEvent;
-
-        BoardMan board = BoardMan.Instance;
-        board.UnitSelectEvent += HandleUnitSelectEvent;
-        board.UnitDeselectEvent += HandleUnitDeselectEvent;
+        FinanceMan finance = FinanceMan.Instance;
+        finance.RerollStoreEvent += HandleRerollStoreEvent;
     }
 
     #region Load/Reload Shop
+    public void InitializeStore() {
+        if (CurrentStore != null) return;
+        CurrentStore = new Unit[StoreSize];
+        SpawnNewShop();
+    }
+
     private void SpawnNewShop() {
-        for (int index = 0; index < storeSize; index++) {
+        for (int index = 0; index < StoreSize; index++) {
             Unit unit = SpawnRandomUnitEvent?.Invoke();
             if (unit != null) {
                 unit.transform.SetParent(storeUnits.transform);
                 unit.transform.localPosition = GetUnitPosition(index);
                 unit.transform.localRotation = Quaternion.Euler(0, 180, 0);
-                currentStore[index] = unit;
+                CurrentStore[index] = unit;
                 NewUnitInStoreEvent?.Invoke(unit, index);
             }
         }
     }
 
     private void DespawnCurrentStore() {
-        for (int i = 0; i < storeSize; i++) {
-            if (currentStore[i] != null) {
-                DespawnUnitEvent?.Invoke(currentStore[i]);
-                currentStore[i] = null;
+        for (int i = 0; i < StoreSize; i++) {
+            if (CurrentStore[i] != null) {
+                DespawnUnitEvent?.Invoke(CurrentStore[i]);
+                CurrentStore[i] = null;
             }
         }
     }
@@ -98,8 +97,8 @@ public class StoreMan : ManagerBehaviour {
         if (BuyRequestEvent != null) {
             if (BuyRequestEvent(unit)) {
                 UnitBoughtEvent?.Invoke(unit);
-                for (int i = 0; i < storeSize; i++) {
-                    if (currentStore[i] == unit) currentStore[i] = null;
+                for (int i = 0; i < StoreSize; i++) {
+                    if (CurrentStore[i] == unit) CurrentStore[i] = null;
                 }
             }
         }
@@ -109,41 +108,22 @@ public class StoreMan : ManagerBehaviour {
     #region Helper Methods
     //Positions unit accordingly on camera so it shows in store
     private Vector3 GetUnitPosition(int index) {
-        if (storeSize == 1) {
+        if (StoreSize == 1) {
             return Vector3.forward * zOffset;
         }
-        float x = (((float) index / (float) (storeSize - 1)) * xOffsetMax * 2) - xOffsetMax;
+        float x = (((float) index / (float) (StoreSize - 1)) * xOffsetMax * 2) - xOffsetMax;
         return Vector3.right * x + Vector3.up * yOffset + Vector3.forward * zOffset;
+    }
+
+    public void ToggleIsLocked() {
+        IsLocked = !IsLocked;
     }
     #endregion
 
     #region Event Handlers
-    private void HandleHideShowShopEvent() {
-        if (currentStore == null) InitializeStore();
-        store.SetActive(!store.activeSelf);
-    }
-
-    private void HandleRerollShopEvent() {
+    private void HandleRerollStoreEvent() {
         DespawnCurrentStore();
         SpawnNewShop();
     }
-
-    private void HandleUnitSelectEvent(Unit unit) {
-        if (store.activeSelf) {
-            forcedHidden = true;
-            store.SetActive(false);
-        }
-    }
-
-    private void HandleUnitDeselectEvent(Unit unit) {
-        if (forcedHidden) {
-            forcedHidden = false;
-            store.SetActive(true);
-        }
-    }
     #endregion
-
-    public int GetStoreSize() {
-        return storeSize;
-    }
 }

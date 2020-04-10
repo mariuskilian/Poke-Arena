@@ -17,15 +17,15 @@ public class InputMan : ManagerBehaviour {
     }
     #endregion
 
-    #region Key Bindings
+    #region Key Bindings and Events
     private readonly KeyCode hideShowShop = KeyCode.Space;
-    public Action HideShowShopEvent;
+    public Action ToggleStoreEvent;
 
     private readonly KeyCode rerollShop = KeyCode.D;
-    public Action RerollShopEvent;
+    public Action TryRerollStoreEvent;
 
     private readonly KeyCode buyExp = KeyCode.F;
-    public Action BuyExpEvent;
+    public Action TryBuyExpEvent;
 
     private readonly KeyCode sellUnit = KeyCode.E;
     public Action SellUnitEvent;
@@ -50,11 +50,11 @@ public class InputMan : ManagerBehaviour {
     }
 
     private void CheckForInput() {
-        if (Input.GetKeyDown(hideShowShop)) HideShowShopEvent?.Invoke();
+        if (Input.GetKeyDown(hideShowShop)) ToggleStoreEvent?.Invoke();
 
-        if (Input.GetKeyDown(rerollShop)) RerollShopEvent?.Invoke();
+        if (Input.GetKeyDown(rerollShop)) TryRerollStoreEvent?.Invoke();
 
-        if (Input.GetKeyDown(buyExp)) BuyExpEvent?.Invoke();
+        if (Input.GetKeyDown(buyExp)) TryBuyExpEvent?.Invoke();
 
         if (Input.GetKeyDown(sellUnit)) SellUnitEvent?.Invoke();
 

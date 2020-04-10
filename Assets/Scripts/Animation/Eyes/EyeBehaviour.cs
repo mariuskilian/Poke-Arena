@@ -36,7 +36,7 @@ public abstract class EyeBehaviour : StateMachineBehaviour
         get { return _changeEyesHandle; }
         set {
             if (_changeEyesHandle != null) {
-                GameMan.Instance.StopCoroutine(_changeEyesHandle);
+                PoolMan.Instance.StopCoroutine(_changeEyesHandle);
             }
             _changeEyesHandle = value;
         }
@@ -47,7 +47,7 @@ public abstract class EyeBehaviour : StateMachineBehaviour
     }
 
     protected virtual void ChangeEyes(Vector2 endExpression, float initialDelay, params Expr[] ViaExpressions) {
-        ChangeEyesHandle = GameMan.Instance.StartCoroutine(ChangeEyesCoroutine(endExpression, initialDelay, ViaExpressions));
+        ChangeEyesHandle = PoolMan.Instance.StartCoroutine(ChangeEyesCoroutine(endExpression, initialDelay, ViaExpressions));
     }
 
     private IEnumerator ChangeEyesCoroutine(Vector2 endExpression, float initialDelay, Expr[] ViaExpressions) {

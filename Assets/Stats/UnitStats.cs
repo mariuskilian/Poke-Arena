@@ -15,5 +15,5 @@ public class UnitStats : ScriptableObject {
     public float moveSpeed;
     public float moveSpeed_per_evolution;
 
-    public GameMan.QUALITY quality;
+    public PoolMan.QUALITY quality;
 }

@@ -15,7 +15,7 @@ public class EyeIdleBehaviour : EyeBehaviour {
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         base.OnStateUpdate(animator, stateInfo, layerIndex);
-        if (!isBlinking) GameMan.Instance.StartCoroutine(RandomBlink(animator));
+        if (!isBlinking) PoolMan.Instance.StartCoroutine(RandomBlink(animator));
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -24,8 +24,8 @@ public class EyeIdleBehaviour : EyeBehaviour {
 
     private IEnumerator RandomBlink(Animator animator) {
         isBlinking = true;
-        int timeBetweenBlinks = GameMan.random.Next(3, 12);
-        float random = (float) GameMan.random.NextDouble();
+        int timeBetweenBlinks = PoolMan.random.Next(3, 12);
+        float random = (float) PoolMan.random.NextDouble();
         float timeClosed = (random * random) * 0.35f + 0.05f;
         yield return new WaitForSeconds(timeBetweenBlinks);
         if (animator.GetCurrentAnimatorStateInfo(0).IsName(IDLE))
