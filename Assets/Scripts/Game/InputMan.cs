@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class InputMan : ManagerBehaviour {
 
@@ -17,52 +18,58 @@ public class InputMan : ManagerBehaviour {
     }
     #endregion
 
-    #region Key Bindings and Events
-    private readonly KeyCode hideShowShop = KeyCode.Space;
-    public Action ToggleStoreEvent;
+    #region Events
+    public Action
+        ToggleStoreEvent,
+        TryRerollStoreEvent,
+        TryBuyExpEvent,
+        SellUnitEvent,
+        BenchUnbenchUnitEvent,
+        ToggleLockStoreEvent,
+        ShowScoreboardEvent,
+        HideScoreboardEvent,
+        ToggleMenuEvent
+        ;
+    #endregion
 
-    private readonly KeyCode rerollShop = KeyCode.D;
-    public Action TryRerollStoreEvent;
-
-    private readonly KeyCode buyExp = KeyCode.F;
-    public Action TryBuyExpEvent;
-
-    private readonly KeyCode sellUnit = KeyCode.E;
-    public Action SellUnitEvent;
-
-    private readonly KeyCode benchUnbenchUnit = KeyCode.W;
-    public Action BenchUnbenchUnitEvent;
-
-    private readonly KeyCode showScoreboard = KeyCode.Tab;
-    public Action ShowScoreboardEvent;
-    public Action HideScoreboardEvent;
-
-    private readonly KeyCode showHideMenu = KeyCode.Escape;
-    public Action ShowHideMenuEvent;
+    #region Containers
+    private Dictionary<KeyCode, Action> KeyDownBindings, KeyUpBindings;
     #endregion
 
     private void Awake() {
         _instance = this; //Singleton
+    }
+    
+    private void Start() {
+        InitKeyBindings();
     }
 
     private new void Update() {
         CheckForInput();
     }
 
+    private void InitKeyBindings() {
+        KeyDownBindings = new Dictionary<KeyCode, Action> {
+            { KeyCode.Space, ToggleStoreEvent },
+            { KeyCode.D, TryRerollStoreEvent },
+            { KeyCode.F, TryBuyExpEvent },
+            { KeyCode.E, SellUnitEvent },
+            { KeyCode.W, BenchUnbenchUnitEvent },
+            { KeyCode.L, ToggleLockStoreEvent },
+            { KeyCode.Tab, ShowScoreboardEvent },
+            { KeyCode.Escape, ToggleMenuEvent }
+        };
+        KeyUpBindings = new Dictionary<KeyCode, Action> {
+            { KeyCode.Tab, HideScoreboardEvent }
+        };
+    }
+
     private void CheckForInput() {
-        if (Input.GetKeyDown(hideShowShop)) ToggleStoreEvent?.Invoke();
-
-        if (Input.GetKeyDown(rerollShop)) TryRerollStoreEvent?.Invoke();
-
-        if (Input.GetKeyDown(buyExp)) TryBuyExpEvent?.Invoke();
-
-        if (Input.GetKeyDown(sellUnit)) SellUnitEvent?.Invoke();
-
-        if (Input.GetKeyDown(benchUnbenchUnit)) BenchUnbenchUnitEvent?.Invoke();
-
-        if (Input.GetKeyDown(showScoreboard)) ShowScoreboardEvent?.Invoke();
-        if (Input.GetKeyUp(showScoreboard)) ShowScoreboardEvent?.Invoke();
-
-        if (Input.GetKeyDown(showHideMenu)) ShowHideMenuEvent?.Invoke();
+        foreach (KeyCode key in KeyDownBindings.Keys) {
+            if (Input.GetKeyDown(key)) KeyDownBindings[key]?.Invoke();
+        }
+        foreach (KeyCode key in KeyUpBindings.Keys) {
+            if (Input.GetKeyUp(key)) KeyUpBindings[key]?.Invoke();
+        }
     }
 }

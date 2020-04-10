@@ -20,7 +20,7 @@ public class PlayerInfoUpdater : MonoBehaviour {
     private void Update() {
         coinText.text = finance.Coins.ToString();
         int lvl = level.Level;
-        levelText.text = "Level: " + lvl;
+        levelText.text = "Level: " + (lvl + 1);
         expText.text = "EXP: " + level.Exp + "/" + level.MAX_EXP[lvl];
     }
 }

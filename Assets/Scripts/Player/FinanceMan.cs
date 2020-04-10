@@ -20,6 +20,7 @@ public class FinanceMan : MonoBehaviour {
     #region Constants
     private readonly int[] STREAK_MILESTONES = { 2, 4, 6 };
     private readonly int
+        BASE_EARNING_ROUND = 5,
         REROLL_STORE_PRICE = 2,
         BUY_EXP_PRICE = 4
         ;
@@ -40,14 +41,16 @@ public class FinanceMan : MonoBehaviour {
 
     private void Start() {
         InitEventSubscribers();
-
-        Coins = 50;
+        Coins = 20;
     }
 
     private void InitEventSubscribers() {
         InputMan input = InputMan.Instance;
         input.TryRerollStoreEvent += HandleTryRerollStoreEvent;
         input.TryBuyExpEvent += HandleTryBuyExpEvent;
+
+        RoundMan round = RoundMan.Instance;
+        round.StartOfRoundEvent += HandleStartOfRoundEvent;
     }
 
     private int Interest() {
@@ -62,16 +65,16 @@ public class FinanceMan : MonoBehaviour {
         return bonus;
     }
 
-    private void HandleStartOfRound() {
-        Coins = Mathf.Min(MAX_COINS, Coins + Interest() + StreakBonus());
+    private void HandleStartOfRoundEvent() {
+        Coins = Mathf.Min(MAX_COINS, Coins + Interest() + StreakBonus() + BASE_EARNING_ROUND);
     }
 
-    private void HandleRoundWon() {
+    private void HandleRoundWonEvent() {
         if (Coins < MAX_COINS) Coins++;
         Streak = Mathf.Max(Streak + 1, 1);
     }
 
-    private void HandleRoundLost() {
+    private void HandleRoundLostEvent() {
         Streak = Mathf.Min(Streak - 1, -1);
     }
     

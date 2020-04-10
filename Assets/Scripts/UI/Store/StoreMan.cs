@@ -57,18 +57,27 @@ public class StoreMan : ManagerBehaviour {
     #endregion
 
     private void InitEventSubscribers() {
+        InputMan input = InputMan.Instance;
+        input.ToggleLockStoreEvent += HandleToggleLockStoreEvent;
+
         FinanceMan finance = FinanceMan.Instance;
         finance.RerollStoreEvent += HandleRerollStoreEvent;
+
     }
 
     #region Load/Reload Shop
     public void InitializeStore() {
         if (CurrentStore != null) return;
         CurrentStore = new Unit[StoreSize];
-        SpawnNewShop();
+        SpawnNewStore();
     }
 
-    private void SpawnNewShop() {
+    private void RespawnStore() {
+        DespawnCurrentStore();
+        SpawnNewStore();
+    }
+
+    private void SpawnNewStore() {
         for (int index = 0; index < StoreSize; index++) {
             Unit unit = SpawnRandomUnitEvent?.Invoke();
             if (unit != null) {
@@ -114,16 +123,24 @@ public class StoreMan : ManagerBehaviour {
         float x = (((float) index / (float) (StoreSize - 1)) * xOffsetMax * 2) - xOffsetMax;
         return Vector3.right * x + Vector3.up * yOffset + Vector3.forward * zOffset;
     }
-
-    public void ToggleIsLocked() {
+    
+    public void ToggleLocked() {
         IsLocked = !IsLocked;
     }
     #endregion
 
     #region Event Handlers
     private void HandleRerollStoreEvent() {
-        DespawnCurrentStore();
-        SpawnNewShop();
+        RespawnStore();
+    }
+
+    private void HandleStartOfRoundEvent() {
+        if (!IsLocked) RespawnStore();
+        IsLocked = false;
+    }
+
+    private void HandleToggleLockStoreEvent() {
+        IsLocked = !IsLocked;
     }
     #endregion
 }
