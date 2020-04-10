@@ -35,18 +35,18 @@ public class RoundMan : MonoBehaviour {
         StartOfRoundEvent,
         EndOfRoundEvent
         ;
-    public Action<Phase> ChangeRoundPhaseEvent;
+    public Action<Phase> StartOfPhaseEvent;
     #endregion
 
     #region Constants
     [SerializeField]
-    private int //in Seconds
-        BEFORE_ROUND_TIME = 1,
+    private const int //in Seconds
+        START_TIME = 1,
         SET_UP_TIME = 30,
         PREPARE_TIME = 5,
         BATTLE_TIME = 30,
         BATTLE_OVERTIME = 10,
-        AFTER_ROUND_TIME = 3
+        END_TIME = 3
         ;
     #endregion
 
@@ -64,6 +64,11 @@ public class RoundMan : MonoBehaviour {
 
     #region Containers
     Queue<RoundType> CurrentStage;
+
+    Dictionary<Phase, int> PhaseTimes = new Dictionary<Phase, int> {
+        { Phase.START, START_TIME }, { Phase.SETUP, SET_UP_TIME }, { Phase.PREPARE, PREPARE_TIME },
+        { Phase.BATTLE, BATTLE_TIME }, {Phase.OVERTIME, BATTLE_OVERTIME }, { Phase.END, END_TIME }
+    };
     #endregion
 
     private void Awake() {
@@ -84,36 +89,12 @@ public class RoundMan : MonoBehaviour {
             if (TimeLeftInPhase < 0) TimeLeftInPhase = 0f;
             if (TimeLeftInPhase == 0) isInPhase = false;
         } else {
-            switch (CurrentPhase) { //setup next phase
-                case Phase.START:
-                    CurrentPhase = Phase.SETUP;
-                    StartTime = SET_UP_TIME;
-                    break;
-                case Phase.SETUP:
-                    CurrentPhase = Phase.PREPARE;
-                    StartTime = PREPARE_TIME;
-                    break;
-                case Phase.PREPARE:
-                    CurrentPhase = Phase.BATTLE;
-                    StartTime = BATTLE_TIME;
-                    break;
-                case Phase.BATTLE:
-                    CurrentPhase = Phase.OVERTIME;
-                    StartTime = BATTLE_OVERTIME;
-                    break;
-                case Phase.OVERTIME:
-                    CurrentPhase = Phase.END;
-                    StartTime = AFTER_ROUND_TIME;
-                    EndOfRoundEvent?.Invoke();
-                    break;
-                case Phase.END:
-                default:
-                    CurrentPhase = Phase.START;
-                    StartTime = BEFORE_ROUND_TIME;
-                    StartOfRoundEvent?.Invoke();
-                    DetermineNextRoundType();
-                    break;
+            if ((int) CurrentPhase++ == Enum.GetNames(typeof(Phase)).Length) {
+                CurrentPhase = Phase.START;
+                DetermineNextRoundType();
             }
+            StartTime = PhaseTimes[CurrentPhase];
+            StartOfPhaseEvent?.Invoke(CurrentPhase);
             TimeLeftInPhase = StartTime + 1;
             isInPhase = true;
         }
@@ -121,9 +102,9 @@ public class RoundMan : MonoBehaviour {
 
     private void InitFirstRound() {
         CurrentStage = new Queue<RoundType>(FirstRound);
-        CurrentPhase = Phase.END;
+        CurrentPhase = Phase.START;
         StageNumber = 1;
-        RoundNumber = 0;
+        RoundNumber = 1;
     }
 
     private void DetermineNextRoundType() {

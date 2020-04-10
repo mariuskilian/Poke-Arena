@@ -9099,12 +9099,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44f2a5660e390a0469577d524308dda8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BEFORE_ROUND_TIME: 1
-  SET_UP_TIME: 30
-  PREPARE_TIME: 5
-  BATTLE_TIME: 30
-  BATTLE_OVERTIME: 10
-  AFTER_ROUND_TIME: 3
 --- !u!1 &1244419390
 GameObject:
   m_ObjectHideFlags: 0
