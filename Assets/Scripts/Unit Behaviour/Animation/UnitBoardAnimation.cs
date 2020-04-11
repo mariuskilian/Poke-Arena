@@ -33,8 +33,16 @@ public class UnitBoardAnimation : UnitGestureAnimation {
 
     private void UpdateMovementState() {
         UnitMovement.MoveType moveType = (unit.GetUnitBehaviour<UnitMovement>() as UnitMovement).CurrentMoveType;
-        if (moveType == UnitMovement.MoveType.RUN) {
-            //TODO :)
+        switch (moveType) {
+            case UnitMovement.MoveType.NONE:
+                anim.SetBool("Running", false);
+                break;
+            case UnitMovement.MoveType.WALK:
+                break;
+            case UnitMovement.MoveType.RUN:
+                break;
+            default:
+                break;
         }
     }
 
@@ -53,8 +61,7 @@ public class UnitBoardAnimation : UnitGestureAnimation {
     private void HandleUnitTeleportEvent(Unit unit, Tile fromTile) {
         if (IsThisUnit(unit)) {
             if (fromTile.IsBoardTile() && unit.GetTile().IsBoardTile()) {
-                anim.ResetTrigger("Stop Running");
-                anim.SetTrigger("Start Running");
+                anim.SetBool("Running", true);
             } else TryPerformAnimation(SHAKE, true);
         }
     }
