@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public abstract class Unit : MonoBehaviour{
 
@@ -7,12 +8,21 @@ public abstract class Unit : MonoBehaviour{
     public Unit variant; //variant of unit, usually male/female. null if no variant
     public Unit evolution; //null if highest evolution
 
+    public List<UnitBehaviour> UnitBehaviours { get; private set; }
+
     public UnitStats baseStats;
 
     protected virtual void Awake() {
-        gameObject.AddComponent<UnitBoardAnimation>();
-        gameObject.AddComponent<UnitCarryAnimation>();
-        gameObject.AddComponent<UnitStoreAnimation>();
+        InitUnitBehaviours();
+    }
+
+    private void InitUnitBehaviours() {
+        UnitBehaviours = new List<UnitBehaviour> {
+            gameObject.AddComponent<UnitBoardAnimation>(),
+            gameObject.AddComponent<UnitCarryAnimation>(),
+            gameObject.AddComponent<UnitStoreAnimation>(),
+            gameObject.AddComponent<UnitMovement>()
+        };
     }
 
     public enum Evl_Chain { One, Two, Three }; //number represents how far down in evolution chain (one is base, two is first evo, etc.)
@@ -32,5 +42,14 @@ public abstract class Unit : MonoBehaviour{
 
     public Tile GetTile() {
         return tile;
+    }
+
+    public UnitBehaviour GetUnitBehaviour<UB>() {
+        foreach (UnitBehaviour behaviour in UnitBehaviours) {
+            if (typeof(UB) == behaviour.GetType()) {
+                return behaviour;
+            }
+        }
+        return null;
     }
 }

@@ -30,6 +30,7 @@ public class UIMan : ManagerBehaviour {
     private void Start() {
         storeMan = StoreMan.Instance;
         InitEventSubscribers();
+        Debug.Log("UI Subscribed");
     }
     
     protected override void LateStart() {

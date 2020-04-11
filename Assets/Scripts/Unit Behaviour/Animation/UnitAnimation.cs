@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public abstract class UnitAnimation : MonoBehaviour {
+public abstract class UnitAnimation : UnitBehaviour {
 
     #region Animator Strings
     //PARAMETER NAMES
@@ -66,12 +66,11 @@ public abstract class UnitAnimation : MonoBehaviour {
     protected Dictionary<string, Action<bool>> AvailableAnimations;
     #endregion
 
-    protected Unit unit;
     protected Animator anim;
 
-    protected void Awake() {
+    protected new void Awake() {
+        base.Awake();
         anim = gameObject.GetComponent<Animator>();
-        unit = gameObject.GetComponent<Unit>();
         Initialization();
     }
 
@@ -146,9 +145,6 @@ public abstract class UnitAnimation : MonoBehaviour {
     }
 
     #region Helpers
-    protected bool IsThisUnit(Unit unit) {
-        return unit.GetInstanceID() == this.unit.GetInstanceID();
-    }
 
     protected void TryPerformAnimation(string name, bool isReactive) {
         AvailableAnimations.TryGetValue(name, out Action<bool> func);

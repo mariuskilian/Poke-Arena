@@ -30,6 +30,7 @@ public class InputMan : ManagerBehaviour {
         HideScoreboardEvent,
         ToggleMenuEvent
         ;
+
     #endregion
 
     #region Containers
@@ -49,15 +50,15 @@ public class InputMan : ManagerBehaviour {
     }
 
     private void InitKeyBindings() {
-        KeyDownBindings = new Dictionary<KeyCode, Action> {
-            { KeyCode.Space, ToggleStoreEvent },
-            { KeyCode.D, TryRerollStoreEvent },
-            { KeyCode.F, TryBuyExpEvent },
-            { KeyCode.E, SellUnitEvent },
-            { KeyCode.W, BenchUnbenchUnitEvent },
-            { KeyCode.L, ToggleLockStoreEvent },
-            { KeyCode.Tab, ShowScoreboardEvent },
-            { KeyCode.Escape, ToggleMenuEvent }
+        KeyDownBindings = new Dictionary<KeyCode, Action> { //need to store references to actions!!! not copys!!
+            { KeyCode.Space, () => ToggleStoreEvent?.Invoke() },
+            { KeyCode.D, () => TryRerollStoreEvent?.Invoke() },
+            { KeyCode.F, () => TryBuyExpEvent?.Invoke() },
+            { KeyCode.E, () => SellUnitEvent?.Invoke() },
+            { KeyCode.W, () => BenchUnbenchUnitEvent?.Invoke() },
+            { KeyCode.L, () => ToggleLockStoreEvent?.Invoke() },
+            { KeyCode.Tab, () => ShowScoreboardEvent?.Invoke() },
+            { KeyCode.Escape, () => ToggleMenuEvent?.Invoke() }
         };
         KeyUpBindings = new Dictionary<KeyCode, Action> {
             { KeyCode.Tab, HideScoreboardEvent }
@@ -66,10 +67,10 @@ public class InputMan : ManagerBehaviour {
 
     private void CheckForInput() {
         foreach (KeyCode key in KeyDownBindings.Keys) {
-            if (Input.GetKeyDown(key)) KeyDownBindings[key]?.Invoke();
+            if (Input.GetKeyDown(key)) KeyDownBindings[key]();
         }
         foreach (KeyCode key in KeyUpBindings.Keys) {
-            if (Input.GetKeyUp(key)) KeyUpBindings[key]?.Invoke();
+            if (Input.GetKeyUp(key)) KeyUpBindings[key]();
         }
     }
 }

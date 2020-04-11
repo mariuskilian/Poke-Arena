@@ -6,9 +6,6 @@ using System.Collections.Generic;
 public class UnitBoardAnimation : UnitGestureAnimation {
 
     #region Variables
-    bool isRunning = false;
-    Vector3 currentPos;
-    Vector3 newPos;
     #endregion
 
     #region Unity Methods
@@ -20,15 +17,7 @@ public class UnitBoardAnimation : UnitGestureAnimation {
     protected override void BoardUpdate() {
         base.BoardUpdate();
         PerformRandomGesture();
-        if (isRunning) {
-            float speed = 3 * Time.deltaTime;
-            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, newPos, speed);
-            if (Vector3.Equals(gameObject.transform.position, newPos)) {
-                isRunning = false;
-                gameObject.GetComponent<Unit>().GetTile().UpdateUnitTransform();
-                anim.SetBool("Running", false);
-            }
-        }
+        UpdateMovementState();
     }
     #endregion
 
@@ -42,13 +31,11 @@ public class UnitBoardAnimation : UnitGestureAnimation {
     }
     #endregion
 
-    private void TriggerUnitRunAnimation(Vector3 from, Vector3 to) {
-        currentPos = from;
-        newPos = to;
-        gameObject.transform.position = from;
-        gameObject.transform.LookAt(to);
-        anim.SetBool("Running", true);
-        isRunning = true;
+    private void UpdateMovementState() {
+        UnitMovement.MoveType moveType = (unit.GetUnitBehaviour<UnitMovement>() as UnitMovement).CurrentMoveType;
+        if (moveType == UnitMovement.MoveType.RUN) {
+            //TODO :)
+        }
     }
 
     #region Event Handlers
@@ -63,11 +50,12 @@ public class UnitBoardAnimation : UnitGestureAnimation {
         if (IsThisUnit(unit)) TryPerformAnimation(SHAKE, true);
     }
 
-    private void HandleUnitTeleportEvent(Unit unit, Tile fromTile, Tile toTile) {
+    private void HandleUnitTeleportEvent(Unit unit, Tile fromTile) {
         if (IsThisUnit(unit)) {
-            if (fromTile.IsBoardTile() && toTile.IsBoardTile())
-                TriggerUnitRunAnimation(fromTile.GetWorldPosition(), toTile.GetWorldPosition());
-            else TryPerformAnimation(SHAKE, true);
+            if (fromTile.IsBoardTile() && unit.GetTile().IsBoardTile()) {
+                anim.ResetTrigger("Stop Running");
+                anim.SetTrigger("Start Running");
+            } else TryPerformAnimation(SHAKE, true);
         }
     }
     #endregion

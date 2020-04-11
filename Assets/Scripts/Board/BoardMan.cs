@@ -45,7 +45,7 @@ public class BoardMan : ManagerBehaviour {
     #region Events
     public Action<Unit> UnitSelectEvent;
     public Action<Unit> UnitDeselectEvent;
-    public Action<Unit, Tile, Tile> UnitTeleportEvent; //unit, from, to
+    public Action<Unit, Tile> UnitTeleportEvent; //unit, fromTile
     public Action<List<Tile>, Unit> EvolutionEvent;
     #endregion
 
@@ -159,7 +159,7 @@ public class BoardMan : ManagerBehaviour {
         selectedTile = null;
         UnitDeselectEvent?.Invoke(selected_unit);
         if (hovered_unit != null && hovered_unit != selected_unit)
-            UnitTeleportEvent?.Invoke(hovered_unit, selected_unit.GetTile(), hovered_unit.GetTile());
+            UnitTeleportEvent?.Invoke(hovered_unit, selected_unit.GetTile());
     }
     #endregion
 
