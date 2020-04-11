@@ -2111,7 +2111,7 @@ Camera:
   m_GameObject: {fileID: 1318632210}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 4
   m_BackGroundColor: {r: 0.3773585, g: 0.6422725, b: 0.754717, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -2126,10 +2126,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 4
   field of view: 1
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 0.872
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -2787,12 +2787,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44f2a5660e390a0469577d524308dda8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BEFORE_ROUND_TIME: 1
-  SET_UP_TIME: 30
-  PREPARE_TIME: 5
-  BATTLE_TIME: 30
-  BATTLE_OVERTIME: 10
-  AFTER_ROUND_TIME: 3
 --- !u!114 &1725922886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2865,7 +2859,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   yOffset: -0.3
-  zOffset: 100
+  zOffset: 3
   xOffsetMax: 1.8
   storeUnits: {fileID: 1137571070}
 --- !u!224 &1758361270
