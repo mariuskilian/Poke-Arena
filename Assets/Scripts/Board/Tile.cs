@@ -41,7 +41,7 @@ public class Tile {
         if (!IsBoardTile()) {
             float xOffset = (BoardMan.BOARD_WIDTH - BoardMan.BENCH_SIZE) / 2f;
             return Vector3.right * (BoardMan.TILE_SIZE * tilePosition.x + BoardMan.TILE_OFFSET + xOffset)
-                + Vector3.up + Vector3.forward * (BoardMan.BENCH_Y + BoardMan.TILE_OFFSET);
+                + Vector3.forward * (BoardMan.BENCH_Y + BoardMan.TILE_OFFSET);
         }
 
         //Board Tile

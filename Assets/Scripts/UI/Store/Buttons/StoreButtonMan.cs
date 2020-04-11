@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
 public class StoreButtonMan : ManagerBehaviour {
-    [SerializeField] private GameObject catchButtonContainer = null;
     [SerializeField] private GameObject catchButtonTemplate = null;
 
     [SerializeField] private float yOffset = -25;
@@ -37,7 +36,7 @@ public class StoreButtonMan : ManagerBehaviour {
         for (int i = 0; i < CatchUnitButtons.Length; i++) {
             GameObject buttonObject = Instantiate(catchButtonTemplate);
             buttonObject.SetActive(false);
-            buttonObject.transform.SetParent(catchButtonContainer.transform);
+            buttonObject.transform.SetParent(transform);
 
             if (CatchUnitButtons.Length == 1) {
                 buttonObject.transform.localPosition = Vector3.up * yOffset;
