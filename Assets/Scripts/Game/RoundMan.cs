@@ -93,7 +93,11 @@ public class RoundMan : MonoBehaviour {
                 CurrentPhase = Phase.START;
                 DetermineNextRoundType();
             }
-            StartTime = PhaseTimes[CurrentPhase];
+            if (PhaseTimes.ContainsKey(CurrentPhase)) {
+                StartTime = PhaseTimes[CurrentPhase];
+            } else {
+                Debug.Log(CurrentPhase);
+            }
             StartOfPhaseEvent?.Invoke(CurrentPhase);
             TimeLeftInPhase = StartTime + 1;
             isInPhase = true;
