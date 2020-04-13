@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BodyC
-  m_Shader: {fileID: -6465566751694194690, guid: c7cee2f2d464c1b48b87b99909c862b4,
+  m_Shader: {fileID: -6465566751694194690, guid: a18ab79b012ac3c4a8cd10c672a5dda1,
     type: 3}
   m_ShaderKeywords: _OCCLUSIONMAP
   m_LightmapFlags: 4
