@@ -20,6 +20,10 @@ public class BattleMan : ManagerBehaviour {
 
     public BattleTile[,] BattleBoard { get; private set; }
 
+    private void Awake() {
+        _instance = this;
+    }
+
     private void Start() {
         InitEventSubscribers();
         InitBattleBoard();
