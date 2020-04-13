@@ -81,13 +81,21 @@ public class StoreMan : ManagerBehaviour {
         for (int index = 0; index < StoreSize; index++) {
             Unit unit = SpawnRandomUnitEvent?.Invoke();
             if (unit != null) {
-                unit.transform.SetParent(storeUnits.transform);
-                unit.transform.localPosition = GetUnitPosition(index);
-                unit.transform.localRotation = Quaternion.Euler(0, 180, 0);
-                CurrentStore[index] = unit;
-                NewUnitInStoreEvent?.Invoke(unit, index);
+                StartCoroutine(WaitThenSpawn(unit, index));
             }
         }
+    }
+
+    private IEnumerator WaitThenSpawn(Unit unit, int index) {
+        unit.transform.SetParent(storeUnits.transform);
+        unit.transform.localPosition = GetUnitPosition(index);
+        unit.transform.localRotation = Quaternion.Euler(0, 180, 0);
+        CurrentStore[index] = unit;
+        unit.gameObject.transform.Translate(Vector3.up * 1000); //to hide unit while waiting
+        float normalizedIndex = (float) index / (float) (StoreSize - 1); // 0 <= normalizedIndex <= 1
+        yield return new WaitForSeconds(normalizedIndex * 0.67f);
+        unit.gameObject.transform.Translate(Vector3.down * 1000); //reshow unit
+        NewUnitInStoreEvent?.Invoke(unit, index);
     }
 
     private void DespawnCurrentStore() {

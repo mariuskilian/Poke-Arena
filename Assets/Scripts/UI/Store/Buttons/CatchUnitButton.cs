@@ -13,7 +13,7 @@ public class CatchUnitButton : MonoBehaviour {
         gameObject.SetActive(true);
     }
 
-    public bool DoesUnitBelongToButton(Unit unit) {
+    public bool BelongsToUnit(Unit unit) {
         return this.unit == unit;
     }
 

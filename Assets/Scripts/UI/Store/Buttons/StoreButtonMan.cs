@@ -62,7 +62,7 @@ public class StoreButtonMan : ManagerBehaviour {
 
     private void DeactivateStoreButtonWithUnitObject(Unit unit) {
         foreach (CatchUnitButton button in CatchUnitButtons) {
-            if (button.DoesUnitBelongToButton(unit)) {
+            if (button.BelongsToUnit(unit)) {
                 button.DeactivateButton();
             }
         }

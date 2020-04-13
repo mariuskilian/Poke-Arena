@@ -21,7 +21,8 @@ public class Unit : MonoBehaviour{
             gameObject.AddComponent<UnitBoardAnimation>(),
             gameObject.AddComponent<UnitCarryAnimation>(),
             gameObject.AddComponent<UnitStoreAnimation>(),
-            gameObject.AddComponent<UnitMovement>()
+            gameObject.AddComponent<UnitMovement>(),
+            gameObject.AddComponent<UnitShaderEffects>()
         };
     }
 
