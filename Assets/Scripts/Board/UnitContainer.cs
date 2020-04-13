@@ -20,7 +20,7 @@ public class UnitContainer : MonoBehaviour {
     }
 
     private bool IsInRightContainer(Unit unit) {
-        return (unit.baseStats.name.Equals(gameObject.name));
+        return (unit.properties.name.Equals(gameObject.name));
     }
 
     public int GetNumBaseUnits() {
@@ -43,7 +43,7 @@ public class UnitContainer : MonoBehaviour {
     }
 
     public void HandleEvolutionEvent(List<Tile> tiles, Unit unit) {
-        if (tiles[0].GetUnit().baseStats.name != name) return;
+        if (tiles[0].GetUnit().properties.name != name) return;
         if (tiles[0].GetUnit().evl_chain == Unit.Evl_Chain.One) {
             numBaseUnits -= tiles.Count;
         }

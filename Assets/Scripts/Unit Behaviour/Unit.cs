@@ -10,7 +10,7 @@ public class Unit : MonoBehaviour{
 
     public List<UnitBehaviour> UnitBehaviours { get; private set; }
 
-    public UnitStats baseStats;
+    public UnitProperties properties;
 
     protected virtual void Awake() {
         InitUnitBehaviours();
@@ -22,7 +22,8 @@ public class Unit : MonoBehaviour{
             gameObject.AddComponent<UnitCarryAnimation>(),
             gameObject.AddComponent<UnitStoreAnimation>(),
             gameObject.AddComponent<UnitMovement>(),
-            gameObject.AddComponent<UnitShaderEffects>()
+            gameObject.AddComponent<UnitShaderEffects>(),
+            gameObject.AddComponent<BattleBehaviour>()
         };
     }
 

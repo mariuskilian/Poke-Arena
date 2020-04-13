@@ -893,7 +893,7 @@ MonoBehaviour:
   variant: {fileID: 0}
   evolution: {fileID: -6194230279622002214, guid: 240909a4bd34b694294eb162aef54f0c,
     type: 3}
-  baseStats: {fileID: 11400000, guid: 4f97fcffca0f0f646b653bacfb68d192, type: 2}
+  properties: {fileID: 11400000, guid: 4f97fcffca0f0f646b653bacfb68d192, type: 2}
   evl_chain: 0
 --- !u!95 &-1539175079699317484
 Animator:

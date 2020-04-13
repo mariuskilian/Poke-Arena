@@ -1156,7 +1156,7 @@ MonoBehaviour:
   variant: {fileID: 0}
   evolution: {fileID: -283206128324149865, guid: ca0849f9ab0552a40bc25d7df132ee5c,
     type: 3}
-  baseStats: {fileID: 11400000, guid: 68b5c2c718c7c21418d7af5fa3320e0b, type: 2}
+  properties: {fileID: 11400000, guid: 68b5c2c718c7c21418d7af5fa3320e0b, type: 2}
   evl_chain: 0
 --- !u!95 &-1259158128457321734
 Animator:

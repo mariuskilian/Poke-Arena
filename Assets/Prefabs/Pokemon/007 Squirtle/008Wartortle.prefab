@@ -722,7 +722,7 @@ MonoBehaviour:
   variant: {fileID: 0}
   evolution: {fileID: 3908432784497044009, guid: 932a329f539e99141ae8b11afa0c6331,
     type: 3}
-  baseStats: {fileID: 11400000, guid: 68b5c2c718c7c21418d7af5fa3320e0b, type: 2}
+  properties: {fileID: 11400000, guid: 68b5c2c718c7c21418d7af5fa3320e0b, type: 2}
   evl_chain: 1
 --- !u!95 &-1697865463219061536
 Animator:

@@ -19,10 +19,10 @@ public class PoolMan : ManagerBehaviour {
     #endregion
 
     #region Constants
-    public enum QUALITY { COMMON, UNCOMMON, RARE, EPIC, LEGENDARY }
-    public readonly int[] POOL_SIZE = { 45, 30, 25, 15, 10 };
+    public enum QUALITY { COMMON, UNCOMMON, RARE, EPIC, SECRET, LEGENDARY }
+    public readonly int[] POOL_SIZE = { 45, 30, 25, 15, 10, 1 };
     public readonly float[,] DROP_CHANCE = { //[level, rarity]
-        /********   COM     UNCOM   RARE    EPIC    LEGEN   */
+        /********   COM     UNCOM   RARE    EPIC    SECRET  */
         /*LV 01*/ { 1f,     0f,     0f,     0f,     0f      },
         /*LV 02*/ { 0.7f,   0.3f,   0f,     0f,     0f      },
         /*LV 03*/ { 0.6f,   0.35f,  0.05f,  0f,     0f      },
@@ -136,12 +136,12 @@ public class PoolMan : ManagerBehaviour {
 
     #region Pools
     public void ReturnToPool(Unit unit) /*TODO: When returning an Evolution, return all used base models instead, then despawn evolution*/ { 
-        Dictionary<string, Queue<Unit>> pools = poolsByQuality[(int) unit.baseStats.quality];
-        if (!pools.ContainsKey(unit.baseStats.name)) {
-            Debug.LogWarning("Dictionary does not contain tag " + unit.baseStats.name);
+        Dictionary<string, Queue<Unit>> pools = poolsByQuality[(int) unit.properties.quality];
+        if (!pools.ContainsKey(unit.properties.name)) {
+            Debug.LogWarning("Dictionary does not contain tag " + unit.properties.name);
             return;
         }
-        pools[unit.baseStats.name].Enqueue(unit);
+        pools[unit.properties.name].Enqueue(unit);
     }
 
     private void InitializePools() {
@@ -153,16 +153,16 @@ public class PoolMan : ManagerBehaviour {
         //create Pools
         foreach (GameObject prefab in baseUnitPrefabs) {
             Unit unit = prefab.GetComponent<Unit>();
-            UnitStats stats = unit.baseStats;
+            UnitProperties properties = unit.properties;
 
             //fill the pool
             Queue<Unit> unitPool = new Queue<Unit>();
-            for (int i = 0; i < POOL_SIZE[(int) stats.quality]; i++) {
+            for (int i = 0; i < POOL_SIZE[(int) properties.quality]; i++) {
                 Unit _unit = InstantiateUnit(unit);
                 _unit.gameObject.SetActive(false);
                 unitPool.Enqueue(_unit);
             }
-            poolsByQuality[(int) stats.quality].Add(unit.baseStats.name, unitPool);
+            poolsByQuality[(int) properties.quality].Add(unit.properties.name, unitPool);
         }
     }
     #endregion
@@ -182,7 +182,7 @@ public class PoolMan : ManagerBehaviour {
     private Unit HandleSpawnRandomUnitEvent() {
         List<QUALITY> allQualities = new List<QUALITY>();
         foreach (QUALITY q in Enum.GetValues(typeof(QUALITY))) {
-            allQualities.Add(q);
+            if (q != QUALITY.LEGENDARY) allQualities.Add(q);
         }
         return SpawnRandomUnit(DetermineRandomQuality(LevelMan.Instance.Level, allQualities));
     }

@@ -50,7 +50,7 @@ public class FinanceMan : MonoBehaviour {
         input.TryBuyExpEvent += HandleTryBuyExpEvent;
 
         RoundMan round = RoundMan.Instance;
-        round.StartOfRoundEvent += HandleStartOfRoundEvent;
+        round.StartOfPhaseEvent += HandleStartOfPhaseEvent;
     }
 
     private int Interest() {
@@ -65,8 +65,14 @@ public class FinanceMan : MonoBehaviour {
         return bonus;
     }
 
-    private void HandleStartOfRoundEvent() {
-        Coins = Mathf.Min(MAX_COINS, Coins + Interest() + StreakBonus() + BASE_EARNING_ROUND);
+    private void HandleStartOfPhaseEvent(RoundMan.Phase phase) {
+        switch (phase) {
+            case RoundMan.Phase.START:
+                Coins = Mathf.Min(MAX_COINS, Coins + Interest() + StreakBonus() + BASE_EARNING_ROUND);
+                break;
+            default:
+                break;
+        }
     }
 
     private void HandleRoundWonEvent() {

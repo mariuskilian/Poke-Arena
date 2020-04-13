@@ -9,22 +9,22 @@ public class UnitShaderEffects : UnitBehaviour {
         public float Delay { get; private set; }
         public int Size { get; private set; }
 
-        public ShaderProperties(Color effectColor, float delay, int size = 30) {
+        public ShaderProperties(Color effectColor, float delay, int size = 200) {
             EffectColor = effectColor;
             Delay = delay;
             Size = size;
         }
     }
 
-    private UnitShaderEffects.ShaderProperties[] ShadersByQuality = new UnitShaderEffects.ShaderProperties[] {
-        new UnitShaderEffects.ShaderProperties(HDRColor.Common, 0.025f),
-        new UnitShaderEffects.ShaderProperties(HDRColor.Uncommon, 0.05f),
-        new UnitShaderEffects.ShaderProperties(HDRColor.Rare, 0.1f),
-        new UnitShaderEffects.ShaderProperties(HDRColor.Epic, 0.2f),
-        new UnitShaderEffects.ShaderProperties(HDRColor.Legendary, 0.4f)
+    private static readonly ShaderProperties[] GlowByQuality = new ShaderProperties[] {
+        new ShaderProperties(HDRColor.Glow[PoolMan.QUALITY.COMMON], 0.02f),
+        new ShaderProperties(HDRColor.Glow[PoolMan.QUALITY.UNCOMMON], 0.04f),
+        new ShaderProperties(HDRColor.Glow[PoolMan.QUALITY.RARE], 0.12f),
+        new ShaderProperties(HDRColor.Glow[PoolMan.QUALITY.EPIC], 0.25f),
+        new ShaderProperties(HDRColor.Glow[PoolMan.QUALITY.SECRET], 0.4f)
     };
 
-    private ShaderProperties randomProp;
+    private ShaderProperties glowShader;
 
     private readonly string IRIS = "Iris";
     private readonly string
@@ -47,7 +47,7 @@ public class UnitShaderEffects : UnitBehaviour {
         if (!spawned) {
             foreach (Material m in materials) {
                 if (m.name.Contains(IRIS)) continue;
-                float speed = 0.2f;
+                float speed = 0.5f;
                 m.SetFloat(ALPHA_FADE, m.GetFloat(ALPHA_FADE) + speed * Time.deltaTime);
                 if (m.GetFloat(ALPHA_FADE) >= 2f + 0.05f) spawned = true;
             }
@@ -60,12 +60,12 @@ public class UnitShaderEffects : UnitBehaviour {
 
     private void HandleNewUnitInStoreEvent(Unit unit, int index) {
         if (!IsThisUnit(unit)) return;
-        randomProp = ShadersByQuality[index];
+        glowShader = GlowByQuality[(int) unit.properties.quality];
         foreach (Material m in materials) {
             if (m.name == IRIS) continue;
-            m.SetColor(COLOR, randomProp.EffectColor);
-            m.SetFloat(SIZE, randomProp.Size);
-            m.SetFloat(TEXTURE_DELAY, randomProp.Delay);
+            m.SetColor(COLOR, glowShader.EffectColor);
+            m.SetFloat(SIZE, glowShader.Size);
+            m.SetFloat(TEXTURE_DELAY, glowShader.Delay);
             m.SetFloat(ALPHA_FADE, 0.2f);
         }
         spawned = false;

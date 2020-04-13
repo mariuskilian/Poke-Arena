@@ -35,7 +35,7 @@ public class BoardMan : ManagerBehaviour {
     #endregion
 
     #region Containers
-    private Tile[,] Board; //null if invalid Tile
+    public Tile[,] Board { get; private set; } //null if invalid Tile
     private Tile[] Bench;
     private Tile reserveTile;
 
@@ -166,14 +166,14 @@ public class BoardMan : ManagerBehaviour {
     #region Unit Container
     //Finds unit container for unit, or creates new one if none exists yet
     private UnitContainer FindOrCreateUnitContainer(Unit unit) {
-        if (unitContainers.ContainsKey(unit.baseStats.name)) {
-            return unitContainers[unit.baseStats.name];
+        if (unitContainers.ContainsKey(unit.properties.name)) {
+            return unitContainers[unit.properties.name];
         }
-        GameObject go = new GameObject(unit.baseStats.name);
+        GameObject go = new GameObject(unit.properties.name);
         go.AddComponent<UnitContainer>();
         go.transform.SetParent(team.transform);
         UnitContainer unitContainer = go.GetComponent<UnitContainer>();
-        unitContainers.Add(unit.baseStats.name, unitContainer);
+        unitContainers.Add(unit.properties.name, unitContainer);
         return unitContainer;
     }
     #endregion

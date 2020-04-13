@@ -389,7 +389,7 @@ MonoBehaviour:
   variant: {fileID: 0}
   evolution: {fileID: 2975297174834075025, guid: 2858261110e0fed48a5460c1cb2e040e,
     type: 3}
-  baseStats: {fileID: 11400000, guid: fa0626dbb7f7d684baccb954434d4f99, type: 2}
+  properties: {fileID: 11400000, guid: fa0626dbb7f7d684baccb954434d4f99, type: 2}
   evl_chain: 0
 --- !u!95 &-4503716679521164358
 Animator:

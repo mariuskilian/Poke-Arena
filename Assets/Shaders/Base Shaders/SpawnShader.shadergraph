@@ -4,7 +4,7 @@
             "typeInfo": {
                 "fullName": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty"
             },
-            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"c522afb6-55e6-479b-8e00-41b2d540c19f\"\n    },\n    \"m_Name\": \"AlphaFade\",\n    \"m_DefaultReferenceName\": \"Vector1_F545DB73\",\n    \"m_OverrideReferenceName\": \"_AlphaFade\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 0,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": 1.0,\n    \"m_FloatType\": 1,\n    \"m_RangeValues\": {\n        \"x\": 0.0,\n        \"y\": 1.0\n    }\n}"
+            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"c522afb6-55e6-479b-8e00-41b2d540c19f\"\n    },\n    \"m_Name\": \"AlphaFade\",\n    \"m_DefaultReferenceName\": \"Vector1_F545DB73\",\n    \"m_OverrideReferenceName\": \"_AlphaFade\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 0,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": 0.30000001192092898,\n    \"m_FloatType\": 1,\n    \"m_RangeValues\": {\n        \"x\": 0.0,\n        \"y\": 1.0\n    }\n}"
         },
         {
             "typeInfo": {

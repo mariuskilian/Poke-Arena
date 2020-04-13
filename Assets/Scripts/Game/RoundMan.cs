@@ -31,10 +31,6 @@ public class RoundMan : MonoBehaviour {
     #endregion
 
     #region Events
-    public Action
-        StartOfRoundEvent,
-        EndOfRoundEvent
-        ;
     public Action<Phase> StartOfPhaseEvent;
     #endregion
 

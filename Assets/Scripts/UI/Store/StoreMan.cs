@@ -21,13 +21,12 @@ public class StoreMan : ManagerBehaviour {
     #region Constants
     public int StoreSize { get; private set; } = 5;
 
-    [SerializeField] private float yOffset = -0.3f;
-    [SerializeField] private float zOffset = 175f;
-    [SerializeField] private float xOffsetMax = 2f;
+    [SerializeField] private float yOffset = 0.378f;
+    [SerializeField] private float zOffset = 3f;
+    [SerializeField] private float xOffsetMax = 1.8f;
     #endregion
 
     #region Variables
-    [SerializeField] private GameObject storeUnits = null;
     #endregion
 
     #region Helper Variables
@@ -87,7 +86,7 @@ public class StoreMan : ManagerBehaviour {
     }
 
     private IEnumerator WaitThenSpawn(Unit unit, int index) {
-        unit.transform.SetParent(storeUnits.transform);
+        unit.transform.SetParent(transform);
         unit.transform.localPosition = GetUnitPosition(index);
         unit.transform.localRotation = Quaternion.Euler(0, 180, 0);
         CurrentStore[index] = unit;

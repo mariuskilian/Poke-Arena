@@ -944,7 +944,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variant: {fileID: 0}
   evolution: {fileID: 0}
-  baseStats: {fileID: 11400000, guid: 68b5c2c718c7c21418d7af5fa3320e0b, type: 2}
+  properties: {fileID: 11400000, guid: 68b5c2c718c7c21418d7af5fa3320e0b, type: 2}
   evl_chain: 2
 --- !u!95 &-168880296436048762
 Animator:

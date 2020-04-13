@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "New UnitStats", menuName = "UnitStats")]
-public class UnitStats : ScriptableObject {
+[CreateAssetMenu(fileName = "New Unit Properties", menuName = "Unit Properties")]
+public class UnitProperties : ScriptableObject {
 
     public int health;
     public int health_per_evolution;
