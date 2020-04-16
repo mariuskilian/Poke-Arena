@@ -1,21 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Bolt;
+
 public class PoolMan : ManagerBehaviour {
 
     #region Singleton
-    private static PoolMan _instance;
-    public static PoolMan Instance {
-        get {
-            if (_instance == null) { //should NEVER happen
-                GameObject go = new GameObject("Game Manager");
-                go.AddComponent<PoolMan>();
-                Debug.LogWarning("Game Manager instance was null");
-            }
-            return _instance;
-        }
-    }
+    public static PoolMan Instance { get; private set; }
     #endregion
 
     #region Constants
@@ -37,26 +28,51 @@ public class PoolMan : ManagerBehaviour {
     #endregion
 
     #region Variables
-    public static System.Random random = new System.Random();
+    System.Random rng = new System.Random();
     #endregion
 
     #region Containers
-    public List<GameObject> baseUnitPrefabs;
-    public Dictionary<string, Queue<Unit>>[] poolsByQuality;
+    public List<GameObject> BaseUnitPrefabs;
+
+    private Dictionary<string, Queue<Unit>>[] PoolsByQuality;
     #endregion
 
     #region Unity Methods
     private void Awake() {
-        _instance = this; // Singleton
+        Instance = this; // Singleton
     }
 
     private void Start() {
         InitializePools();
-        InitEventSubscribers();
     }
     #endregion
 
     #region Initialisation
+    private void InitializePools() {
+        // Init. the dictionary-array
+        PoolsByQuality = new Dictionary<string, Queue<Unit>>[Enum.GetNames(typeof(QUALITY)).Length];
+        foreach (QUALITY quality in Enum.GetValues(typeof(QUALITY))) {
+            PoolsByQuality[(int)quality] = new Dictionary<string, Queue<Unit>>();
+        }
+
+        // Create Pools
+        foreach (GameObject prefab in BaseUnitPrefabs) {
+            Unit unit = prefab.GetComponent<Unit>();
+            UnitProperties properties = unit.properties;
+
+            // Fill the Pool
+            Queue<Unit> Pool = new Queue<Unit>();
+            for (int i = 0; i < POOL_SIZE[(int)properties.quality]; i++) {
+                Unit _unit = InstantiateUnit(unit);
+                _unit.gameObject.SetActive(false);
+                Pool.Enqueue(_unit);
+            }
+
+            // Add the Pool at the appropriate index
+            PoolsByQuality[(int)properties.quality].Add(unit.properties.name, Pool);
+        }
+    }
+
     private void InitEventSubscribers() {
         StoreMan store = StoreMan.Instance;
         store.SpawnRandomUnitEvent += HandleSpawnRandomUnitEvent;
@@ -75,7 +91,7 @@ public class PoolMan : ManagerBehaviour {
         //calculate number of tickets to generate
         int maxQualityNumber = 0;
         foreach (QUALITY _quality in QualitiesToConsider) {
-            maxQualityNumber += (int) (DROP_CHANCE[level, (int) _quality] * 100);
+            maxQualityNumber += (int)(DROP_CHANCE[level, (int)_quality] * 100);
         }
 
         if (maxQualityNumber == 0) {
@@ -84,9 +100,9 @@ public class PoolMan : ManagerBehaviour {
         }
 
         //choose winner of lottery
-        int qualityNumber = random.Next(0, maxQualityNumber);
+        int qualityNumber = rng.Next(maxQualityNumber);
         foreach (QUALITY _quality in QualitiesToConsider) {
-            if ((qualityNumber -= (int) (100 * DROP_CHANCE[level, (int) _quality])) < 0) {
+            if ((qualityNumber -= (int)(100 * DROP_CHANCE[level, (int)_quality])) < 0) {
                 quality = _quality;
                 break;
             }
@@ -94,7 +110,7 @@ public class PoolMan : ManagerBehaviour {
 
         //check if those pools contain at least 1 unit, otherwise find new quality and exclude current
         int numUnits = 0;
-        foreach (KeyValuePair<string, Queue<Unit>> entry in poolsByQuality[(int) quality]) {
+        foreach (KeyValuePair<string, Queue<Unit>> entry in PoolsByQuality[(int)quality]) {
             numUnits += entry.Value.Count;
         }
         if (numUnits > 0) {
@@ -107,7 +123,7 @@ public class PoolMan : ManagerBehaviour {
 
     private Unit SpawnRandomUnit(QUALITY quality) {
         string unitToSpawn = DetermineRandomUnit(quality);
-        Unit unit = poolsByQuality[(int) quality][unitToSpawn].Dequeue();
+        Unit unit = PoolsByQuality[(int)quality][unitToSpawn].Dequeue();
         unit.gameObject.SetActive(true);
         return unit;
     }
@@ -118,12 +134,12 @@ public class PoolMan : ManagerBehaviour {
         int numUnits = 0; //total number of individual (!) pokemon of this rarity
         Dictionary<string, Queue<Unit>> pools;
 
-        pools = poolsByQuality[(int) quality];
+        pools = PoolsByQuality[(int)quality];
         foreach (KeyValuePair<string, Queue<Unit>> entry in pools) {
             numUnits += entry.Value.Count;
         }
 
-        int spawnNumber = random.Next(0, numUnits);
+        int spawnNumber = rng.Next(numUnits);
         foreach (KeyValuePair<string, Queue<Unit>> entry in pools) {
             if ((spawnNumber -= entry.Value.Count) < 0) {
                 return entry.Key;
@@ -135,45 +151,25 @@ public class PoolMan : ManagerBehaviour {
     #endregion
 
     #region Pools
-    public void ReturnToPool(Unit unit) /*TODO: When returning an Evolution, return all used base models instead, then despawn evolution*/ { 
-        Dictionary<string, Queue<Unit>> pools = poolsByQuality[(int) unit.properties.quality];
-        if (!pools.ContainsKey(unit.properties.name)) {
+    public void ReturnToPool(Unit unit) /*TODO: When returning an Evolution, return all used base models instead, then despawn evolution*/ {
+        Dictionary<string, Queue<Unit>> Pools = PoolsByQuality[(int)unit.properties.quality];
+        if (!Pools.ContainsKey(unit.properties.name)) {
             Debug.LogWarning("Dictionary does not contain tag " + unit.properties.name);
             return;
         }
-        pools[unit.properties.name].Enqueue(unit);
-    }
-
-    private void InitializePools() {
-        poolsByQuality = new Dictionary<string, Queue<Unit>>[Enum.GetNames(typeof(QUALITY)).Length];
-        foreach (QUALITY quality in Enum.GetValues(typeof(QUALITY))) {
-            poolsByQuality[(int) quality] = new Dictionary<string, Queue<Unit>>();
-        }
-
-        //create Pools
-        foreach (GameObject prefab in baseUnitPrefabs) {
-            Unit unit = prefab.GetComponent<Unit>();
-            UnitProperties properties = unit.properties;
-
-            //fill the pool
-            Queue<Unit> unitPool = new Queue<Unit>();
-            for (int i = 0; i < POOL_SIZE[(int) properties.quality]; i++) {
-                Unit _unit = InstantiateUnit(unit);
-                _unit.gameObject.SetActive(false);
-                unitPool.Enqueue(_unit);
-            }
-            poolsByQuality[(int) properties.quality].Add(unit.properties.name, unitPool);
-        }
+        Pools[unit.properties.name].Enqueue(unit);
     }
     #endregion
 
     #region Helper Methods
     //Instantiate new Pokemon, with 50% chance to spawn its variant if it exists
     public Unit InstantiateUnit(Unit unit) {
-        GameObject unitObject = (unit.variant != null && random.Next(0, 10) < 5) ?
-            Instantiate(unit.variant.gameObject) : Instantiate(unit.gameObject);
+        GameObject unitObject = (unit.variant != null && rng.Next(10) < 5) ?
+            unit.variant.gameObject : unit.gameObject;
 
-        return unitObject.GetComponent<Unit>(); ;
+        var unitEntity = BoltNetwork.Instantiate(unitObject);
+
+        return unitEntity.GetComponent<Unit>();
     }
     #endregion
 

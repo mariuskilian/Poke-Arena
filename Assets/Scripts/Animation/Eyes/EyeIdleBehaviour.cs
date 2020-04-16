@@ -24,8 +24,8 @@ public class EyeIdleBehaviour : EyeBehaviour {
 
     private IEnumerator RandomBlink(Animator animator) {
         isBlinking = true;
-        int timeBetweenBlinks = PoolMan.random.Next(3, 12);
-        float random = (float) PoolMan.random.NextDouble();
+        int timeBetweenBlinks = PoolMan.rng.Next(3, 12);
+        float random = (float) PoolMan.rng.NextDouble();
         float timeClosed = (random * random) * 0.35f + 0.05f;
         yield return new WaitForSeconds(timeBetweenBlinks);
         if (animator.GetCurrentAnimatorStateInfo(0).IsName(IDLE))

@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using Bolt;
 
-public abstract class ManagerBehaviour : MonoBehaviour {
+public abstract class ManagerBehaviour : GlobalEventListener {
 
     private bool lateStart = false;
 
