@@ -28,13 +28,15 @@ public class PoolMan : ManagerBehaviour {
     #endregion
 
     #region Variables
-    System.Random rng = new System.Random();
+    public static System.Random rng = new System.Random();
     #endregion
 
     #region Containers
     public List<GameObject> BaseUnitPrefabs;
 
     private Dictionary<string, Queue<Unit>>[] PoolsByQuality;
+
+    public GameSettings references;
     #endregion
 
     #region Unity Methods

@@ -9,15 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67c5ae2cfd03c154f85449dbd2faa6eb, type: 3}
-  m_Name: 001Bulbasaur
+  m_Script: {fileID: 11500000, guid: 299ea3368a68a6d409f1aac07ac214be, type: 3}
+  m_Name: GameSettings
   m_EditorClassIdentifier: 
-  health: 0
-  health_per_evolution: 0
-  atkDmg: 0
-  atkDmg_per_evolution: 0
-  atkSpeed: 0
-  atkSpeed_per_evolution: 0
-  moveSpeed: 0
-  moveSpeed_per_evolution: 0
-  quality: 0
+  Rarities: []
+  numLevels: 10
+  BaseUnitPrefabs: []

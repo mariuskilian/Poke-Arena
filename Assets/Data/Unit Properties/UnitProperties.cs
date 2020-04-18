@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Unit Properties", menuName = "Unit Properties")]
+[CreateAssetMenu(fileName = "UnitProperties", menuName = "Poke-Arena/UnitProperties")]
 public class UnitProperties : ScriptableObject {
 
     public int health;
