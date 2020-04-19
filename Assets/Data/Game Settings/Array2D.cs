@@ -30,14 +30,24 @@ public class Row {
 
     public Row(int length) {
         row = new int[length];
+        for (int i = 0; i < length; i++) row[i] = 0;
     }
 
     public void FormatRow(int desSum) {
         int sum = 0;
-        foreach (int num in row) sum+= num;
+        foreach (int num in row) sum += num;
 
+        int overhead = desSum;
         for (int i = 0; i < row.Length; i++) {
-            row[i] = Mathf.RoundToInt(((float) row[i] * (float) desSum) / (float)sum);
+            if (sum == 0) row[i]++;
+            row[i] = (row[i] * desSum) / ((sum == 0) ? 1 : sum);
+            overhead -= row[i];
+        }
+        int index = 0;
+        while (overhead != 0) {
+            row[index] += (int)Mathf.Sign(overhead);
+            overhead -= (int)Mathf.Sign(overhead);
+            index = ++index % row.Length;
         }
     }
 }
