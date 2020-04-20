@@ -4,9 +4,9 @@ using System;
 
 [Serializable, CreateAssetMenu(fileName = "GameSettings", menuName = "Poke-Arena/Game Settings")]
 public class GameSettings : ScriptableObject {
+    public int maxLevel;
 
-    public List<string> Rarities;
-    public int maxLevel = 10;
+    public RarityInfo[] Rarities;
 
     // 2d array of all drop chances, sorted by [level, rarity] and out of 100
     public Array2D DropChances;

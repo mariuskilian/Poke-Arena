@@ -11,6 +11,9 @@ public class GameSettingsEditor : Editor {
 
     private GameSettings gameSettings;
 
+    private string[,] DropChances;
+    private int maxLevel, numRarities;
+
     private readonly int height = 18;
     private readonly int width = 50;
 
@@ -19,7 +22,164 @@ public class GameSettingsEditor : Editor {
 
         gameSettings = target as GameSettings;
 
-        if (gameSettings.DropChances == null) gameSettings.DropChances = new Array2D(gameSettings.maxLevel, gameSettings.Rarities.Count);
+        if (DropChances == null) {
+            maxLevel = gameSettings.maxLevel;
+            numRarities = gameSettings.Rarities.Length;
+            DropChances = new string[maxLevel, numRarities];
+        }
+
+        GUIDivider();
+
+        GUILayout.BeginHorizontal();
+        {
+            GUILayout.BeginVertical();
+            {
+                GUILayout.Label("Rarity:", GUILayout.Height(height));
+                GUILayout.Label("Pool Size:", GUILayout.Height(height));
+            }
+            GUILayout.EndVertical();
+
+            for (int i = 0; i < gameSettings.Rarities.Length; i++) {
+                GUILayout.BeginVertical();
+                {
+                    gameSettings.Rarities[i].rarity = GUILayout.TextField(gameSettings.Rarities[i].rarity, GUILayout.Height(height));
+
+                    string poolSize = GUILayout.TextField(gameSettings.Rarities[i].poolSize.ToString(), GUILayout.Height(height));
+                    poolSize = Regex.Replace(poolSize, "[^0-9]", "");
+                    gameSettings.Rarities[i].poolSize = (poolSize == "") ? 0 : int.Parse(poolSize);
+                }
+                GUILayout.EndVertical();
+            }
+        }
+        GUILayout.EndHorizontal();
+
+        GUIDivider();
+
+        // Begin Drop Chance Table (drawn column-wise)
+        GUILayout.BeginHorizontal();
+        {
+
+            // Draw all Level name side-headers
+            GUILayout.BeginVertical();
+            {
+                GUILayout.Label("Drop Chances", GUILayout.Height(height));
+                for (int i = 0; i < maxLevel; i++) {
+                    GUILayout.Label("Level " + (i + 1), GUILayout.Height(height));
+                }
+            }
+            GUILayout.EndVertical();
+
+            // Draw all input boxes with their rarity as a header
+            for (int rar = 0; rar < numRarities; rar++) {
+                GUILayout.BeginVertical();
+                {
+                    // Format rarity name to make it look nicer
+                    string rarityName = gameSettings.Rarities[rar].rarity;
+                    if (rarityName == null || rarityName.Length == 0) rarityName = "";
+                    if (rarityName.Length >= 4) rarityName = rarityName.Substring(0, Mathf.Max(4, rarityName.Length - (rarityName.Length / 2)));
+                    if (rarityName != gameSettings.Rarities[rar].rarity) rarityName += ".";
+
+                    // Add Label for rarity name and corresponding Text Fields
+                    GUILayout.Label(rarityName, GUILayout.MaxWidth(width), GUILayout.Height(height));
+                    for (int lvl = 0; lvl < maxLevel; lvl++) {
+                        string s = DropChances[lvl, rar];
+                        if (s == null) s = "";
+                        DropChances[lvl, rar] = Regex.Replace(GUILayout.TextField(s, 3, GUILayout.MaxWidth(width), GUILayout.Height(height)), "[^0-9]", "");
+                    }
+                }
+                GUILayout.EndVertical();
+            }
+
+        }
+        GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        {
+            if (GUILayout.Button("Update")) Update();
+            if (GUILayout.Button("Format")) Format();
+            if (GUILayout.Button("Clear")) Clear();
+            if (GUILayout.Button("Save")) Save();
+        }
+        GUILayout.EndHorizontal();
+
+    }
+
+    private void Update() {
+        maxLevel = gameSettings.maxLevel;
+        numRarities = gameSettings.Rarities.Length;
+
+        DropChances = new string[maxLevel, numRarities];
+
+        if (gameSettings.DropChances == null) return;
+
+        for (int lvl = 0; lvl < gameSettings.DropChances.array2D.Length; lvl++) {
+            for (int rar = 0; rar < gameSettings.DropChances.array2D[lvl].row.Length; rar++) {
+                int value = gameSettings.DropChances[lvl, rar];
+                DropChances[lvl, rar] = (value == 0) ? "" : value.ToString();
+            }
+        }
+
+        Debug.Log("Drop Chances Updated!");
+    }
+
+    private void Format() {
+        int desSum = 100;
+
+        for (int lvl = 0; lvl < maxLevel; lvl++) {
+            int sum = 0;
+            for (int rar = 0; rar < numRarities; rar++) sum += GetIntValue(lvl, rar);
+
+            int overhead = desSum;
+            for (int rar = 0; rar < numRarities; rar++) {
+                int num = GetIntValue(lvl, rar);
+                if (sum == 0) num++;
+                num = (num * desSum) / ((sum == 0) ? numRarities : sum);
+                overhead -= num;
+                DropChances[lvl, rar] = (num == 0) ? "" : num.ToString();
+            }
+
+            int index = 0;
+            while (overhead != 0) {
+                int num = GetIntValue(lvl, index);
+                num += (int)Mathf.Sign(overhead);
+                DropChances[lvl, index] = (num == 0) ? "" : num.ToString();
+                overhead -= (int)Mathf.Sign(overhead);
+                index = ++index % numRarities;
+            }
+        }
+
+        Debug.Log("Drop Chances Formatted!");
+    }
+
+    private void Clear() {
+        for (int lvl = 0; lvl < maxLevel; lvl++) {
+            for (int rar = 0; rar < numRarities; rar++) {
+                DropChances[lvl, rar] = "";
+            }
+        }
+    }
+
+    private void Save() {
+        gameSettings.DropChances = new Array2D(maxLevel, numRarities);
+
+        for (int lvl = 0; lvl < maxLevel; lvl++) {
+            for (int rar = 0; rar < numRarities; rar++) {
+                int num = GetIntValue(lvl, rar);
+                gameSettings.DropChances[lvl, rar] = num;
+            }
+        }
+
+        Debug.Log("Drop Chances Saved!");
+    }
+
+    private int GetIntValue(int level, int rarity) {
+        string s = DropChances[level, rarity];
+        return (s == null || s == "") ? 0 : int.Parse(s);
+    }
+
+
+
+        /*if (gameSettings.DropChances == null) gameSettings.DropChances = new Array2D(gameSettings.maxLevel, gameSettings.Rarities.Count);
         if (gameSettings.Rarities == null) gameSettings.Rarities = new List<string>();
 
         GUIDivider();
@@ -65,117 +225,7 @@ public class GameSettingsEditor : Editor {
         GUILayout.EndHorizontal();
 
         if (GUILayout.Button("Format")) gameSettings.DropChances.Format(100);
-
-    }
-
-        /*gameSettings = target as GameSettings;
-
-        GUIDivider();
-
-        // Check if array size changed
-        int numRaritiesNew = gameSettings.Rarities.Count;
-        int numLevelsNew = gameSettings.numLevels;
-        if (numRarities != numRaritiesNew || numLevels != numLevelsNew || DropChances == null)
-            Resize(numRaritiesNew, numLevelsNew);
-
-        // Begin Drop Chance Table (drawn column-wise)
-        GUILayout.BeginHorizontal();
-        {
-
-            // Draw all Level name side-headers
-            GUILayout.BeginVertical();
-            {
-                GUILayout.Label("Drop Chances", GUILayout.Height(height));
-                for (int i = 0; i < numLevels; i++) {
-                    GUILayout.Label("Level " + (i + 1), GUILayout.Height(height));
-                }
-            }
-            GUILayout.EndVertical();
-
-            // Draw all input boxes with their rarity as a header
-            for (int rar = 0; rar < numRarities; rar++) {
-                GUILayout.BeginVertical();
-                {
-                    // Format rarity name to make it look nicer
-                    string rarityName = gameSettings.Rarities[rar];
-                    rarityName = rarityName.Substring(0, Mathf.Max(4, rarityName.Length - (rarityName.Length / 2)));
-                    if (rarityName.Length != rar.ToString().Length) rarityName += ".";
-
-                    // Add Label for rarity name and corresponding Text Fields
-                    GUILayout.Label(rarityName, GUILayout.MaxWidth(width), GUILayout.Height(height));
-                    for (int lvl = 0; lvl < numLevels; lvl++) {
-                        DropChances[lvl, rar] = GUILayout.TextField(
-                            DropChances[lvl, rar],
-                            3,
-                            GUILayout.MaxWidth(width),
-                            GUILayout.Height(height)
-                        );
-                    }
-                }
-                GUILayout.EndVertical();
-            }
-
-        }
-        GUILayout.EndHorizontal();
-
-        GUILayout.BeginHorizontal();
-        {
-            if (GUILayout.Button("Format")) Format();
-            if (GUILayout.Button("Save")) Save();
-        }
-        GUILayout.EndHorizontal();
-
-    }
-
-    private void Resize(int numRaritiesNew, int numLevelsNew) {
-        DropChances = new string[numRaritiesNew, numLevelsNew];
-        for (int rar = 0; rar < numRaritiesNew; rar++) {
-            for (int lvl = 0; lvl < numLevelsNew; lvl++) {
-                if (rar < gameSettings.Rarities.Count && lvl < gameSettings.numLevels) {
-                    string value = "";
-                    if (gameSettings.DropChances != null) value = gameSettings.DropChances[lvl, rar].ToString();
-                    DropChances[lvl, rar] = value;
-                }
-            }
-        }
-        numRarities = numRaritiesNew;
-        numLevels = numLevelsNew;
-    }
-
-    private void Format() {
-        for (int lvl = 0; lvl < numLevels; lvl++) {
-
-            // Stores the sum of current row, to make sure it doesn't exceed 100
-            int rowBuffer = 100;
-            for (int rar = 0; rar < numRarities; rar++) {
-
-                // Format 2d Array
-                string s = DropChances[lvl, rar];
-                if (s.Length == 0) s = "0";
-                int val = Mathf.Min(int.Parse(s), rowBuffer);
-                rowBuffer -= val;
-
-                // Overwrite 2d Array
-                DropChances[lvl, rar] = val.ToString();
-            }
-
-            // Adds the remaining row buffer to the first entry of the row
-            DropChances[0, lvl] = (int.Parse(DropChances[0, lvl]) + rowBuffer).ToString();
-        }
-        Debug.Log("Game Settings formatted, so that each row sums up to 100.");
-    }
-
-    private void Save() {
-        Format();
-        //gameSettings.DropChances = new int[numRarities, numLevels];
-
-        for (int i = 0; i < numRarities; i++) {
-            for (int j = 0; j < numLevels; j++) {
-                //gameSettings.DropChances[i, j] = int.Parse(DropChances[i, j]);
-            }
-        }
-        Debug.Log("Game Settings saved successfully!");
-    }*/
+        */
 
     void GUIDivider(int i_height = 1) {
         GUILayout.Label("");
