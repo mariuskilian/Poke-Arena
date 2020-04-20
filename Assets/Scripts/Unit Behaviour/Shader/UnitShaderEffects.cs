@@ -17,11 +17,11 @@ public class UnitShaderEffects : UnitBehaviour {
     }
 
     private static readonly ShaderProperties[] GlowByQuality = new ShaderProperties[] {
-        new ShaderProperties(HDRColor.Glow[PoolMan.QUALITY.COMMON], 0.02f),
-        new ShaderProperties(HDRColor.Glow[PoolMan.QUALITY.UNCOMMON], 0.04f),
-        new ShaderProperties(HDRColor.Glow[PoolMan.QUALITY.RARE], 0.12f),
-        new ShaderProperties(HDRColor.Glow[PoolMan.QUALITY.EPIC], 0.25f),
-        new ShaderProperties(HDRColor.Glow[PoolMan.QUALITY.SECRET], 0.4f)
+        new ShaderProperties(HDRColor.Glow[GameSettings.Rarity.COMMON], 0.02f),
+        new ShaderProperties(HDRColor.Glow[GameSettings.Rarity.UNCOMMON], 0.04f),
+        new ShaderProperties(HDRColor.Glow[GameSettings.Rarity.RARE], 0.12f),
+        new ShaderProperties(HDRColor.Glow[GameSettings.Rarity.EPIC], 0.25f),
+        new ShaderProperties(HDRColor.Glow[GameSettings.Rarity.SECRET], 0.4f)
     };
 
     private ShaderProperties glowShader;
@@ -60,7 +60,7 @@ public class UnitShaderEffects : UnitBehaviour {
 
     private void HandleNewUnitInStoreEvent(Unit unit, int index) {
         if (!IsThisUnit(unit)) return;
-        glowShader = GlowByQuality[(int) unit.properties.quality];
+        glowShader = GlowByQuality[(int) unit.properties.rarity];
         foreach (Material m in materials) {
             if (m.name == IRIS) continue;
             m.SetColor(COLOR, glowShader.EffectColor);

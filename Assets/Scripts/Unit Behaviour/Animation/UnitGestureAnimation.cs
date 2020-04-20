@@ -26,11 +26,11 @@ public class UnitGestureAnimation : UnitAnimation {
 
     private IEnumerator RandomGesture() {
         isDoingRandomGesture = true;
-        float random = (float) PoolMan.rng.NextDouble();
+        float random = (float) GameMan.rng.NextDouble();
         yield return new WaitForSeconds((random * random * 20f) + 5f);
         if (!anim.GetBool(TYPE_NON_REACTIVE_GESTURE)) {
-            if (PoolMan.rng.Next(0, 10) < 5) {
-                int index = PoolMan.rng.Next(0, AvailableAnimations.Count);
+            if (GameMan.rng.Next(0, 10) < 5) {
+                int index = GameMan.rng.Next(0, AvailableAnimations.Count);
                 List<string> Keys = new List<string>(AvailableAnimations.Keys);
                 string key = Keys[index];
                 TryPerformAnimation(key, false);

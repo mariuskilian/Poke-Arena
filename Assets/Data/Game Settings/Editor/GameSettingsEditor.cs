@@ -24,7 +24,8 @@ public class GameSettingsEditor : Editor {
 
         if (DropChances == null) {
             maxLevel = gameSettings.maxLevel;
-            numRarities = gameSettings.Rarities.Length;
+            if (gameSettings.RarityInfos == null ) gameSettings.RarityInfos = new RarityInfo[0];
+            numRarities = gameSettings.RarityInfos.Length;
             DropChances = new string[maxLevel, numRarities];
         }
 
@@ -39,14 +40,14 @@ public class GameSettingsEditor : Editor {
             }
             GUILayout.EndVertical();
 
-            for (int i = 0; i < gameSettings.Rarities.Length; i++) {
+            for (int i = 0; i < gameSettings.RarityInfos.Length; i++) {
                 GUILayout.BeginVertical();
                 {
-                    gameSettings.Rarities[i].rarity = GUILayout.TextField(gameSettings.Rarities[i].rarity, GUILayout.Height(height));
+                    gameSettings.RarityInfos[i].rarity = (GameSettings.Rarity)EditorGUILayout.EnumPopup(gameSettings.RarityInfos[i].rarity, GUILayout.Height(height));
 
-                    string poolSize = GUILayout.TextField(gameSettings.Rarities[i].poolSize.ToString(), GUILayout.Height(height));
+                    string poolSize = GUILayout.TextField(gameSettings.RarityInfos[i].poolSize.ToString(), GUILayout.Height(height));
                     poolSize = Regex.Replace(poolSize, "[^0-9]", "");
-                    gameSettings.Rarities[i].poolSize = (poolSize == "") ? 0 : int.Parse(poolSize);
+                    gameSettings.RarityInfos[i].poolSize = (poolSize == "") ? 0 : int.Parse(poolSize);
                 }
                 GUILayout.EndVertical();
             }
@@ -74,10 +75,10 @@ public class GameSettingsEditor : Editor {
                 GUILayout.BeginVertical();
                 {
                     // Format rarity name to make it look nicer
-                    string rarityName = gameSettings.Rarities[rar].rarity;
+                    string rarityName = gameSettings.RarityInfos[rar].rarity.ToString();
                     if (rarityName == null || rarityName.Length == 0) rarityName = "";
                     if (rarityName.Length >= 4) rarityName = rarityName.Substring(0, Mathf.Max(4, rarityName.Length - (rarityName.Length / 2)));
-                    if (rarityName != gameSettings.Rarities[rar].rarity) rarityName += ".";
+                    if (rarityName != gameSettings.RarityInfos[rar].rarity.ToString()) rarityName += ".";
 
                     // Add Label for rarity name and corresponding Text Fields
                     GUILayout.Label(rarityName, GUILayout.MaxWidth(width), GUILayout.Height(height));
@@ -106,7 +107,7 @@ public class GameSettingsEditor : Editor {
 
     private void Update() {
         maxLevel = gameSettings.maxLevel;
-        numRarities = gameSettings.Rarities.Length;
+        numRarities = gameSettings.RarityInfos.Length;
 
         DropChances = new string[maxLevel, numRarities];
 

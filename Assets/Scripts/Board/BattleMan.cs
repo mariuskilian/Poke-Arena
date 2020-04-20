@@ -1,27 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Bolt;
 
-public class BattleMan : ManagerBehaviour {
+[BoltGlobalBehaviour(BoltNetworkModes.Server)]
+public class BattleMan : Bolt.GlobalEventListener {
+    //TODO: Make Battle Manager methods work for all Player simultaneously
 
     #region Singleton
-    private static BattleMan _instance;
-    public static BattleMan Instance {
-        get {
-            if (_instance == null) { //should NEVER happen
-                GameObject go = new GameObject("Arena");
-                go.AddComponent<BattleMan>();
-                Debug.LogWarning("Battle Manager instance was null");
-            }
-            return _instance;
-        }
-    }
+    public static BattleMan Instance { get; private set; }
     #endregion
 
     public BattleTile[,] BattleBoard { get; private set; }
 
     private void Awake() {
-        _instance = this;
+        Instance = this;
     }
 
     private void Start() {

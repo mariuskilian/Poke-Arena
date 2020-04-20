@@ -15,13 +15,13 @@ public class HDRColor {
         Alpha = alpha;
     }
 
-    public static Dictionary<PoolMan.QUALITY, Color> Glow = new Dictionary<PoolMan.QUALITY, Color>() {
-        { PoolMan.QUALITY.LEGENDARY, ConvertFromHDR(new HDRColor(7f, 255, 100, 0)) },
-        { PoolMan.QUALITY.SECRET, ConvertFromHDR(new HDRColor(5f, 191, 54, 0)) },
-        { PoolMan.QUALITY.EPIC, ConvertFromHDR(new HDRColor(4.8f, 144, 0, 191)) },
-        { PoolMan.QUALITY.RARE, ConvertFromHDR(new HDRColor(3.8f, 0, 29, 255)) },
-        { PoolMan.QUALITY.UNCOMMON, ConvertFromHDR(new HDRColor(3.2f, 8, 58, 0)) },
-        { PoolMan.QUALITY.COMMON, ConvertFromHDR(new HDRColor(2f, 160, 160, 160)) }
+    public static Dictionary<GameSettings.Rarity, Color> Glow = new Dictionary<GameSettings.Rarity, Color>() {
+        { GameSettings.Rarity.LEGENDARY, ConvertFromHDR(new HDRColor(7f, 255, 100, 0)) },
+        { GameSettings.Rarity.SECRET, ConvertFromHDR(new HDRColor(5f, 191, 54, 0)) },
+        { GameSettings.Rarity.EPIC, ConvertFromHDR(new HDRColor(4.8f, 144, 0, 191)) },
+        { GameSettings.Rarity.RARE, ConvertFromHDR(new HDRColor(3.8f, 0, 29, 255)) },
+        { GameSettings.Rarity.UNCOMMON, ConvertFromHDR(new HDRColor(3.2f, 8, 58, 0)) },
+        { GameSettings.Rarity.COMMON, ConvertFromHDR(new HDRColor(2f, 160, 160, 160)) }
     };
 
     private static Color ConvertFromHDR(HDRColor hdrc) {

@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: 
   maxLevel: 10
-  Rarities:
-  - rarity: Common
+  RarityInfos:
+  - rarity: 0
     poolSize: 45
-  - rarity: Uncommon
+  - rarity: 1
     poolSize: 30
-  - rarity: Rare
+  - rarity: 2
     poolSize: 25
-  - rarity: Epic
+  - rarity: 3
     poolSize: 15
-  - rarity: Secret
+  - rarity: 4
     poolSize: 10
-  - rarity: Legendary
+  - rarity: 5
     poolSize: 1
   DropChances:
     array2D:
