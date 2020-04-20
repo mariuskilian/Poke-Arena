@@ -5,7 +5,6 @@ using Bolt;
 
 [BoltGlobalBehaviour(BoltNetworkModes.Server)]
 public class BattleMan : Bolt.GlobalEventListener {
-    //TODO: Make Battle Manager methods work for all Player simultaneously
 
     #region Singleton
     public static BattleMan Instance { get; private set; }

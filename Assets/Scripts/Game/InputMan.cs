@@ -5,17 +5,7 @@ using System.Collections.Generic;
 public class InputMan : ManagerBehaviour {
 
     #region Singleton
-    private static InputMan _instance;
-    public static InputMan Instance {
-        get {
-            if (_instance == null) {
-                GameObject go = new GameObject("Input Manager");
-                go.AddComponent<InputMan>();
-                Debug.LogWarning("Input Manager instance was null");
-            }
-            return _instance;
-        }
-    }
+    public static InputMan Instance { get; private set; }
     #endregion
 
     #region Events
@@ -38,9 +28,9 @@ public class InputMan : ManagerBehaviour {
     #endregion
 
     private void Awake() {
-        _instance = this; //Singleton
+        Instance = this; //Singleton
     }
-    
+
     private void Start() {
         InitKeyBindings();
     }
