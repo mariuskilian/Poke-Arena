@@ -31,8 +31,9 @@ public class StoreMan : ManagerBehaviour {
     public Action<Unit> DespawnUnitEvent;
     #endregion
 
-    #region Unity Methods
-    #endregion
+    public StoreMan() {
+        
+    }
 
     #region Load/Reload Shop
     public void InitializeStore() {

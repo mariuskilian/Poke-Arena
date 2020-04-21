@@ -639,6 +639,65 @@
       "Name": "UnitState",
       "Guid": "792b782e-f00c-4551-a957-c6cd378277c3",
       "Groups": []
+    },
+    {
+      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [
+        {
+          "Name": "NewProperty",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Bolt.Compiler.PropertyTypePrefabId, bolt.compiler"
+          },
+          "AssetSettings": {
+            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        }
+      ],
+      "EntitySenders": 3,
+      "GlobalSenders": 1,
+      "Name": "StoreDespawnUnit",
+      "Guid": "6b7df9a3-e103-4ca8-8de7-07ca0e259ce8",
+      "Groups": []
+    },
+    {
+      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [],
+      "EntitySenders": 3,
+      "GlobalSenders": 1,
+      "Name": "StoreUnitSpawned",
+      "Guid": "81e429a7-8a6d-4447-b58a-99fe6e09d0a1",
+      "Groups": []
+    },
+    {
+      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [],
+      "EntitySenders": 3,
+      "GlobalSenders": 1,
+      "Name": "BuyRequest",
+      "Guid": "4af4a5d7-46b2-48e7-a3e5-3b971761239a",
+      "Groups": []
+    },
+    {
+      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [],
+      "EntitySenders": 3,
+      "GlobalSenders": 1,
+      "Name": "UnitBought",
+      "Guid": "650349ff-527e-4f4c-95b9-5fc319568076",
+      "Groups": []
+    },
+    {
+      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [],
+      "EntitySenders": 3,
+      "GlobalSenders": 1,
+      "Name": "StoreRequestSpawnRandomUnit",
+      "Guid": "a7cf10bf-54f6-4ab2-9866-bb7239940496",
+      "Groups": []
     }
   ],
   "ActiveGroup": "Everything"
