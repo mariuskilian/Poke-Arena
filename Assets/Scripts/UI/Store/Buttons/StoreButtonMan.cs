@@ -9,30 +9,19 @@ public class StoreButtonMan : ManagerBehaviour {
     private CatchUnitButton[] CatchUnitButtons;
 
     #region Singleton
-    private static StoreButtonMan _instance;
-    public static StoreButtonMan Instance {
-        get {
-            if (_instance == null) { //should NEVER happen
-                GameObject go = new GameObject("User Interface");
-                go.AddComponent<StoreButtonMan>();
-                Debug.LogWarning("UI Manager instance was null");
-            }
-            return _instance;
-        }
-    }
+    public static StoreButtonMan Instance { get; private set; }
     #endregion
 
     private void Awake() {
-        _instance = this;
+        Instance = this;
     }
 
     private void Start() {
         InitStoreButtons();
-        InitEventSubscribers();
     }
 
     private void InitStoreButtons() {
-        CatchUnitButtons = new CatchUnitButton[StoreMan.Instance.StoreSize];
+        CatchUnitButtons = new CatchUnitButton[5]; //[StoreMan.Instance.StoreSize];
         for (int i = 0; i < CatchUnitButtons.Length; i++) {
             GameObject buttonObject = Instantiate(catchButtonTemplate);
             buttonObject.SetActive(false);
@@ -41,19 +30,12 @@ public class StoreButtonMan : ManagerBehaviour {
             if (CatchUnitButtons.Length == 1) {
                 buttonObject.transform.localPosition = Vector3.up * yOffset;
             } else {
-                float x = (((float) i / (float) (StoreMan.Instance.StoreSize - 1)) * xOffsetMax * 2) - xOffsetMax;
+                float x = 0; //float x = (((float)i / (float)(StoreMan.Instance.StoreSize - 1)) * xOffsetMax * 2) - xOffsetMax;
                 buttonObject.transform.localPosition = Vector3.right * x + Vector3.up * yOffset;
             }
             buttonObject.transform.localScale = Vector3.one;
             CatchUnitButtons[i] = buttonObject.GetComponent<CatchUnitButton>();
         }
-    }
-
-    private void InitEventSubscribers() {
-        StoreMan store = StoreMan.Instance;
-        store.NewUnitInStoreEvent += HandleNewUnitInStoreEvent;
-        store.UnitBoughtEvent += HandleUnitBoughtAndDespawnEvents;
-        store.DespawnUnitEvent += HandleUnitBoughtAndDespawnEvents;
     }
 
     private void ActivateStoreButton(Unit unit, int index) {
@@ -68,6 +50,7 @@ public class StoreButtonMan : ManagerBehaviour {
         }
     }
 
+    /*
     private void HandleNewUnitInStoreEvent(Unit unit, int index) {
         ActivateStoreButton(unit, index);
     }
@@ -75,4 +58,5 @@ public class StoreButtonMan : ManagerBehaviour {
     private void HandleUnitBoughtAndDespawnEvents(Unit unit) {
         DeactivateStoreButtonWithUnitObject(unit);
     }
+    */
 }

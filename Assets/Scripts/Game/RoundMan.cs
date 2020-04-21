@@ -2,20 +2,10 @@
 using System;
 using System.Collections.Generic;
 
-public class RoundMan : MonoBehaviour {
+public class RoundMan : ManagerBehaviour {
 
     #region Singleton
-    private static RoundMan _instance;
-    public static RoundMan Instance {
-        get {
-            if (_instance == null) { //should NEVER happen
-                GameObject go = new GameObject("Round Manager");
-                go.AddComponent<RoundMan>();
-                Debug.LogWarning("Round Manager instance was null");
-            }
-            return _instance;
-        }
-    }
+    public static RoundMan Instance { get; private set; }
     #endregion
 
     #region Round Setup Definition
@@ -68,14 +58,15 @@ public class RoundMan : MonoBehaviour {
     #endregion
 
     private void Awake() {
-        _instance = this;
+        Instance = this;
     }
 
     private void Start() {
         InitFirstRound();
     }
 
-    private void Update() {
+    private new void Update() {
+        base.Update();
         UpdateTimer();
     }
 
@@ -85,7 +76,7 @@ public class RoundMan : MonoBehaviour {
             if (TimeLeftInPhase < 0) TimeLeftInPhase = 0f;
             if (TimeLeftInPhase == 0) isInPhase = false;
         } else {
-            if ((int) CurrentPhase++ == Enum.GetNames(typeof(Phase)).Length) {
+            if ((int)CurrentPhase++ == Enum.GetNames(typeof(Phase)).Length) {
                 CurrentPhase = Phase.START;
                 DetermineNextRoundType();
             }

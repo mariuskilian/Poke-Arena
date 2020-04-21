@@ -4,20 +4,6 @@ using UnityEngine;
 
 public class StoreMan : ManagerBehaviour {
 
-    #region Singleton
-    private static StoreMan _instance;
-    public static StoreMan Instance {
-        get {
-            if (_instance == null) { //should NEVER happen
-                GameObject go = new GameObject("Store");
-                go.AddComponent<StoreMan>();
-                Debug.LogWarning("Store Manager instance was null");
-            }
-            return _instance;
-        }
-    }
-    #endregion
-
     #region Constants
     public int StoreSize { get; private set; } = 5;
 
@@ -45,24 +31,8 @@ public class StoreMan : ManagerBehaviour {
     public Action<Unit> DespawnUnitEvent;
     #endregion
 
-    #region Unity Methods (Awake, Start, Update)
-    private void Awake() {
-        _instance = this; // Singleton
-    }
-
-    private void Start() {
-        InitEventSubscribers();
-    }
+    #region Unity Methods
     #endregion
-
-    private void InitEventSubscribers() {
-        InputMan input = InputMan.Instance;
-        input.ToggleLockStoreEvent += HandleToggleLockStoreEvent;
-
-        FinanceMan finance = FinanceMan.Instance;
-        finance.RerollStoreEvent += HandleRerollStoreEvent;
-
-    }
 
     #region Load/Reload Shop
     public void InitializeStore() {
@@ -91,7 +61,7 @@ public class StoreMan : ManagerBehaviour {
         unit.transform.localRotation = Quaternion.Euler(0, 180, 0);
         CurrentStore[index] = unit;
         unit.gameObject.transform.Translate(Vector3.up * 1000); //to hide unit while waiting
-        float normalizedIndex = (float) index / (float) (StoreSize - 1); // 0 <= normalizedIndex <= 1
+        float normalizedIndex = (float)index / (float)(StoreSize - 1); // 0 <= normalizedIndex <= 1
         yield return new WaitForSeconds(normalizedIndex * 0.67f);
         unit.gameObject.transform.Translate(Vector3.down * 1000); //reshow unit
         NewUnitInStoreEvent?.Invoke(unit, index);
@@ -127,15 +97,16 @@ public class StoreMan : ManagerBehaviour {
         if (StoreSize == 1) {
             return Vector3.forward * zOffset;
         }
-        float x = (((float) index / (float) (StoreSize - 1)) * xOffsetMax * 2) - xOffsetMax;
+        float x = (((float)index / (float)(StoreSize - 1)) * xOffsetMax * 2) - xOffsetMax;
         return Vector3.right * x + Vector3.up * yOffset + Vector3.forward * zOffset;
     }
-    
+
     public void ToggleLocked() {
         IsLocked = !IsLocked;
     }
     #endregion
 
+    /*
     #region Event Handlers
     private void HandleRerollStoreEvent() {
         RespawnStore();
@@ -150,4 +121,5 @@ public class StoreMan : ManagerBehaviour {
         IsLocked = !IsLocked;
     }
     #endregion
+    */
 }

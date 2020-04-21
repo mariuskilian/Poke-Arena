@@ -5,7 +5,7 @@ using Bolt;
 using static GameSettings;
 
 [BoltGlobalBehaviour(BoltNetworkModes.Server)]
-public class PoolMan : Bolt.GlobalEventListener {
+public class PoolMan : ManagerBehaviour {
 
     #region Singleton
     public static PoolMan Instance { get; private set; }
@@ -37,6 +37,7 @@ public class PoolMan : Bolt.GlobalEventListener {
     #region Initialisation
     private void InitializePools() {
         // Init. the dictionary-array
+        Debug.Log(settings);
         PoolsByQuality = new Dictionary<string, Queue<Unit>>[settings.RarityInfos.Length];
         for(int i = 0; i < PoolsByQuality.Length; i++) {
             PoolsByQuality[i] = new Dictionary<string, Queue<Unit>>();
@@ -58,12 +59,6 @@ public class PoolMan : Bolt.GlobalEventListener {
             // Add the Pool at the appropriate index
             PoolsByQuality[rarIdx].Add(unit.properties.name, Pool);
         }
-    }
-
-    private void InitEventSubscribers() {
-        StoreMan store = StoreMan.Instance;
-        store.SpawnRandomUnitEvent += HandleSpawnRandomUnitEvent;
-        store.DespawnUnitEvent += HandleDespawnUnitEvent;
     }
     #endregion
 
@@ -160,6 +155,7 @@ public class PoolMan : Bolt.GlobalEventListener {
     }
     #endregion
 
+    /*
     #region Handle Incoming Events
     //determine random quality depending on level, then random unit depending on pools, then dequeue unit, activate it, set transform and attach to store
     private Unit HandleSpawnRandomUnitEvent() {
@@ -177,4 +173,5 @@ public class PoolMan : Bolt.GlobalEventListener {
         ReturnToPool(unit);
     }
     #endregion
+    */
 }

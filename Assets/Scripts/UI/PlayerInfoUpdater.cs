@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using TMPro;
+using Bolt;
 
-public class PlayerInfoUpdater : MonoBehaviour {
+[BoltGlobalBehaviour(BoltNetworkModes.Client)]
+public class PlayerInfoUpdater : GlobalEventListener {
 
     private FinanceMan finance;
     private LevelMan level;
@@ -13,8 +15,8 @@ public class PlayerInfoUpdater : MonoBehaviour {
         ;
 
     private void Start() {
-        finance = FinanceMan.Instance;
-        level = LevelMan.Instance;
+        //finance = FinanceMan.Instance;
+        //level = LevelMan.Instance;
     }
 
     private void Update() {

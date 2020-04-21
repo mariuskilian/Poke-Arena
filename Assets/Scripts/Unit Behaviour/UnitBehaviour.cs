@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Bolt;
 
-public class UnitBehaviour : MonoBehaviour
-{
+public class UnitBehaviour : EntityBehaviour<IUnitState> {
 
     protected Unit unit;
 

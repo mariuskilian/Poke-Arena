@@ -14,7 +14,6 @@ public class UnitMovement : UnitBehaviour {
 
     private void Start() {
         CurrentMoveType = MoveType.NONE;
-        InitEventSubscribers();
     }
 
     private void Update() {
@@ -37,15 +36,10 @@ public class UnitMovement : UnitBehaviour {
             Vector3.MoveTowards(gameObject.transform.position, targetPos, moveSpeed * Time.deltaTime);
     }
 
-    private void InitEventSubscribers() {
-        BoardMan board = BoardMan.Instance;
-        board.UnitTeleportEvent += HandleUnitTeleportEvent;
-    }
-
-    private void HandleUnitTeleportEvent(Unit unit, Tile fromTile) {
-        if (IsThisUnit(unit) && fromTile.IsBoardTile() && unit.GetTile().IsBoardTile()) {
-            gameObject.transform.position = fromTile.GetWorldPosition();
-            CurrentMoveType = MoveType.RUN;
-        }
-    }
+    // private void HandleUnitTeleportEvent(Unit unit, Tile fromTile) {
+    //     if (IsThisUnit(unit) && fromTile.IsBoardTile() && unit.GetTile().IsBoardTile()) {
+    //         gameObject.transform.position = fromTile.GetWorldPosition();
+    //         CurrentMoveType = MoveType.RUN;
+    //     }
+    // }
 }

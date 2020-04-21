@@ -23,10 +23,10 @@ public class UnitBoardAnimation : UnitGestureAnimation {
 
     #region Initialisation
     private void InitEventSubscribers() {
-        BoardMan board = BoardMan.Instance;
+        BoardMan board = null; //BoardMan.Instance;
         board.UnitTeleportEvent += HandleUnitTeleportEvent;
         board.EvolutionEvent += HandleEvolutionEvent;
-        StoreMan store = StoreMan.Instance;
+        StoreMan store = null; //StoreMan.Instance;
         store.UnitBoughtEvent += HandleUnitBoughtEvent;
     }
     #endregion

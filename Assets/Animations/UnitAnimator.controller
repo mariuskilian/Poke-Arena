@@ -70,7 +70,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Non-Reactive Gesture
+    m_ConditionEvent: NonReactiveGesture
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -1505728106869886061}
   m_DstState: {fileID: 0}
@@ -95,7 +95,7 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Excited Index
+    m_ConditionEvent: ExcitedIndex
     m_EventTreshold: 5
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 133962843761343630}
@@ -603,7 +603,7 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Come Here
+    m_ConditionEvent: ComeHere
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7425309524039944713}
@@ -865,7 +865,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Picked Up
+    m_ConditionEvent: PickedUp
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -7850562072067562914}
   m_DstState: {fileID: 0}
@@ -1111,7 +1111,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: a789964d402e04b4581260bc01a45684, type: 2}
   m_Tag: 
-  m_SpeedParameter: CarryPost Clip Speed Normalizer
+  m_SpeedParameter: CarryPostClipSpeedNormalizer
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -1124,7 +1124,7 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Excited Index
+    m_ConditionEvent: ExcitedIndex
     m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4891536585530916208}
@@ -1250,7 +1250,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Reactive Gesture
+    m_ConditionEvent: ReactiveGesture
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -1505728106869886061}
   m_DstState: {fileID: 0}
@@ -1335,21 +1335,21 @@ AnimatorStateMachine:
   - {fileID: 1653420545270273098}
   - {fileID: 3189943496758255250}
   m_StateMachineTransitions:
-  - first: {fileID: 9733020321264247}
-    second:
-    - {fileID: 6422979833481734396}
-  - first: {fileID: 2936748788101349705}
-    second:
-    - {fileID: -995492951071681255}
-  - first: {fileID: 1802949476721583265}
-    second:
-    - {fileID: 5655045087822457895}
   - first: {fileID: 8932048041981304758}
     second:
     - {fileID: -3731055973789448854}
+  - first: {fileID: 1802949476721583265}
+    second:
+    - {fileID: 5655045087822457895}
   - first: {fileID: 6892427649536038447}
     second:
     - {fileID: 5090869381533869300}
+  - first: {fileID: 2936748788101349705}
+    second:
+    - {fileID: -995492951071681255}
+  - first: {fileID: 9733020321264247}
+    second:
+    - {fileID: 6422979833481734396}
   - first: {fileID: -7656242202031260147}
     second:
     - {fileID: -2671512363220489994}
@@ -1647,19 +1647,19 @@ AnimatorController:
     m_DefaultInt: 111111
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Reactive Gesture
+  - m_Name: ReactiveGesture
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Non-Reactive Gesture
+  - m_Name: NonReactiveGesture
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Come Here
+  - m_Name: ComeHere
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -1671,13 +1671,13 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Look There
+  - m_Name: LookThere
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: No Thanks
+  - m_Name: NoThanks
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -1719,7 +1719,7 @@ AnimatorController:
     m_DefaultInt: 111111
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Picked Up
+  - m_Name: PickedUp
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -1731,13 +1731,13 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: CarryPre Clip Speed Normalizer
+  - m_Name: CarryPreClipSpeedNormalizer
     m_Type: 1
     m_DefaultFloat: 1
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: CarryPost Clip Speed Normalizer
+  - m_Name: CarryPostClipSpeedNormalizer
     m_Type: 1
     m_DefaultFloat: 1
     m_DefaultInt: 0
@@ -1749,13 +1749,13 @@ AnimatorController:
     m_DefaultInt: 111111
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Attack Speed
+  - m_Name: AttackSpeed
     m_Type: 1
     m_DefaultFloat: 1
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: === MOVEMENT ===
+  - m_Name: MOVEMENT
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 111111
@@ -1773,7 +1773,7 @@ AnimatorController:
     m_DefaultInt: 111111
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Dropped in Store
+  - m_Name: DroppedInStore
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -1785,13 +1785,13 @@ AnimatorController:
     m_DefaultInt: 111111
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Excited Index
+  - m_Name: ExcitedIndex
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 1
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Shake Index
+  - m_Name: ShakeIndex
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 1
@@ -2048,7 +2048,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: d6f460d632605e84c9ce7d829a048488, type: 2}
   m_Tag: 
-  m_SpeedParameter: CarryPre Clip Speed Normalizer
+  m_SpeedParameter: CarryPreClipSpeedNormalizer
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -2162,7 +2162,7 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Look There
+    m_ConditionEvent: LookThere
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4943842185212302140}
@@ -2476,7 +2476,7 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: No Thanks
+    m_ConditionEvent: NoThanks
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5037680426516621208}
@@ -2529,7 +2529,7 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Excited Index
+    m_ConditionEvent: ExcitedIndex
     m_EventTreshold: 4
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4114966999593822154}
@@ -2622,7 +2622,7 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Excited Index
+    m_ConditionEvent: ExcitedIndex
     m_EventTreshold: 3
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3988741959433519625}
@@ -2756,7 +2756,7 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Shake Index
+    m_ConditionEvent: ShakeIndex
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6650392559133943895}
@@ -2773,7 +2773,7 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Excited Index
+    m_ConditionEvent: ExcitedIndex
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2592161658215906248}
@@ -2861,7 +2861,7 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Shake Index
+    m_ConditionEvent: ShakeIndex
     m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -24027883465586052}
@@ -3072,7 +3072,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Dropped in Store
+    m_ConditionEvent: DroppedInStore
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2926957590978924979}

@@ -39,7 +39,6 @@ public class UnitShaderEffects : UnitBehaviour {
     private Material[] materials;
 
     private void Start() {
-        InitEventSubscribers();
         materials = gameObject.GetComponentInChildren<Renderer>().materials;
     }
 
@@ -54,20 +53,16 @@ public class UnitShaderEffects : UnitBehaviour {
         }
     }
 
-    private void InitEventSubscribers() {
-        StoreMan.Instance.NewUnitInStoreEvent += HandleNewUnitInStoreEvent;
-    }
-
-    private void HandleNewUnitInStoreEvent(Unit unit, int index) {
-        if (!IsThisUnit(unit)) return;
-        glowShader = GlowByQuality[(int) unit.properties.rarity];
-        foreach (Material m in materials) {
-            if (m.name == IRIS) continue;
-            m.SetColor(COLOR, glowShader.EffectColor);
-            m.SetFloat(SIZE, glowShader.Size);
-            m.SetFloat(TEXTURE_DELAY, glowShader.Delay);
-            m.SetFloat(ALPHA_FADE, 0.2f);
-        }
-        spawned = false;
-    }
+    // private void HandleNewUnitInStoreEvent(Unit unit, int index) {
+    //     if (!IsThisUnit(unit)) return;
+    //     glowShader = GlowByQuality[(int) unit.properties.rarity];
+    //     foreach (Material m in materials) {
+    //         if (m.name == IRIS) continue;
+    //         m.SetColor(COLOR, glowShader.EffectColor);
+    //         m.SetFloat(SIZE, glowShader.Size);
+    //         m.SetFloat(TEXTURE_DELAY, glowShader.Delay);
+    //         m.SetFloat(ALPHA_FADE, 0.2f);
+    //     }
+    //     spawned = false;
+    // }
 }

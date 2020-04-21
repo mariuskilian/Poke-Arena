@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Unit : MonoBehaviour{
+public class Unit : MonoBehaviour {
 
     private Tile tile; //will be used later for attack and so on
 
@@ -23,7 +23,7 @@ public class Unit : MonoBehaviour{
             gameObject.AddComponent<UnitStoreAnimation>(),
             gameObject.AddComponent<UnitMovement>(),
             gameObject.AddComponent<UnitShaderEffects>(),
-            gameObject.AddComponent<BattleBehaviour>()
+            gameObject.AddComponent<UnitBattleBehaviour>()
         };
     }
 

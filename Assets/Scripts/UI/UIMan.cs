@@ -1,19 +1,11 @@
 ﻿using UnityEngine;
+using Bolt;
 
+[BoltGlobalBehaviour(BoltNetworkModes.Client)]
 public class UIMan : ManagerBehaviour {
 
     #region Singleton
-    private static UIMan _instance;
-    public static UIMan Instance {
-        get {
-            if (_instance == null) { //should NEVER happen
-                GameObject go = new GameObject("UI");
-                go.AddComponent<UIMan>();
-                Debug.LogWarning("UI Manager instance was null");
-            }
-            return _instance;
-        }
-    }
+    public static UIMan Instance { get; private set; }
     #endregion
 
     #region Variables
@@ -24,27 +16,18 @@ public class UIMan : ManagerBehaviour {
     private StoreMan storeMan;
 
     private void Awake() {
-        _instance = this;
+        Instance = this;
     }
 
     private void Start() {
-        storeMan = StoreMan.Instance;
-        InitEventSubscribers();
+        //storeMan = StoreMan.Instance;
     }
-    
+
     protected override void LateStart() {
         store.SetActive(false);
     }
 
-    private void InitEventSubscribers() {
-        InputMan input = InputMan.Instance;
-        input.ToggleStoreEvent += HandleToggleStoreEvent;
-
-        BoardMan board = BoardMan.Instance;
-        board.UnitSelectEvent += HandleUnitSelectEvent;
-        board.UnitDeselectEvent += HandleUnitDeselectEvent;
-    }
-
+    /*
     #region Event Handlers
     private void HandleToggleStoreEvent() {
         store.SetActive(!store.activeSelf);
@@ -69,4 +52,5 @@ public class UIMan : ManagerBehaviour {
         return store.activeSelf;
     }
     #endregion
+    */
 }

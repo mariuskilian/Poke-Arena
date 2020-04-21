@@ -5,20 +5,6 @@ using System.Collections.Generic;
 
 public class BoardMan : ManagerBehaviour {
 
-    #region Singleton
-    private static BoardMan _instance;
-    public static BoardMan Instance {
-        get {
-            if (_instance == null) { //should NEVER happen
-                GameObject go = new GameObject("Arena");
-                go.AddComponent<BoardMan>();
-                Debug.LogWarning("Board Manager instance was null");
-            } 
-            return _instance;
-        }
-    }
-    #endregion
-
     #region Constants
     public const int BOARD_WIDTH = 10, BOARD_HEIGHT = 10;
     public const int BENCH_SIZE = 10, BENCH_Y = -2;
@@ -49,13 +35,9 @@ public class BoardMan : ManagerBehaviour {
     public Action<List<Tile>, Unit> EvolutionEvent;
     #endregion
 
-    #region Unity Methods (Awake, Start, Update)
-    private void Awake() {
-        _instance = this; // Singleton
-    }
+    #region Unity Methods
 
     private void Start() {
-        InitEventSubscribers();
         InitBoardAndBench();
         unitContainers = new Dictionary<string, UnitContainer>();
     }
@@ -89,12 +71,6 @@ public class BoardMan : ManagerBehaviour {
         }
 
         reserveTile = new Tile(1000, -1);
-    }
-
-    //Initializes all event subscribers for this class
-    private void InitEventSubscribers() {
-        StoreMan store = StoreMan.Instance;
-        store.BuyRequestEvent += HandleRequestBuyEvent;
     }
     #endregion
 
@@ -212,6 +188,7 @@ public class BoardMan : ManagerBehaviour {
     }
     #endregion
 
+    /*
     #region Handle incoming Events
     private bool HandleRequestBuyEvent(Unit unit) {
         for (int i = 0; i < BENCH_SIZE; i++) {
@@ -227,4 +204,5 @@ public class BoardMan : ManagerBehaviour {
         return false;
     }
     #endregion
+    */
 }

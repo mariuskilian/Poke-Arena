@@ -17,7 +17,6 @@ public class UnitCarryAnimation : UnitAnimation {
     #region Unity Methods
     private new void Awake() {
         base.Awake();
-        InitEventSubscribers();
     }
 
     private void Start() {
@@ -30,11 +29,6 @@ public class UnitCarryAnimation : UnitAnimation {
     #endregion
 
     #region Initialisation
-    private void InitEventSubscribers() {
-        BoardMan board = BoardMan.Instance;
-        board.UnitSelectEvent += HandleUnitSelectEvent;
-        board.UnitDeselectEvent += HandleUnitDeselectEvent;
-    }
 
     //Finds clip speeds of CarryPre and CarryPost in the process
     private void SetSpeedCarryClips() {
@@ -54,6 +48,7 @@ public class UnitCarryAnimation : UnitAnimation {
     }
     #endregion
 
+    /*
     #region Event Handlers
     private void HandleUnitSelectEvent(Unit unit) {
         if (IsThisUnit(unit)) {
@@ -66,4 +61,5 @@ public class UnitCarryAnimation : UnitAnimation {
         if (IsThisUnit(unit)) anim.SetBool(CARRIED, false);
     }
     #endregion
+    */
 }

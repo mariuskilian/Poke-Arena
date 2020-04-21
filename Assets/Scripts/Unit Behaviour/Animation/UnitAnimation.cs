@@ -9,13 +9,13 @@ public abstract class UnitAnimation : UnitBehaviour {
     #region Animator Strings
     //PARAMETER NAMES
     protected const string //GESTURES
-        TYPE_REACTIVE_GESTURE = "Reactive Gesture",
-        TYPE_NON_REACTIVE_GESTURE = "Non-Reactive Gesture",
+        TYPE_REACTIVE_GESTURE = "ReactiveGesture",
+        TYPE_NON_REACTIVE_GESTURE = "NonReactiveGesture",
         //clips without versions
-        COME_HERE = "Come Here",
+        COME_HERE = "ComeHere",
         DISTRACTED = "Distracted",
-        LOOK_THERE = "Look There",
-        NO_THANKS = "No Thanks",
+        LOOK_THERE = "LookThere",
+        NO_THANKS = "NoThanks",
         NAME = "Name",
         DOZE = "Doze",
         SLEEP = "Sleep",
@@ -24,20 +24,20 @@ public abstract class UnitAnimation : UnitBehaviour {
         SHAKE = "Shake"
         ;
     protected const string //CARRY
-        PICKED_UP = "Picked Up",
+        PICKED_UP = "PickedUp",
         CARRIED = "Carried",
-        CARRY_PRE_CLIP_SPEED = "CarryPre Clip Speed Normalizer",
-        CARRY_POST_CLIP_SPEED = "CarryPost Clip Speed Normalizer"
+        CARRY_PRE_CLIP_SPEED = "CarryPreClipSpeedNormalizer",
+        CARRY_POST_CLIP_SPEED = "CarryPostClipSpeedNormalizer"
         ;
     //protected const string //BATTLE
 
     //protected const string //MOVEMENT
 
     protected const string //STORE
-        DROPPED_IN_STORE = "Dropped in Store"
+        DROPPED_IN_STORE = "DroppedInStore"
         ;
     protected const string //HELPERS
-        INDEX = " Index" //postfix for versioned gestures
+        INDEX = "Index" //postfix for versioned gestures
         ;
     #endregion
 
@@ -70,7 +70,8 @@ public abstract class UnitAnimation : UnitBehaviour {
 
     protected new void Awake() {
         base.Awake();
-        anim = gameObject.GetComponent<Animator>();
+        state.SetAnimator(gameObject.GetComponent<Animator>());
+        anim = state.Animator;
         Initialization();
     }
 

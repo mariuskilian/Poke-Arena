@@ -5,20 +5,6 @@ public class UnitContainer : MonoBehaviour {
 
     private int numBaseUnits = 1;
 
-    private void Start() {
-        StoreMan store = StoreMan.Instance;
-        store.UnitBoughtEvent += HandleUnitBoughtEvent;
-
-        BoardMan board = BoardMan.Instance;
-        board.EvolutionEvent += HandleEvolutionEvent;
-    }
-
-    private void HandleUnitBoughtEvent(Unit unit) {
-        if (IsInRightContainer(unit)) {
-            numBaseUnits++;
-        }
-    }
-
     private bool IsInRightContainer(Unit unit) {
         return (unit.properties.name.Equals(gameObject.name));
     }
@@ -42,10 +28,18 @@ public class UnitContainer : MonoBehaviour {
         return null;
     }
 
+    /*
     public void HandleEvolutionEvent(List<Tile> tiles, Unit unit) {
         if (tiles[0].GetUnit().properties.name != name) return;
         if (tiles[0].GetUnit().evl_chain == Unit.Evl_Chain.One) {
             numBaseUnits -= tiles.Count;
         }
     }
+
+    private void HandleUnitBoughtEvent(Unit unit) {
+        if (IsInRightContainer(unit)) {
+            numBaseUnits++;
+        }
+    }
+    */
 }

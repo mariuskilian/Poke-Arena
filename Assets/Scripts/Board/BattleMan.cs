@@ -17,13 +17,7 @@ public class BattleMan : Bolt.GlobalEventListener {
     }
 
     private void Start() {
-        InitEventSubscribers();
         InitBattleBoard();
-    }
-
-    private void InitEventSubscribers() {
-        RoundMan round = RoundMan.Instance;
-        round.StartOfPhaseEvent += HandleStartOfPhaseEvent;
     }
 
     private void InitBattleBoard() {
@@ -31,7 +25,7 @@ public class BattleMan : Bolt.GlobalEventListener {
         BattleBoard = new BattleTile[w, h];
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h / 2; y++) {
-                Tile tile = BoardMan.Instance.Board[x, y];
+                Tile tile = null; //Tile tile = BoardMan.Instance.Board[x, y];
                 if (tile == null) continue;
                 BattleBoard[x, y] = new BattleTile(x, y);
                 BattleBoard[(w - 1) - x, y] = new BattleTile(x, y);
@@ -43,11 +37,13 @@ public class BattleMan : Bolt.GlobalEventListener {
         int w = BoardMan.BOARD_WIDTH, h = BoardMan.BOARD_HEIGHT;
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h / 2; y++) {
-                Tile tile = BoardMan.Instance.Board[x, y];
+                Tile tile = null; //Tile tile = BoardMan.Instance.Board[x, y];
                 if (tile.IsTileFilled()) BattleBoard[x, y].FillTile(tile.GetUnit());
             }
         }
     }
+
+    /*
 
     private void HandleStartOfPhaseEvent(RoundMan.Phase phase) {
         switch (phase) {
@@ -62,5 +58,5 @@ public class BattleMan : Bolt.GlobalEventListener {
                 break;
         }
     }
-
+    */
 }

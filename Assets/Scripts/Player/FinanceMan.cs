@@ -1,21 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-public class FinanceMan : MonoBehaviour {
-
-    #region Singleton
-    private static FinanceMan _instance;
-    public static FinanceMan Instance {
-        get {
-            if (_instance == null) { //should NEVER happen
-                GameObject go = new GameObject("Finance");
-                go.AddComponent<FinanceMan>();
-                Debug.LogWarning("Finance Manager instance was null");
-            }
-            return _instance;
-        }
-    }
-    #endregion
+public class FinanceMan {
 
     #region Constants
     private readonly int[] STREAK_MILESTONES = { 2, 4, 6 };
@@ -35,22 +21,8 @@ public class FinanceMan : MonoBehaviour {
     public int Coins { get; private set; }
     public int Streak { get; private set; }
 
-    private void Awake() {
-        _instance = this;
-    }
-
-    private void Start() {
-        InitEventSubscribers();
-        Coins = 20;
-    }
-
-    private void InitEventSubscribers() {
-        InputMan input = InputMan.Instance;
-        input.TryRerollStoreEvent += HandleTryRerollStoreEvent;
-        input.TryBuyExpEvent += HandleTryBuyExpEvent;
-
-        RoundMan round = RoundMan.Instance;
-        round.StartOfPhaseEvent += HandleStartOfPhaseEvent;
+    public FinanceMan() {
+        Coins = 99;
     }
 
     private int Interest() {
@@ -64,6 +36,8 @@ public class FinanceMan : MonoBehaviour {
             if (_streak >= milestone) bonus++;
         return bonus;
     }
+
+    /*
 
     private void HandleStartOfPhaseEvent(RoundMan.Phase phase) {
         switch (phase) {
@@ -99,4 +73,6 @@ public class FinanceMan : MonoBehaviour {
             BuyExpEvent?.Invoke();
         }
     }
+
+    */
 }

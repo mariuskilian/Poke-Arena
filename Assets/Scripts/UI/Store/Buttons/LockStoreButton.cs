@@ -6,10 +6,10 @@ public class LockStoreButton : MonoBehaviour {
     [SerializeField] private Text textField = null;
 
     public void ToggleLockStore() {
-        StoreMan.Instance.ToggleLocked();
+        //StoreMan.Instance.ToggleLocked();
     }
 
     private void Update() {
-        textField.text = (StoreMan.Instance.IsLocked) ? "Locked" : "Unlocked";
+        //textField.text = (StoreMan.Instance.IsLocked) ? "Locked" : "Unlocked";
     }
 }

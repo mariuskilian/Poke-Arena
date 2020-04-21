@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleBehaviour : UnitBehaviour {
+public class UnitBattleBehaviour : UnitBehaviour {
 
 
 

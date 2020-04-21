@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using TMPro;
+using Bolt;
 
-public class RoundInfoUpdater : MonoBehaviour {
+[BoltGlobalBehaviour(BoltNetworkModes.Client)]
+public class RoundInfoUpdater : GlobalEventListener {
 
-    private RoundMan round;
+    //private RoundMan round;
 
     [SerializeField]
     private TextMeshProUGUI
@@ -12,12 +14,14 @@ public class RoundInfoUpdater : MonoBehaviour {
         ;
 
     void Start() {
-        round = RoundMan.Instance;
+        //round = RoundMan.Instance;
     }
 
+    /*
     void Update() {
         timeText.text = ((int) round.TimeLeftInPhase).ToString();
         roundText.text = "Stage " + round.StageNumber + "-" + round.RoundNumber + ", "
             + round.CurrentRoundType.ToString() + ": " + round.CurrentPhase.ToString();
     }
+    */
 }
