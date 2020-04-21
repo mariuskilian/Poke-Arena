@@ -7,10 +7,10 @@ public class Player {
 
     public Player() {
         managerBehaviours.Add(new FinanceMan());
-        Level = new LevelMan();
-        UI = new UIMan();
-        Store = new StoreMan();
-        StoreButtons = new StoreButtonMan();
+        managerBehaviours.Add(new LevelMan());
+        managerBehaviours.Add(new UIMan());
+        managerBehaviours.Add(new StoreMan());
+        managerBehaviours.Add(new StoreButtonMan());
     }
 
 }

@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Bolt;
 
+[BoltGlobalBehaviour(BoltNetworkModes.Server)]
 public class RoundMan : ManagerBehaviour {
 
     #region Singleton
