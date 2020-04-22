@@ -5,7 +5,7 @@ using Bolt;
 using static GameSettings;
 
 [BoltGlobalBehaviour(BoltNetworkModes.Server)]
-public class PoolMan : ManagerBehaviour {
+public class PoolMan : Manager {
 
     #region Singleton
     public static PoolMan Instance { get; private set; }

@@ -1,6 +1,6 @@
 ﻿using Bolt;
 
-public abstract class ManagerBehaviour : GlobalEventListener {
+public abstract class Manager : GlobalEventListener {
 
     private bool lateStart = false;
 

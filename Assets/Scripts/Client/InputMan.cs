@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Bolt;
 
 [BoltGlobalBehaviour(BoltNetworkModes.Client)]
-public class InputMan : ManagerBehaviour {
+public class InputMan : Manager {
 
     #region Singleton
     public static InputMan Instance { get; private set; }

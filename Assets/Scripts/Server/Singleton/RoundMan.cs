@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Bolt;
 
 [BoltGlobalBehaviour(BoltNetworkModes.Server)]
-public class RoundMan : ManagerBehaviour {
+public class RoundMan : Manager {
 
     #region Singleton
     public static RoundMan Instance { get; private set; }

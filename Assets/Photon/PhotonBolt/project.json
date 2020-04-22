@@ -644,13 +644,13 @@
       "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
       "Properties": [
         {
-          "Name": "NewProperty",
+          "Name": "Player",
           "Enabled": true,
           "Expanded": true,
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypePrefabId, bolt.compiler"
+            "$type": "Bolt.Compiler.PropertyTypeEntity, bolt.compiler"
           },
           "AssetSettings": {
             "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
@@ -659,44 +659,82 @@
       ],
       "EntitySenders": 3,
       "GlobalSenders": 1,
-      "Name": "StoreDespawnUnit",
-      "Guid": "6b7df9a3-e103-4ca8-8de7-07ca0e259ce8",
+      "Name": "GameNewPlayer",
+      "Guid": "259d94d9-aeec-4207-a7da-1cfae7618a70",
       "Groups": []
     },
     {
-      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
       "Properties": [],
-      "EntitySenders": 3,
-      "GlobalSenders": 1,
-      "Name": "StoreUnitSpawned",
-      "Guid": "81e429a7-8a6d-4447-b58a-99fe6e09d0a1",
-      "Groups": []
-    },
-    {
-      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
-      "Properties": [],
-      "EntitySenders": 3,
-      "GlobalSenders": 1,
-      "Name": "BuyRequest",
-      "Guid": "4af4a5d7-46b2-48e7-a3e5-3b971761239a",
-      "Groups": []
-    },
-    {
-      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
-      "Properties": [],
-      "EntitySenders": 3,
-      "GlobalSenders": 1,
-      "Name": "UnitBought",
-      "Guid": "650349ff-527e-4f4c-95b9-5fc319568076",
-      "Groups": []
-    },
-    {
-      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
-      "Properties": [],
-      "EntitySenders": 3,
-      "GlobalSenders": 1,
-      "Name": "StoreRequestSpawnRandomUnit",
-      "Guid": "a7cf10bf-54f6-4ab2-9866-bb7239940496",
+      "PacketMaxBits": 512,
+      "PacketMaxProperties": 16,
+      "InitialPositionCompression": {
+        "Compression": [
+          {
+            "MinValue": -1024,
+            "MaxValue": 1024,
+            "Accuracy": 0.01,
+            "Pack": 100.0,
+            "Read": 0.01,
+            "Shift": 1024.0,
+            "BitsRequired": 18
+          },
+          {
+            "MinValue": -1024,
+            "MaxValue": 1024,
+            "Accuracy": 0.01,
+            "Pack": 100.0,
+            "Read": 0.01,
+            "Shift": 1024.0,
+            "BitsRequired": 18
+          },
+          {
+            "MinValue": -1024,
+            "MaxValue": 1024,
+            "Accuracy": 0.01,
+            "Pack": 100.0,
+            "Read": 0.01,
+            "Shift": 1024.0,
+            "BitsRequired": 18
+          }
+        ]
+      },
+      "InitialRotationCompression": {
+        "EulerCompression": [
+          {
+            "MaxValue": 360,
+            "Accuracy": 1.0,
+            "Pack": 1.0,
+            "Read": 1.0,
+            "BitsRequired": 9
+          },
+          {
+            "MaxValue": 360,
+            "Accuracy": 1.0,
+            "Pack": 1.0,
+            "Read": 1.0,
+            "BitsRequired": 9
+          },
+          {
+            "MaxValue": 360,
+            "Accuracy": 1.0,
+            "Pack": 1.0,
+            "Read": 1.0,
+            "BitsRequired": 9
+          }
+        ],
+        "QuaternionCompression": {
+          "MinValue": -1,
+          "MaxValue": 1,
+          "Accuracy": 0.01,
+          "Pack": 100.0,
+          "Read": 0.01,
+          "Shift": 1.0,
+          "BitsRequired": 8
+        }
+      },
+      "Name": "PlayerState",
+      "Guid": "0c6bf357-4c5f-4b1c-a446-f6d25246a983",
       "Groups": []
     }
   ],

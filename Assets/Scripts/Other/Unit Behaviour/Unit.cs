@@ -8,7 +8,7 @@ public class Unit : MonoBehaviour {
     public Unit variant; //variant of unit, usually male/female. null if no variant
     public Unit evolution; //null if highest evolution
 
-    public List<UnitBehaviour> UnitBehaviours { get; private set; }
+    private List<UnitBehaviour> UnitBehaviours;
 
     public UnitProperties properties;
 
@@ -47,11 +47,7 @@ public class Unit : MonoBehaviour {
     }
 
     public UnitBehaviour GetUnitBehaviour<UB>() {
-        foreach (UnitBehaviour behaviour in UnitBehaviours) {
-            if (typeof(UB) == behaviour.GetType()) {
-                return behaviour;
-            }
-        }
+        foreach (UnitBehaviour ub in UnitBehaviours) if (typeof(UB) == ub.GetType()) return ub;
         return null;
     }
 }

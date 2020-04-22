@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
-public class BoardMan : ManagerBehaviour {
+public class BoardMan : Manager {
 
     #region Constants
     public const int BOARD_WIDTH = 10, BOARD_HEIGHT = 10;

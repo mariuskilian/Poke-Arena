@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class StoreButtonMan : ManagerBehaviour {
+public class StoreButtonMan : Manager {
     [SerializeField] private GameObject catchButtonTemplate = null;
 
     [SerializeField] private float yOffset = -25;

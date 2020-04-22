@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class StoreMan : ManagerBehaviour {
+public class StoreMan : Manager {
 
     #region Constants
     public int StoreSize { get; private set; } = 5;

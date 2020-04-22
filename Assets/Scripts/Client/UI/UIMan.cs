@@ -2,7 +2,7 @@
 using Bolt;
 
 [BoltGlobalBehaviour(BoltNetworkModes.Client)]
-public class UIMan : ManagerBehaviour {
+public class UIMan : Manager {
 
     #region Singleton
     public static UIMan Instance { get; private set; }

@@ -4,7 +4,7 @@ using UnityEngine;
 using Bolt;
 
 [BoltGlobalBehaviour(BoltNetworkModes.Server)]
-public class GameMan : ManagerBehaviour {
+public class GameMan : Manager {
 
     public static GameMan Instance { get; private set; }
     
@@ -23,7 +23,13 @@ public class GameMan : ManagerBehaviour {
     }
 
     public override void Connected(BoltConnection connection) {
-        players.Add(connection, new Player());
+        var playerEntity = BoltNetwork.Instantiate(BoltPrefabs.Player);
+
+        var newPlayerEvent = GameNewPlayer.Create();
+        newPlayerEvent.Player = playerEntity;
+        newPlayerEvent.Send();
+
+        players.Add(connection, playerEntity.GetComponent<Player>());
     }
 
 }
