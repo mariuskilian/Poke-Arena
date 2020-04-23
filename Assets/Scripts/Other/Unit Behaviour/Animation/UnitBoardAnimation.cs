@@ -60,7 +60,7 @@ public class UnitBoardAnimation : UnitGestureAnimation {
 
     private void HandleUnitTeleportEvent(Unit unit, Tile fromTile) {
         if (IsThisUnit(unit)) {
-            if (fromTile.IsBoardTile() && unit.GetTile().IsBoardTile()) {
+            if (fromTile.isBoardTile && unit.GetTile().isBoardTile) {
                 anim.SetBool("Running", true);
             } else TryPerformAnimation(SHAKE, true);
         }

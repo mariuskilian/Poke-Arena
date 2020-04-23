@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class StoreMan : Manager {
+public class StoreMan : PlayerManager {
 
     #region Constants
     public int StoreSize { get; private set; } = 5;
@@ -31,12 +31,8 @@ public class StoreMan : Manager {
     public Action<Unit> DespawnUnitEvent;
     #endregion
 
-    public StoreMan() {
-        
-    }
-
     #region Load/Reload Shop
-    public void InitializeStore() {
+    private void InitializeStore() {
         if (CurrentStore != null) return;
         CurrentStore = new Unit[StoreSize];
         SpawnNewStore();

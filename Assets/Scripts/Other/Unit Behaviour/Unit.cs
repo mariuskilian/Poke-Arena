@@ -18,9 +18,12 @@ public class Unit : EntityBehaviour<IUnitState> {
             InitUnitServerBehaviours();
         }
         if (BoltNetwork.IsClient && entity.HasControl) {
-            InitUnitClientBehaviours();
             AddCollisionPlane();
         }
+    }
+    
+    public override void Attached() {
+        state.SetTransforms(state.Transform, transform);
     }
 
     private void InitUnitServerBehaviours() {
@@ -29,16 +32,8 @@ public class Unit : EntityBehaviour<IUnitState> {
             gameObject.AddComponent<UnitCarryAnimation>(),
             gameObject.AddComponent<UnitStoreAnimation>(),
             gameObject.AddComponent<UnitMovement>(),
-            gameObject.AddComponent<UnitSelection>(),
             gameObject.AddComponent<UnitShaderEffects>(),
             gameObject.AddComponent<UnitBattleBehaviour>()
-        };
-    }
-
-    private void InitUnitClientBehaviours() {
-        UnitBehaviours = new List<UnitBehaviour> {
-            gameObject.AddComponent<UnitMovement>(),
-            gameObject.AddComponent<UnitSelection>()
         };
     }
 

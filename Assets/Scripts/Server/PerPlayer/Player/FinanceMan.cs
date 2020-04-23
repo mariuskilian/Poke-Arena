@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-public class FinanceMan : Manager {
+public class FinanceMan : PlayerManager {
 
     #region Constants
     private readonly int[] STREAK_MILESTONES = { 2, 4, 6 };

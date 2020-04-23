@@ -12,25 +12,30 @@ public class UIMan : Manager {
     private bool forcedHidden = false; // used if a unit is selected while shop is open to hide shop until deselection
     #endregion
 
-    private StoreMan storeMan;
-
     private void Awake() {
         Instance = this;
     }
 
     private void Start() {
-        //storeMan = StoreMan.Instance;
+        InitEventSubscribers();
     }
 
     protected override void LateStart() {
         store.SetActive(false);
     }
 
-    /*
+    private void InitEventSubscribers() {
+        SelectionMan selection = SelectionMan.Instance;
+        selection.UnitSelectEvent += HandleUnitSelectEvent;
+        selection.UnitDeselectEvent += HandleUnitDeselectEvent;
+
+        InputMan input = InputMan.Instance;
+        input.ToggleStoreEvent += HandleToggleStoreEvent;
+    }
+    
     #region Event Handlers
     private void HandleToggleStoreEvent() {
         store.SetActive(!store.activeSelf);
-        if (storeMan.CurrentStore == null) storeMan.InitializeStore();
     }
 
     private void HandleUnitSelectEvent(Unit unit) {
@@ -51,5 +56,5 @@ public class UIMan : Manager {
         return store.activeSelf;
     }
     #endregion
-    */
+    
 }

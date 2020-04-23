@@ -38,7 +38,7 @@ public class BattleMan : Bolt.GlobalEventListener {
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h / 2; y++) {
                 Tile tile = null; //Tile tile = BoardMan.Instance.Board[x, y];
-                if (tile.IsTileFilled()) BattleBoard[x, y].FillTile(tile.GetUnit());
+                if (tile.isTileFilled) BattleBoard[x, y].FillTile(tile.GetUnit());
             }
         }
     }

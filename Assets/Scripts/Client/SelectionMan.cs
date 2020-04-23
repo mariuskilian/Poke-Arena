@@ -10,7 +10,7 @@ public class SelectionMan : Manager {
     #endregion
 
     #region Constants
-    private const float DRAG_Z_OFFSET = -0.3f;
+    private const float DRAG_Y_OFFSET = -0.3f;
     #endregion
 
     #region Variables
@@ -19,7 +19,8 @@ public class SelectionMan : Manager {
     #endregion
 
     #region Events
-    public Action<Unit, Vector3> UnitDeselectEvent;
+    public Action<Unit> UnitSelectEvent;
+    public Action<Unit> UnitDeselectEvent;
     #endregion
 
     private void Awake() {
@@ -29,6 +30,7 @@ public class SelectionMan : Manager {
     private new void Update() {
         base.Update();
         CheckForInput();
+        if (selectedUnit != null) DragSelectedUnit();
     }
 
     private void CheckForInput() {
@@ -53,13 +55,25 @@ public class SelectionMan : Manager {
     }
 
     private void DeselectUnit() {
-        UnitDeselectEvent?.Invoke(selectedUnit, selectedPos);
+        var moveUnitEvent = SelectionMoveUnit.Create();
+
+        moveUnitEvent.FromPos = selectedPos;
+        moveUnitEvent.ToPos = selectedUnit.transform.position;
+        moveUnitEvent.Unit = selectedUnit.GetComponent<BoltEntity>();
+
+        moveUnitEvent.Send();
+
         selectedPos = Vector3.zero;
         selectedUnit = null;
     }
 
     private void DragSelectedUnit() {
+        if (!Camera.main) return;
 
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, 25f, LayerMask.GetMask("Drag Unit"))) {
+            selectedUnit.transform.position = hit.point + Vector3.up * DRAG_Y_OFFSET;
+        }
     }
 
 }

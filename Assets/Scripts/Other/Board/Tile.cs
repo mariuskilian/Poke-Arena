@@ -2,7 +2,10 @@
 
 public class Tile {
 
-    private Unit unit;
+    public Unit unit { get; private set; }
+    public bool isTileFilled { get { return unit != null; } }
+    public bool isBoardTile { get { return tilePosition.y != -1; } }
+
     private readonly Vector2Int tilePosition; //y component should be set to -1 if its a bench tile
     private readonly Vector3 worldPosition;
 
@@ -29,7 +32,7 @@ public class Tile {
             return;
         }
         unit.UpdateTile(this);
-        if (IsBoardTile()) unit.gameObject.transform.SetSiblingIndex(0);
+        if (isBoardTile) unit.gameObject.transform.SetSiblingIndex(0);
         this.unit = unit;
         UpdateUnitTransform();
     }
@@ -38,7 +41,7 @@ public class Tile {
     #region Helper Methods
     private Vector3 CalculateWorldPosition() {
         //Bench Tile
-        if (!IsBoardTile()) {
+        if (!isBoardTile) {
             float xOffset = (BoardMan.BOARD_WIDTH - BoardMan.BENCH_SIZE) / 2f;
             return Vector3.right * (BoardMan.TILE_SIZE * tilePosition.x + BoardMan.TILE_OFFSET + xOffset)
                 + Vector3.forward * (BoardMan.BENCH_Y + BoardMan.TILE_OFFSET);
@@ -52,9 +55,9 @@ public class Tile {
     }
 
     public void UpdateUnitTransform() {
-        unit.gameObject.transform.position = worldPosition;
+        unit.transform.position = worldPosition;
         float facing = (unit.IsBenched()) ? 180f : 0f;
-        unit.gameObject.transform.rotation = Quaternion.Euler(0f,facing,0f);
+        unit.transform.rotation = Quaternion.Euler(0f, facing, 0f);
     }
     #endregion
 
@@ -70,14 +73,6 @@ public class Tile {
     public Unit GetUnit() {
         return unit;
     }
-
-    public bool IsTileFilled() {
-        return unit != null;
-    }
-
-    public bool IsBoardTile() {
-        return tilePosition.y != -1;
-    }
     #endregion
 
     public static void SwapTiles(Tile t1, Tile t2) {
@@ -85,9 +80,9 @@ public class Tile {
             Debug.LogWarning("One or more of the tiles was null");
             return;
         }
-        if (!t1.IsTileFilled() && !t2.IsTileFilled()) return;
-        else if (t1.IsTileFilled() && !t2.IsTileFilled()) t2.FillTile(t1.ClearTile());
-        else if (!t1.IsTileFilled() && t2.IsTileFilled()) t1.FillTile(t2.ClearTile());
+        if (!t1.isTileFilled && !t2.isTileFilled) return;
+        else if (t1.isTileFilled && !t2.isTileFilled) t2.FillTile(t1.ClearTile());
+        else if (!t1.isTileFilled && t2.isTileFilled) t1.FillTile(t2.ClearTile());
         else {
             Unit unit = t1.ClearTile();
             t1.FillTile(t2.ClearTile());

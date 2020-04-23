@@ -1,9 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
-public class BoardMan : Manager {
+public class BoardMan : PlayerManager {
 
     #region Constants
     public const int BOARD_WIDTH = 10, BOARD_HEIGHT = 10;
@@ -12,8 +11,8 @@ public class BoardMan : Manager {
     #endregion
 
     #region Variables
-    private Tile hoveredTile = null; // Currently hovered (by mouse) tile. null if nothing
-    private Tile selectedTile = null; // Currently selected tile. null if nothing
+    private Tile toTile = null; // Currently hovered (by mouse) tile. null if nothing
+    private Tile fromTile = null; // Currently selected tile. null if nothing
 
     [SerializeField] private GameObject team = null;
 
@@ -29,7 +28,6 @@ public class BoardMan : Manager {
     #endregion
 
     #region Events
-    public Action<Unit> UnitSelectEvent;
     public Action<Unit> UnitDeselectEvent;
     public Action<Unit, Tile> UnitTeleportEvent; //unit, fromTile
     public Action<List<Tile>, Unit> EvolutionEvent;
@@ -40,12 +38,6 @@ public class BoardMan : Manager {
     private void Start() {
         InitBoardAndBench();
         unitContainers = new Dictionary<string, UnitContainer>();
-    }
-
-    private new void Update() {
-        UpdpateTileHovered();
-        CheckForInput();
-        if (selectedTile != null) DragSelectedUnit();
     }
     #endregion
 
@@ -74,71 +66,6 @@ public class BoardMan : Manager {
     }
     #endregion
 
-    #region Mouse and Selection Tracking
-    //Updates which Tile the mouse is currently hovering
-    private void UpdpateTileHovered() {
-
-        hoveredTile = null;
-
-        RaycastHit hit;
-
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 25f, LayerMask.GetMask("Board", "Bench"))) {
-            int x = (int) hit.point.x;
-            int y = (int) hit.point.z;
-            if (y == -1) {
-                if (x >= 0 && x < BENCH_SIZE) hoveredTile = Bench[x];
-            } else if (x >= 0 && x < BOARD_WIDTH && y >= 0 && y < BOARD_HEIGHT / 2) {
-                if (Board[x, y] != null) hoveredTile = Board[x, y];
-            }
-        }
-    }
-
-    private void SelectUnit() {
-        if (!Camera.main) return;
-
-        if (EventSystem.current.IsPointerOverGameObject()) return;
-
-        selectedTile = null;
-
-        RaycastHit hit;
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 25f, LayerMask.GetMask("Units"))) {
-            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Units")) {
-                selectedTile = hit.transform.parent.GetComponent<Unit>().GetTile();
-            }
-        } else if (hoveredTile != null) {
-            if (hoveredTile.IsTileFilled()) selectedTile = hoveredTile;
-        }
-
-        if (selectedTile != null) UnitSelectEvent?.Invoke(selectedTile.GetUnit());
-    }
-
-    private void DragSelectedUnit() {
-        if (selectedTile == null) return;
-
-        if (!Camera.main) return;
-
-        RaycastHit hit;
-
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 25f, LayerMask.GetMask("Drag Unit"))) {
-            selectedTile.GetUnit().transform.position = hit.point + Vector3.up * dragUnitZOffset;
-        }
-    }
-
-    private void DeselectUnit() {
-        Unit selected_unit = selectedTile.GetUnit();
-        Unit hovered_unit = hoveredTile?.GetUnit();
-        if (hoveredTile != null && hoveredTile != selectedTile) {
-            Tile.SwapTiles(hoveredTile, selectedTile);
-        } else {
-            selectedTile.ResetTile();
-        }
-        selectedTile = null;
-        UnitDeselectEvent?.Invoke(selected_unit);
-        if (hovered_unit != null && hovered_unit != selected_unit)
-            UnitTeleportEvent?.Invoke(hovered_unit, selected_unit.GetTile());
-    }
-    #endregion
-
     #region Unit Container
     //Finds unit container for unit, or creates new one if none exists yet
     private UnitContainer FindOrCreateUnitContainer(Unit unit) {
@@ -155,16 +82,6 @@ public class BoardMan : Manager {
     #endregion
 
     #region Helper Methods
-    private void CheckForInput() {
-        if (Input.GetMouseButtonDown(0)) {
-            if (selectedTile == null) {
-                SelectUnit();
-            } else {
-                DeselectUnit();
-            }
-        }
-    }
-
     private void InitializeUnit(Unit unit, Tile tile) {
         UnitContainer unitContainer = FindOrCreateUnitContainer(unit);
         unit.transform.SetParent(unitContainer.transform);
@@ -185,6 +102,44 @@ public class BoardMan : Manager {
         EvolutionEvent?.Invoke(tiles, evolvedUnit);
         foreach (Tile t in tiles) t.ClearTile().gameObject.SetActive(false);
         InitializeUnit(evolvedUnit, tiles[0]);
+    }
+
+    public Tile FindTile(Vector3 localPos) {
+        int x = (int)(localPos.x / TILE_SIZE);
+        int y = (int)(localPos.z / TILE_SIZE);
+
+        if (x < 0 || x > BOARD_WIDTH || (y < 0 && y != BENCH_Y) || y > BOARD_HEIGHT) return null;
+        
+        if (y == BENCH_Y) return Bench[x];
+        return Board[x, y];
+    }
+    #endregion
+
+    #region Handle incoming Events
+    public override void OnEvent(SelectionMoveUnit evnt) {
+        // Only the board manager from the player that sent the event should process it
+        if (player.state.PlayerID != evnt.Unit.GetState<IUnitState>().PlayerID) return;
+
+        // Find tile of From- and To-Position, then swap the tiles
+        Tile fromTile = FindTile(evnt.FromPos);
+        Tile toTile = FindTile(evnt.ToPos);
+
+        if (!fromTile.isTileFilled) {
+            fromTile.ResetTile();
+            return;
+        }
+
+        Unit fromUnit = fromTile.GetUnit();
+        Unit toUnit = toTile?.GetUnit();
+        if (toTile != null && toTile != fromTile) {
+            Tile.SwapTiles(toTile, fromTile);
+        } else {
+            fromTile.ResetTile();
+        }
+        fromTile = null;
+        UnitDeselectEvent?.Invoke(fromUnit);
+        if (toUnit != null && toUnit != fromUnit)
+            UnitTeleportEvent?.Invoke(toUnit, fromUnit.GetTile());
     }
     #endregion
 

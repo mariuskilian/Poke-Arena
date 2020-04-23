@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class LevelMan : Manager {
+public class LevelMan : PlayerManager {
 
     #region Constants
     public readonly int MAX_LEVEL = 10;

@@ -12,20 +12,21 @@ public class GameMan : Manager {
 
     public GameSettings settings;
 
-    public Dictionary<BoltConnection, BoltEntity> players;
+    public List<BoltEntity> players;
 
     private void Awake() {
         Instance = this;
     }
 
     private void Start() {
-        players = new Dictionary<BoltConnection, BoltEntity>();
+        players = new List<BoltEntity>();
     }
 
     public override void Connected(BoltConnection connection) {
         var player = BoltNetwork.Instantiate(BoltPrefabs.Player);
         player.AssignControl(connection);
-        players.Add(connection, player);
+        player.GetState<IPlayerState>().PlayerID = players.Count;
+        players.Add(player);
 
         NewPlayerEvent(player);
     }
