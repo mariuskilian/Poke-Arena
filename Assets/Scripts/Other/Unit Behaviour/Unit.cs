@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Bolt;
 
-public class Unit : MonoBehaviour {
+public class Unit : EntityBehaviour<IUnitState> {
 
-    private Tile tile; //will be used later for attack and so on
+    private Tile tile; //current tile the unit is standing on
 
     public Unit variant; //variant of unit, usually male/female. null if no variant
     public Unit evolution; //null if highest evolution
@@ -12,19 +13,38 @@ public class Unit : MonoBehaviour {
 
     public UnitProperties properties;
 
-    protected virtual void Awake() {
-        InitUnitBehaviours();
+    private void Awake() {
+        if (BoltNetwork.IsServer) {
+            InitUnitServerBehaviours();
+        }
+        if (BoltNetwork.IsClient && entity.HasControl) {
+            InitUnitClientBehaviours();
+            AddCollisionPlane();
+        }
     }
 
-    private void InitUnitBehaviours() {
+    private void InitUnitServerBehaviours() {
         UnitBehaviours = new List<UnitBehaviour> {
             gameObject.AddComponent<UnitBoardAnimation>(),
             gameObject.AddComponent<UnitCarryAnimation>(),
             gameObject.AddComponent<UnitStoreAnimation>(),
             gameObject.AddComponent<UnitMovement>(),
+            gameObject.AddComponent<UnitSelection>(),
             gameObject.AddComponent<UnitShaderEffects>(),
             gameObject.AddComponent<UnitBattleBehaviour>()
         };
+    }
+
+    private void InitUnitClientBehaviours() {
+        UnitBehaviours = new List<UnitBehaviour> {
+            gameObject.AddComponent<UnitMovement>(),
+            gameObject.AddComponent<UnitSelection>()
+        };
+    }
+
+    private void AddCollisionPlane() {
+        BoxCollider collisionPlane = gameObject.AddComponent<BoxCollider>();
+        collisionPlane.size = new Vector3(0.9f, 0f, 0.9f);
     }
 
     public enum Evl_Chain { One, Two, Three }; //number represents how far down in evolution chain (one is base, two is first evo, etc.)
