@@ -6,13 +6,18 @@ public class Player : Bolt.EntityBehaviour<IPlayerState> {
     private List<Manager> Managers;
 
     private void Start() {
+        if (!BoltNetwork.IsServer) return;
+
         Managers = new List<Manager> {
             gameObject.AddComponent<FinanceMan>(),
             gameObject.AddComponent<LevelMan>(),
-            gameObject.AddComponent<UIMan>(),
             gameObject.AddComponent<StoreMan>(),
-            gameObject.AddComponent<StoreButtonMan>()
+            gameObject.AddComponent<BoardMan>()
         };
+    }
+
+    public override void Attached() {
+
     }
 
     public Manager GetManager<M>() {

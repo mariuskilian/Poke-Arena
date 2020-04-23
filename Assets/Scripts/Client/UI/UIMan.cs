@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using Bolt;
 
-[BoltGlobalBehaviour(BoltNetworkModes.Client)]
 public class UIMan : Manager {
 
     #region Singleton

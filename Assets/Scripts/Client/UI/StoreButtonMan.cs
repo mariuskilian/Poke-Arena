@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Bolt;
 
 public class StoreButtonMan : Manager {
     [SerializeField] private GameObject catchButtonTemplate = null;

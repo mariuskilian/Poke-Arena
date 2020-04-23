@@ -2,12 +2,9 @@
 using TMPro;
 using Bolt;
 
-[BoltGlobalBehaviour(BoltNetworkModes.Client)]
 public class PlayerInfoUpdater : GlobalEventListener {
 
-    private Player player;
-    private FinanceMan finance;
-    private LevelMan level;
+    private IPlayerState playerState;
 
     [SerializeField] private TextMeshProUGUI
         coinText = null,
@@ -15,17 +12,23 @@ public class PlayerInfoUpdater : GlobalEventListener {
         expText = null
         ;
 
-    public override void OnEvent(GameNewPlayer evnt) {
-        player = evnt.Player.GetComponent<Player>();
-        finance = player.GetManager<FinanceMan>() as FinanceMan;
-        level = player.GetManager<LevelMan>() as LevelMan;
+    public override void ControlOfEntityGained(BoltEntity entity) {
+        IPlayerState state = entity.GetState<IPlayerState>();
+        if (state == null) return;
+
+        playerState = state;
+
+        playerState.AddCallback("Coins", UpdateCoins);
+        playerState.AddCallback("Exp", UpdateLevelAndExp);
     }
 
-    private void Update() {
-        if (player == null) return;
-        coinText.text = finance.Coins.ToString();
-        int lvl = level.Level;
-        levelText.text = "Level: " + (lvl + 1);
-        expText.text = "EXP: " + level.Exp + "/" + level.MAX_EXP[lvl];
+    private void UpdateCoins() {
+        coinText.text = playerState.Coins.ToString();
+    }
+
+    private void UpdateLevelAndExp() {
+        int usrLvl = playerState.Level + 1;
+        levelText.text = "Level: " + usrLvl;
+        expText.text = "EXP: " + playerState.Exp + "/" + playerState.MaxExp;
     }
 }

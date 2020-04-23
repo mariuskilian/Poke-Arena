@@ -2,10 +2,10 @@
 using TMPro;
 using Bolt;
 
-[BoltGlobalBehaviour(BoltNetworkModes.Client)]
 public class RoundInfoUpdater : GlobalEventListener {
 
     //private RoundMan round;
+
 
     [SerializeField]
     private TextMeshProUGUI
