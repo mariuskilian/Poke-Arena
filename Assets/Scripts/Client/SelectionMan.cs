@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
 
-[BoltGlobalBehaviour(BoltNetworkModes.Client)]
 public class SelectionMan : Manager {
 
     #region Singleton

@@ -31,6 +31,16 @@ public class StoreMan : PlayerManager {
     public Action<Unit> DespawnUnitEvent;
     #endregion
 
+    protected override void LateStart() {
+        InitializeEventHandlers();
+        InitializeStore();
+    }
+
+    private void InitializeEventHandlers() {
+        FinanceMan finance = player.GetManager<FinanceMan>() as FinanceMan;
+        finance.RerollStoreEvent += HandleRerollStoreEvent;
+    }
+
     #region Load/Reload Shop
     private void InitializeStore() {
         if (CurrentStore != null) return;
@@ -62,6 +72,7 @@ public class StoreMan : PlayerManager {
         yield return new WaitForSeconds(normalizedIndex * 0.67f);
         unit.gameObject.transform.Translate(Vector3.down * 1000); //reshow unit
         NewUnitInStoreEvent?.Invoke(unit, index);
+        Debug.Log("CUSTOMMSG: NEW UNIT SPAWNED");
     }
 
     private void DespawnCurrentStore() {
@@ -103,7 +114,6 @@ public class StoreMan : PlayerManager {
     }
     #endregion
 
-    /*
     #region Event Handlers
     private void HandleRerollStoreEvent() {
         RespawnStore();
@@ -118,5 +128,4 @@ public class StoreMan : PlayerManager {
         IsLocked = !IsLocked;
     }
     #endregion
-    */
 }

@@ -846,6 +846,15 @@
       "Name": "SelectionMoveUnit",
       "Guid": "d3676a6b-10c2-4803-b56b-0ef214bd7af0",
       "Groups": []
+    },
+    {
+      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [],
+      "EntitySenders": 3,
+      "GlobalSenders": 2,
+      "Name": "InputTryRerollStore",
+      "Guid": "51d2e91e-7bf6-45b5-9c1f-3522e4671414",
+      "Groups": []
     }
   ],
   "ActiveGroup": "Everything"

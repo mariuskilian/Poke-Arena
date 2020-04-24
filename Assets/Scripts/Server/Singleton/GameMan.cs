@@ -10,15 +10,13 @@ public class GameMan : Manager {
     
     public static System.Random rng = new System.Random();
 
-    public GameSettings settings;
-
     public List<BoltEntity> players;
 
     private void Awake() {
         Instance = this;
     }
 
-    private void Start() {
+    public override void SceneLoadLocalDone(string scene, Bolt.IProtocolToken token) {
         players = new List<BoltEntity>();
     }
 

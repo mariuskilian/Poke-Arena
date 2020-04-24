@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using Bolt;
 
-[BoltGlobalBehaviour(BoltNetworkModes.Client)]
 public class InputMan : Manager {
 
     #region Singleton
@@ -13,7 +12,6 @@ public class InputMan : Manager {
     #region Events
     public Action
         ToggleStoreEvent,
-        TryRerollStoreEvent,
         TryBuyExpEvent,
         SellUnitEvent,
         BenchUnbenchUnitEvent,
@@ -44,7 +42,7 @@ public class InputMan : Manager {
     private void InitKeyBindings() {
         KeyDownBindings = new Dictionary<KeyCode, Action> { //need to store references to actions!!! not copys!!
             { KeyCode.Space, () => ToggleStoreEvent?.Invoke() },
-            { KeyCode.D, () => TryRerollStoreEvent?.Invoke() },
+            { KeyCode.D, () => { if (UIMan.Instance.StoreActive()) InputTryRerollStore.Create().Send(); } },
             { KeyCode.F, () => TryBuyExpEvent?.Invoke() },
             { KeyCode.E, () => SellUnitEvent?.Invoke() },
             { KeyCode.W, () => BenchUnbenchUnitEvent?.Invoke() },

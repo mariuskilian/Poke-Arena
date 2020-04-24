@@ -12,8 +12,9 @@ public class Unit : EntityBehaviour<IUnitState> {
     private List<UnitBehaviour> UnitBehaviours;
 
     public UnitProperties properties;
-
-    private void Awake() {
+    
+    public override void Attached() {
+        state.SetTransforms(state.Transform, transform);
         if (BoltNetwork.IsServer) {
             InitUnitServerBehaviours();
         }
@@ -21,12 +22,9 @@ public class Unit : EntityBehaviour<IUnitState> {
             AddCollisionPlane();
         }
     }
-    
-    public override void Attached() {
-        state.SetTransforms(state.Transform, transform);
-    }
 
     private void InitUnitServerBehaviours() {
+        return;
         UnitBehaviours = new List<UnitBehaviour> {
             gameObject.AddComponent<UnitBoardAnimation>(),
             gameObject.AddComponent<UnitCarryAnimation>(),

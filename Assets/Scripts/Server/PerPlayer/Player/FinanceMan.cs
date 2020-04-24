@@ -37,6 +37,15 @@ public class FinanceMan : PlayerManager {
         return bonus;
     }
 
+    public override void OnEvent(InputTryRerollStore evnt) {
+        Debug.Log("REROLLING STORE BABY YES");
+        if (Coins >= REROLL_STORE_PRICE) {
+            Debug.Log("CONGRATULATIONS YOU HAD ENOUGH MONEY");
+            Coins -= REROLL_STORE_PRICE;
+            RerollStoreEvent?.Invoke();
+        }
+    }
+
     /*
 
     private void HandleStartOfPhaseEvent(RoundMan.Phase phase) {

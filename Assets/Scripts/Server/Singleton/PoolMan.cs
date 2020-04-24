@@ -20,7 +20,7 @@ public class PoolMan : Manager {
     #region Containers
     private GameSettings settings;
 
-    private Dictionary<string, Queue<Unit>>[] PoolsByQuality;
+    private Dictionary<string, Queue<Unit>>[] PoolsByRarity;
     #endregion
 
     #region Unity Methods
@@ -28,19 +28,18 @@ public class PoolMan : Manager {
         Instance = this; // Singleton
     }
 
-    private void Start() {
+    public override void SceneLoadLocalDone(string scene, Bolt.IProtocolToken token) {
+        settings = GameSettingsHolder.Instance.settings;
         InitializePools();
-        settings = GameMan.Instance.settings;
     }
     #endregion
 
     #region Initialisation
     private void InitializePools() {
         // Init. the dictionary-array
-        Debug.Log(settings);
-        PoolsByQuality = new Dictionary<string, Queue<Unit>>[settings.RarityInfos.Length];
-        for(int i = 0; i < PoolsByQuality.Length; i++) {
-            PoolsByQuality[i] = new Dictionary<string, Queue<Unit>>();
+        PoolsByRarity = new Dictionary<string, Queue<Unit>>[settings.RarityInfos.Length];
+        for(int i = 0; i < PoolsByRarity.Length; i++) {
+            PoolsByRarity[i] = new Dictionary<string, Queue<Unit>>();
         }
 
         // Create Pools
@@ -57,7 +56,7 @@ public class PoolMan : Manager {
             }
 
             // Add the Pool at the appropriate index
-            PoolsByQuality[rarIdx].Add(unit.properties.name, Pool);
+            PoolsByRarity[rarIdx].Add(unit.properties.name, Pool);
         }
     }
     #endregion
@@ -92,7 +91,7 @@ public class PoolMan : Manager {
 
         //check if those pools contain at least 1 unit, otherwise find new quality and exclude current
         int numUnits = 0;
-        foreach (KeyValuePair<string, Queue<Unit>> entry in PoolsByQuality[settings.GetRarityIndex(rarity)]) {
+        foreach (KeyValuePair<string, Queue<Unit>> entry in PoolsByRarity[settings.GetRarityIndex(rarity)]) {
             numUnits += entry.Value.Count;
         }
         if (numUnits > 0) {
@@ -105,7 +104,7 @@ public class PoolMan : Manager {
 
     private Unit SpawnRandomUnit(Rarity rarity) {
         string unitToSpawn = DetermineRandomUnit(rarity);
-        Unit unit = PoolsByQuality[settings.GetRarityIndex(rarity)][unitToSpawn].Dequeue();
+        Unit unit = PoolsByRarity[settings.GetRarityIndex(rarity)][unitToSpawn].Dequeue();
         unit.gameObject.SetActive(true);
         return unit;
     }
@@ -116,7 +115,7 @@ public class PoolMan : Manager {
         int numUnits = 0; //total number of individual (!) pokemon of this rarity
         Dictionary<string, Queue<Unit>> pools;
 
-        pools = PoolsByQuality[settings.GetRarityIndex(rarity)];
+        pools = PoolsByRarity[settings.GetRarityIndex(rarity)];
         foreach (KeyValuePair<string, Queue<Unit>> entry in pools) {
             numUnits += entry.Value.Count;
         }
@@ -134,7 +133,7 @@ public class PoolMan : Manager {
 
     #region Pools
     public void ReturnToPool(Unit unit) /*TODO: When returning an Evolution, return all used base models instead, then despawn evolution*/ {
-        Dictionary<string, Queue<Unit>> Pools = PoolsByQuality[settings.GetRarityIndex(unit.properties.rarity)];
+        Dictionary<string, Queue<Unit>> Pools = PoolsByRarity[settings.GetRarityIndex(unit.properties.rarity)];
         if (!Pools.ContainsKey(unit.properties.name)) {
             Debug.LogWarning("Dictionary does not contain tag " + unit.properties.name);
             return;
