@@ -5,7 +5,9 @@ public class Player : Bolt.EntityBehaviour<IPlayerState> {
 
     private List<Manager> Managers;
 
-    private void Start() {
+    public BoltConnection connection;
+
+    private void Awake() {
         if (!BoltNetwork.IsServer) return;
 
         Managers = new List<Manager> {
@@ -23,6 +25,10 @@ public class Player : Bolt.EntityBehaviour<IPlayerState> {
     public Manager GetManager<M>() {
         foreach (Manager m in Managers) if (typeof(M) == m.GetType()) return m;
         return null;
+    }
+
+    public bool IsThisPlayer(BoltConnection connection) {
+        return this.connection == connection;
     }
 
 }

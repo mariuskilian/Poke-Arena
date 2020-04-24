@@ -72,7 +72,6 @@ public class StoreMan : PlayerManager {
         yield return new WaitForSeconds(normalizedIndex * 0.67f);
         unit.gameObject.transform.Translate(Vector3.down * 1000); //reshow unit
         NewUnitInStoreEvent?.Invoke(unit, index);
-        Debug.Log("CUSTOMMSG: NEW UNIT SPAWNED");
     }
 
     private void DespawnCurrentStore() {

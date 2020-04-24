@@ -28,6 +28,19 @@ public class PoolMan : Manager {
         Instance = this; // Singleton
     }
 
+    public override void OnEvent(GameNewPlayer evnt) {
+        Player player = evnt.Player.GetComponent<Player>();
+
+        StoreMan store = player.GetManager<StoreMan>() as StoreMan;
+        store.SpawnRandomUnitEvent += HandleSpawnRandomUnitEvent;
+    }
+
+    private void InitializeEventHandlers() {
+        foreach (BoltEntity playerEntity in GameMan.Instance.players) {
+            Player player = playerEntity.GetComponent<Player>();
+        }
+    }
+
     public override void SceneLoadLocalDone(string scene, Bolt.IProtocolToken token) {
         settings = GameSettingsHolder.Instance.settings;
         InitializePools();
@@ -154,7 +167,6 @@ public class PoolMan : Manager {
     }
     #endregion
 
-    /*
     #region Handle Incoming Events
     //determine random quality depending on level, then random unit depending on pools, then dequeue unit, activate it, set transform and attach to store
     private Unit HandleSpawnRandomUnitEvent() {
@@ -162,7 +174,8 @@ public class PoolMan : Manager {
         foreach (Rarity q in Enum.GetValues(typeof(Rarity))) {
             if (q != Rarity.LEGENDARY) allRarities.Add(q);
         }
-        return SpawnRandomUnit(DetermineRandomQuality(LevelMan.Instance.Level, allRarities));
+        Debug.Log("THIS IS BEING EXECUTED");
+        return SpawnRandomUnit(DetermineRandomQuality(0, allRarities));
     }
 
     //deactivate unit, remove parent, queue unit
@@ -172,5 +185,4 @@ public class PoolMan : Manager {
         ReturnToPool(unit);
     }
     #endregion
-    */
 }

@@ -38,9 +38,8 @@ public class FinanceMan : PlayerManager {
     }
 
     public override void OnEvent(InputTryRerollStore evnt) {
-        Debug.Log("REROLLING STORE BABY YES");
+        if (!GetComponent<Player>().IsThisPlayer(evnt.RaisedBy)) return;
         if (Coins >= REROLL_STORE_PRICE) {
-            Debug.Log("CONGRATULATIONS YOU HAD ENOUGH MONEY");
             Coins -= REROLL_STORE_PRICE;
             RerollStoreEvent?.Invoke();
         }

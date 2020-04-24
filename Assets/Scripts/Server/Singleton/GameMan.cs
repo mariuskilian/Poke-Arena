@@ -24,6 +24,7 @@ public class GameMan : Manager {
         var player = BoltNetwork.Instantiate(BoltPrefabs.Player);
         player.AssignControl(connection);
         player.GetState<IPlayerState>().PlayerID = players.Count;
+        player.GetComponent<Player>().connection = connection;
         players.Add(player);
 
         NewPlayerEvent(player);
