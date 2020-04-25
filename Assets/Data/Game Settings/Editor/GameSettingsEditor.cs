@@ -6,10 +6,10 @@ using System.Globalization;
 using System.IO;
 using System.Collections.Generic;
 
-[CustomEditor(typeof(GameSettings))]
+[CustomEditor(typeof(GameSettingsSO))]
 public class GameSettingsEditor : Editor {
 
-    private GameSettings gameSettings;
+    private GameSettingsSO gameSettings;
 
     private string[,] DropChances;
     private int maxLevel, numRarities;
@@ -20,7 +20,7 @@ public class GameSettingsEditor : Editor {
     public override void OnInspectorGUI() {
         base.OnInspectorGUI();
 
-        gameSettings = target as GameSettings;
+        gameSettings = target as GameSettingsSO;
 
         if (DropChances == null) {
             maxLevel = gameSettings.maxLevel;
@@ -43,7 +43,7 @@ public class GameSettingsEditor : Editor {
             for (int i = 0; i < gameSettings.RarityInfos.Length; i++) {
                 GUILayout.BeginVertical();
                 {
-                    gameSettings.RarityInfos[i].rarity = (GameSettings.Rarity)EditorGUILayout.EnumPopup(gameSettings.RarityInfos[i].rarity, GUILayout.Height(height));
+                    gameSettings.RarityInfos[i].rarity = (GameSettingsSO.Rarity)EditorGUILayout.EnumPopup(gameSettings.RarityInfos[i].rarity, GUILayout.Height(height));
 
                     string poolSize = GUILayout.TextField(gameSettings.RarityInfos[i].poolSize.ToString(), GUILayout.Height(height));
                     poolSize = Regex.Replace(poolSize, "[^0-9]", "");

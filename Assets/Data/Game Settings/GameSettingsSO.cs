@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 
 [Serializable, CreateAssetMenu(fileName = "GameSettings", menuName = "Poke-Arena/Game Settings")]
-public class GameSettings : ScriptableObject {
+public class GameSettingsSO : ScriptableObject {
 
     public enum Rarity { COMMON, UNCOMMON, RARE, EPIC, SECRET, LEGENDARY }
 

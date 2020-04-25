@@ -15,5 +15,5 @@ public class UnitProperties : ScriptableObject {
     public float moveSpeed;
     public float moveSpeed_per_evolution;
 
-    public GameSettings.Rarity rarity;
+    public GameInfo.Rarity rarity;
 }

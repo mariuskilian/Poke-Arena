@@ -2,6 +2,6 @@ using UnityEngine;
 
 [System.Serializable]
 public class RarityInfo {
-    public GameSettings.Rarity rarity;
+    public GameSettingsSO.Rarity rarity;
     public int poolSize;
 }
