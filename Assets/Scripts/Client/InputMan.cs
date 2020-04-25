@@ -42,7 +42,7 @@ public class InputMan : Manager {
     private void InitKeyBindings() {
         KeyDownBindings = new Dictionary<KeyCode, Action> { //need to store references to actions!!! not copys!!
             { KeyCode.Space, () => ToggleStoreEvent?.Invoke() },
-            { KeyCode.D, () => { if (UIMan.Instance.StoreActive()) InputTryRerollStore.Create().Send(); } },
+            { KeyCode.D, () => { if (UIMan.Instance.StoreActive()) InputTryRerollStoreEvent.Create().Send(); } },
             { KeyCode.F, () => TryBuyExpEvent?.Invoke() },
             { KeyCode.E, () => SellUnitEvent?.Invoke() },
             { KeyCode.W, () => BenchUnbenchUnitEvent?.Invoke() },

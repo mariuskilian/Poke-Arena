@@ -47,18 +47,18 @@ public class SelectionMan : Manager {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, 25f, LayerMask.GetMask("Units"))
             && hit.transform.gameObject.layer == LayerMask.NameToLayer("Units")
-            && hit.transform.GetComponent<BoltEntity>().HasControl) {
+            && hit.transform.GetComponent<Unit>().entity.HasControl) {
                 selectedUnit = hit.transform.GetComponent<Unit>();
                 selectedPos = selectedUnit.transform.localPosition;
         }
     }
 
     private void DeselectUnit() {
-        var moveUnitEvent = SelectionMoveUnit.Create();
+        var moveUnitEvent = SelectionMoveUnitEvent.Create();
 
         moveUnitEvent.FromPos = selectedPos;
         moveUnitEvent.ToPos = selectedUnit.transform.position;
-        moveUnitEvent.Unit = selectedUnit.GetComponent<BoltEntity>();
+        moveUnitEvent.Unit = selectedUnit.entity;
 
         moveUnitEvent.Send();
 

@@ -7,6 +7,11 @@ public class Player : Bolt.EntityBehaviour<IPlayerState> {
 
     public BoltConnection connection;
 
+    public GameObject
+        storeUnitContainer,
+        team
+        ;
+
     private void Awake() {
         if (!BoltNetwork.IsServer) return;
 
@@ -19,7 +24,7 @@ public class Player : Bolt.EntityBehaviour<IPlayerState> {
     }
 
     public override void Attached() {
-
+        state.SetTransforms(state.Transform, transform);
     }
 
     public Manager GetManager<M>() {
@@ -27,8 +32,9 @@ public class Player : Bolt.EntityBehaviour<IPlayerState> {
         return null;
     }
 
-    public bool IsThisPlayer(BoltConnection connection) {
-        return this.connection == connection;
+    public void SetPosition() {
+        int rotation = 180 * (state.PlayerID % 2);
+        transform.localRotation = Quaternion.Euler(0, rotation, 0);
     }
 
 }

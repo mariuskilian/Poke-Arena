@@ -15,6 +15,7 @@ public class Unit : EntityBehaviour<IUnitState> {
     
     public override void Attached() {
         state.SetTransforms(state.Transform, transform);
+        state.SetAnimator(gameObject.GetComponent<Animator>());
         if (BoltNetwork.IsServer) {
             InitUnitServerBehaviours();
         }

@@ -70,7 +70,6 @@ public abstract class UnitAnimation : UnitBehaviour {
 
     protected new void Awake() {
         base.Awake();
-        state.SetAnimator(gameObject.GetComponent<Animator>());
         anim = state.Animator;
         Initialization();
     }

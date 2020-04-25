@@ -9,4 +9,8 @@ public class PlayerManager : Manager {
         player = gameObject.GetComponent<Player>();
     }
 
+    public bool IsThisPlayer(BoltConnection connection) {
+        return player.connection == connection;
+    }
+
 }

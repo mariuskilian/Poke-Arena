@@ -28,11 +28,12 @@ public class PoolMan : Manager {
         Instance = this; // Singleton
     }
 
-    public override void OnEvent(GameNewPlayer evnt) {
+    public override void OnEvent(GameNewPlayerEvent evnt) {
         Player player = evnt.Player.GetComponent<Player>();
 
         StoreMan store = player.GetManager<StoreMan>() as StoreMan;
         store.SpawnRandomUnitEvent += HandleSpawnRandomUnitEvent;
+        store.DespawnUnitEvent += HandleDespawnUnitEvent;
     }
 
     private void InitializeEventHandlers() {
@@ -64,7 +65,7 @@ public class PoolMan : Manager {
             Queue<Unit> Pool = new Queue<Unit>();
             for (int i = 0; i < settings.RarityInfos[rarIdx].poolSize; i++) {
                 Unit _unit = InstantiateUnit(unit);
-                _unit.gameObject.SetActive(false);
+                SetUnitActive(_unit, false);
                 Pool.Enqueue(_unit);
             }
 
@@ -118,7 +119,7 @@ public class PoolMan : Manager {
     private Unit SpawnRandomUnit(Rarity rarity) {
         string unitToSpawn = DetermineRandomUnit(rarity);
         Unit unit = PoolsByRarity[settings.GetRarityIndex(rarity)][unitToSpawn].Dequeue();
-        unit.gameObject.SetActive(true);
+        SetUnitActive(unit, true);
         return unit;
     }
 
@@ -165,6 +166,13 @@ public class PoolMan : Manager {
 
         return unitEntity.GetComponent<Unit>();
     }
+
+    private void SetUnitActive(Unit unit, bool active) {
+        for (int childIdx = 0; childIdx < unit.gameObject.transform.childCount; childIdx++) {
+            unit.gameObject.transform.GetChild(childIdx).gameObject.SetActive(false);
+        }
+        unit.transform.localPosition = Vector3.down * 100;
+    }
     #endregion
 
     #region Handle Incoming Events
@@ -174,14 +182,14 @@ public class PoolMan : Manager {
         foreach (Rarity q in Enum.GetValues(typeof(Rarity))) {
             if (q != Rarity.LEGENDARY) allRarities.Add(q);
         }
-        Debug.Log("THIS IS BEING EXECUTED");
         return SpawnRandomUnit(DetermineRandomQuality(0, allRarities));
     }
 
     //deactivate unit, remove parent, queue unit
     private void HandleDespawnUnitEvent(Unit unit) {
-        unit.gameObject.SetActive(false);
         unit.transform.SetParent(null);
+        SetUnitActive(unit, false);
+        unit.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         ReturnToPool(unit);
     }
     #endregion

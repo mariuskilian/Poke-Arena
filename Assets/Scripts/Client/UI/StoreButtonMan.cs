@@ -22,7 +22,7 @@ public class StoreButtonMan : Manager {
     }
 
     private void InitStoreButtons() {
-        CatchUnitButtons = new CatchUnitButton[5]; //[StoreMan.Instance.StoreSize];
+        CatchUnitButtons = new CatchUnitButton[5]; 
         for (int i = 0; i < CatchUnitButtons.Length; i++) {
             GameObject buttonObject = Instantiate(catchButtonTemplate);
             buttonObject.SetActive(false);

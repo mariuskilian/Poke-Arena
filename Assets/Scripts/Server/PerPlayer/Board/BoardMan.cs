@@ -116,9 +116,9 @@ public class BoardMan : PlayerManager {
     #endregion
 
     #region Handle incoming Events
-    public override void OnEvent(SelectionMoveUnit evnt) {
+    public override void OnEvent(SelectionMoveUnitEvent evnt) {
         // Only the board manager from the player that sent the event should process it
-        if (player.state.PlayerID != evnt.Unit.GetState<IUnitState>().PlayerID) return;
+        if (!IsThisPlayer(evnt.RaisedBy)) return;
 
         // Find tile of From- and To-Position, then swap the tiles
         Tile fromTile = FindTile(evnt.FromPos);

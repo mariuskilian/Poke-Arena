@@ -4,14 +4,6 @@ using UnityEngine;
 
 public class StoreMan : PlayerManager {
 
-    #region Constants
-    public int StoreSize { get; private set; } = 5;
-
-    [SerializeField] private float yOffset = 0.378f;
-    [SerializeField] private float zOffset = 3f;
-    [SerializeField] private float xOffsetMax = 1.8f;
-    #endregion
-
     #region Variables
     #endregion
 
@@ -25,7 +17,6 @@ public class StoreMan : PlayerManager {
 
     #region Events
     public Func<Unit> SpawnRandomUnitEvent;
-    public Action<Unit, int> NewUnitInStoreEvent;
     public Func<Unit, bool> BuyRequestEvent;
     public Action<Unit> UnitBoughtEvent;
     public Action<Unit> DespawnUnitEvent;
@@ -44,7 +35,7 @@ public class StoreMan : PlayerManager {
     #region Load/Reload Shop
     private void InitializeStore() {
         if (CurrentStore != null) return;
-        CurrentStore = new Unit[StoreSize];
+        CurrentStore = new Unit[5];
         SpawnNewStore();
     }
 
@@ -54,28 +45,28 @@ public class StoreMan : PlayerManager {
     }
 
     private void SpawnNewStore() {
-        for (int index = 0; index < StoreSize; index++) {
+        var newStoreEvent = StoreNewStoreEvent.Create(player.connection);
+        Unit[] Units = new Unit[5];
+        for (int index = 0; index < 5; index++) {
             Unit unit = SpawnRandomUnitEvent?.Invoke();
             if (unit != null) {
-                StartCoroutine(WaitThenSpawn(unit, index));
+                CurrentStore[index] = unit;
+                Units[index] = unit;
+                Debug.Log("Marius1 " + unit.entity);
+                Debug.Log("Marius2 " + Units[index]);
             }
         }
-    }
-
-    private IEnumerator WaitThenSpawn(Unit unit, int index) {
-        unit.transform.SetParent(transform);
-        unit.transform.localPosition = GetUnitPosition(index);
-        unit.transform.localRotation = Quaternion.Euler(0, 180, 0);
-        CurrentStore[index] = unit;
-        unit.gameObject.transform.Translate(Vector3.up * 1000); //to hide unit while waiting
-        float normalizedIndex = (float)index / (float)(StoreSize - 1); // 0 <= normalizedIndex <= 1
-        yield return new WaitForSeconds(normalizedIndex * 0.67f);
-        unit.gameObject.transform.Translate(Vector3.down * 1000); //reshow unit
-        NewUnitInStoreEvent?.Invoke(unit, index);
+        newStoreEvent.Unit0 = Units[0].entity;
+        newStoreEvent.Unit1 = Units[1].entity;
+        newStoreEvent.Unit2 = Units[2].entity;
+        newStoreEvent.Unit3 = Units[3].entity;
+        newStoreEvent.Unit4 = Units[4].entity;
+        Debug.Log("Marius3 " + newStoreEvent.Unit0 + Units[0]);
+        newStoreEvent.Send();
     }
 
     private void DespawnCurrentStore() {
-        for (int i = 0; i < StoreSize; i++) {
+        for (int i = 0; i < 5; i++) {
             if (CurrentStore[i] != null) {
                 DespawnUnitEvent?.Invoke(CurrentStore[i]);
                 CurrentStore[i] = null;
@@ -90,7 +81,7 @@ public class StoreMan : PlayerManager {
         if (BuyRequestEvent != null) {
             if (BuyRequestEvent(unit)) {
                 UnitBoughtEvent?.Invoke(unit);
-                for (int i = 0; i < StoreSize; i++) {
+                for (int i = 0; i < 5; i++) {
                     if (CurrentStore[i] == unit) CurrentStore[i] = null;
                 }
             }
@@ -99,14 +90,6 @@ public class StoreMan : PlayerManager {
     #endregion
 
     #region Helper Methods
-    //Positions unit accordingly on camera so it shows in store
-    private Vector3 GetUnitPosition(int index) {
-        if (StoreSize == 1) {
-            return Vector3.forward * zOffset;
-        }
-        float x = (((float)index / (float)(StoreSize - 1)) * xOffsetMax * 2) - xOffsetMax;
-        return Vector3.right * x + Vector3.up * yOffset + Vector3.forward * zOffset;
-    }
 
     public void ToggleLocked() {
         IsLocked = !IsLocked;

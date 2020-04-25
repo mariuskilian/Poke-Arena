@@ -25,13 +25,14 @@ public class GameMan : Manager {
         player.AssignControl(connection);
         player.GetState<IPlayerState>().PlayerID = players.Count;
         player.GetComponent<Player>().connection = connection;
+        player.GetComponent<Player>().SetPosition();
         players.Add(player);
 
         NewPlayerEvent(player);
     }
 
     private void NewPlayerEvent(BoltEntity player) {
-        var newPlayerEvent = GameNewPlayer.Create();
+        var newPlayerEvent = GameNewPlayerEvent.Create();
         newPlayerEvent.Player = player;
         newPlayerEvent.Send();
     }
