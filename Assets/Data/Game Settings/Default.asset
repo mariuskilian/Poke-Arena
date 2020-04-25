@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 299ea3368a68a6d409f1aac07ac214be, type: 3}
-  m_Name: GameSettings
+  m_Name: Default
   m_EditorClassIdentifier: 
   maxLevel: 10
   RarityInfos:

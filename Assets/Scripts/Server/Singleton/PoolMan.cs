@@ -1,24 +1,19 @@
 using UnityEngine;
 using System.Collections.Generic;
-using static GameInfo;
 
 [BoltGlobalBehaviour(BoltNetworkModes.Server)]
 public class PoolMan : ServerManager {
 
     public Dictionary<string, Queue<Unit>>[] PoolsByRarity { get; private set; }
 
-
-
     private void Start() {
         InitPools();
     }
 
-
-
     #region Pools
     private void InitPools() {
         // Initialize pool dictionaries
-        PoolsByRarity = new Dictionary<string, Queue<Unit>>[NumRarities];
+        PoolsByRarity = new Dictionary<string, Queue<Unit>>[];
         for (int i = 0; i < NumRarities; i++) PoolsByRarity[i] = new Dictionary<string, Queue<Unit>>();
 
         // Initialize pools
@@ -55,7 +50,7 @@ public class PoolMan : ServerManager {
 
     private Rarity DetermineRandomQuality(int level) {
         int ticket = RNG.Next(100);
-        foreach (Rarity rarity in Rarities)
+        foreach (Rarity rarity in GameInfo.Rarities)
             if ((ticket -= SpawnRate[level, (int)rarity]) < 0) return rarity;
 
         return Rarity.COMMON;

@@ -3,30 +3,30 @@ using System.Collections.Generic;
 using System;
 
 [Serializable, CreateAssetMenu(fileName = "GameSettings", menuName = "Poke-Arena/Game Settings")]
-public class GameSettingsSO : ScriptableObject {
+public class GameSettings : ScriptableObject {
 
     public enum Rarity { COMMON, UNCOMMON, RARE, EPIC, SECRET, LEGENDARY }
 
     public int maxLevel;
-    public RarityInfo[] RarityInfos;
+    public RarityInfo[] Rarities;
 
     // 2d array of all drop chances, sorted by [level, rarity] and out of 100
-    public Array2D DropChances;
+    public Array2D DropChance;
 
     // List of Prefabs of all Units of Evolution Chain 1
     public List<GameObject> BaseUnitPrefabs;
 
     public int GetDropChance(int level, Rarity rarity) {
-        return DropChances[level, GetRarityIndex(rarity)];
+        return DropChance[level, GetRarityIndex(rarity)];
     }
 
     public int GetRarityIndex(Rarity rarity) {
         int rarIdx = 0;
-        foreach (RarityInfo ri in RarityInfos) {
+        foreach (RarityInfo ri in Rarities) {
             if (ri.rarity == rarity) break;
             rarIdx++;
         }
-        return (rarIdx == RarityInfos.Length) ? -1 : rarIdx;
+        return (rarIdx == Rarities.Length) ? -1 : rarIdx;
     }
 
 }
