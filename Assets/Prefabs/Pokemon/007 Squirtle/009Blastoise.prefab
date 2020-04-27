@@ -993,7 +993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variant: {fileID: 0}
   evolution: {fileID: 0}
-  properties: {fileID: 0}
+  properties: {fileID: 11400000, guid: 68b5c2c718c7c21418d7af5fa3320e0b, type: 2}
 --- !u!1 &3903779530076178186
 GameObject:
   m_ObjectHideFlags: 0

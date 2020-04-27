@@ -7,6 +7,7 @@ public class GameModeEditor : Editor {
     private GameMode mode;
 
     public override void OnInspectorGUI() {
+        base.OnInspectorGUI();
         mode = target as GameMode;
 
         Vector2Int ArenaLayoutSize = Vector2Int.zero;

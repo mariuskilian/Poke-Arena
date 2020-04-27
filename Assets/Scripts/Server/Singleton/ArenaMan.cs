@@ -2,21 +2,27 @@ using UnityEngine;
 using Bolt;
 
 [BoltGlobalBehaviour(BoltNetworkModes.Server)]
-public class ArenaMan : ServerManager {
+public class ArenaMan : GlobalEventListener {
+
+    public static ArenaMan Instance { get; private set; }
 
     public Arena[] Arenas { get; private set; }
 
     private readonly int ArenaSize = 20;
     private readonly int SpaceBetweenArenas = 1;
 
+
+    private void Awake() {
+        if (Instance == null) Instance = this;
+    }
+
     public override void OnEvent(GameLoadedEvent evnt) {
-        Game = GameMan.Instance as GameMan;
         InitArenas();
     }
 
     private void InitArenas() {
-        Arenas = new Arena[Game.Mode.NumArenas];
-        var arenaLayout = Game.Mode.arenaLayout;
+        Arenas = new Arena[GameMan.Instance.Mode.NumArenas];
+        var arenaLayout = GameMan.Instance.Mode.arenaLayout;
         for (int i = 0; i < arenaLayout.Length; i++) {
             for (int j = 0; j < arenaLayout[i].Length; j++) {
                 if (!arenaLayout[i, j].active) continue;

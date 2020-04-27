@@ -1,16 +1,22 @@
 using UnityEngine;
+using Bolt;
 using System.Collections.Generic;
 using static GameInfo;
 
 [BoltGlobalBehaviour(BoltNetworkModes.Server)]
-public class PoolMan : ServerManager {
+public class PoolMan : GlobalEventListener {
+
+    public static PoolMan Instance { get; private set; }
 
     public Dictionary<string, Queue<Unit>>[] PoolsByRarity { get; private set; }
 
     public static GameSettings test;
 
+    private void Awake() {
+        if (Instance == null) Instance = this;
+    }
+
     public override void OnEvent(GameLoadedEvent evnt) {
-        Game = GameMan.Instance as GameMan;
         InitPools();
     }
 
@@ -23,7 +29,7 @@ public class PoolMan : ServerManager {
         // Initialize pools
         foreach (Unit unitPrefab in DataHolder.Instance.BaseUnitPrefabs) {
             Queue<Unit> Pool = new Queue<Unit>();
-            for (int i = 0; i < Game.Settings.PoolSize[(int)unitPrefab.properties.rarity]; i++) {
+            for (int i = 0; i < GameMan.Instance.Settings.PoolSize[(int)unitPrefab.properties.rarity]; i++) {
                 Unit unit = InstantiateUnit(unitPrefab);
                 SetUnitActiveState(unit, false);
                 Pool.Enqueue(unit);
@@ -34,19 +40,19 @@ public class PoolMan : ServerManager {
     #endregion
 
 
-    
+
     #region Spawning Random Unit
     private Unit SpawnRandomUnit(Rarity rarity) {
         Dictionary<string, Queue<Unit>> Pools = PoolsByRarity[(int)rarity];
 
         int numUnits = 0;
         foreach (KeyValuePair<string, Queue<Unit>> pool in Pools) numUnits += pool.Value.Count;
-        
+
         string unitName = "";
         int ticket = RNG.Next(numUnits);
         foreach (KeyValuePair<string, Queue<Unit>> pool in Pools)
             if ((ticket -= pool.Value.Count) < 0) unitName = pool.Key;
-        
+
         Unit unit = PoolsByRarity[(int)rarity][unitName].Dequeue();
         SetUnitActiveState(unit, false);
         return unit;
@@ -55,7 +61,7 @@ public class PoolMan : ServerManager {
     private Rarity DetermineRandomQuality(int level) {
         int ticket = RNG.Next(100);
         foreach (Rarity rarity in GameInfo.Rarities)
-            if ((ticket -= Game.Settings.DropChance[level, (int)rarity]) < 0) return rarity;
+            if ((ticket -= GameMan.Instance.Settings.DropChance[level, (int)rarity]) < 0) return rarity;
 
         return Rarity.COMMON;
     }

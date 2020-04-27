@@ -20,8 +20,10 @@ public class GameMode : ScriptableObject {
         get {
             int numArenas = 0;
             for (int i = 0; i < arenaLayout.Length; i++)
-                for (int j = 0; j < arenaLayout[0].Length; j++)
+                for (int j = 0; j < arenaLayout[0].Length; j++) {
+                    Debug.Log("Marius : " + arenaLayout[i, j]);
                     if (arenaLayout[i, j].active) numArenas++;
+                }
             return numArenas;
         }
     }

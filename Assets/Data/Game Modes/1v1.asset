@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 451f301ee659bb642b9d63dc032e824a, type: 3}
   m_Name: 1v1
   m_EditorClassIdentifier: 
-  numPlayers: 2
-  numArenas: 1
+  arenaLayout:
+    array2D:
+    - row:
+      - active: 1
+        shared: 1

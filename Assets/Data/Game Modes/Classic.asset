@@ -12,10 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 451f301ee659bb642b9d63dc032e824a, type: 3}
   m_Name: Classic
   m_EditorClassIdentifier: 
-  numPlayers: 0
-  numArenas: 0
   arenaLayout:
     array2D:
     - row:
+      - active: 1
+        shared: 0
+      - active: 1
+        shared: 0
+      - active: 1
+        shared: 0
+    - row:
+      - active: 1
+        shared: 0
       - active: 0
+        shared: 0
+      - active: 1
+        shared: 0
+    - row:
+      - active: 1
+        shared: 0
+      - active: 1
+        shared: 0
+      - active: 1
         shared: 0

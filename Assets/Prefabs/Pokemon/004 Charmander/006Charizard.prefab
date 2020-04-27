@@ -1153,7 +1153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variant: {fileID: 0}
   evolution: {fileID: 0}
-  properties: {fileID: 0}
+  properties: {fileID: 11400000, guid: 4f97fcffca0f0f646b653bacfb68d192, type: 2}
 --- !u!1 &4138665104559126750
 GameObject:
   m_ObjectHideFlags: 0
