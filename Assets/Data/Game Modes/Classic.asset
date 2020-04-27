@@ -10,7 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 451f301ee659bb642b9d63dc032e824a, type: 3}
-  m_Name: 1v1
+  m_Name: Classic
   m_EditorClassIdentifier: 
-  numPlayers: 2
-  numArenas: 1
+  numPlayers: 0
+  numArenas: 0
+  arenaLayout:
+    array2D:
+    - row:
+      - active: 0
+        shared: 0
