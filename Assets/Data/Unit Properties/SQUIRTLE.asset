@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67c5ae2cfd03c154f85449dbd2faa6eb, type: 3}
+  m_Script: {fileID: 11500000, guid: 25c572eba71319548ac92e4a0e5f07fe, type: 3}
   m_Name: SQUIRTLE
   m_EditorClassIdentifier: 
   health: 0
@@ -20,4 +20,4 @@ MonoBehaviour:
   atkSpeed_per_evolution: 0
   moveSpeed: 0
   moveSpeed_per_evolution: 0
-  quality: 0
+  rarity: 0

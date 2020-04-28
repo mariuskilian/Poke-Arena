@@ -7,8 +7,10 @@ public class GameModeEditor : Editor {
     private GameMode mode;
 
     public override void OnInspectorGUI() {
-        base.OnInspectorGUI();
         mode = target as GameMode;
+
+        Undo.RecordObject(mode, "Game Mode value change");
+        EditorUtility.SetDirty(mode);
 
         Vector2Int ArenaLayoutSize = Vector2Int.zero;
         if (mode.arenaLayout != null && mode.arenaLayout.IsInitialized) {
@@ -32,7 +34,7 @@ public class GameModeEditor : Editor {
         if (mode.arenaLayout == null || !mode.arenaLayout.IsInitialized
             || mode.arenaLayout.array2D.Length == 0
             || mode.arenaLayout.array2D.Length != ArenaLayoutSize.x
-            || mode.arenaLayout.array2D[0].row.Length != ArenaLayoutSize.y) {
+            || mode.arenaLayout.array2D[0].Length != ArenaLayoutSize.y) {
             mode.arenaLayout = new Array2DArena(ArenaLayoutSize.x, ArenaLayoutSize.y);
         }
 

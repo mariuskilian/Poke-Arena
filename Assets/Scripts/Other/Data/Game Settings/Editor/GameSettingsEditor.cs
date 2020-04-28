@@ -20,6 +20,9 @@ public class GameSettingsEditor : Editor {
     public override void OnInspectorGUI() {
         gameSettings = target as GameSettings;
 
+        Undo.RecordObject(gameSettings, "Game Settings value changed");
+        EditorUtility.SetDirty(gameSettings);
+
         if (gameSettings.DropChance == null || gameSettings.DropChance.array2D == null
             || gameSettings.DropChance.array2D.Length != NumLevels
             || gameSettings.DropChance.array2D[0].row.Length != NumRarities)
@@ -46,9 +49,8 @@ public class GameSettingsEditor : Editor {
             foreach (Rarity r in Rarities) {
                 GUILayout.BeginVertical();
                 {
-                    string poolSize = GUILayout.TextField(gameSettings.PoolSize[(int)r].ToString(), maxWidth, height);
-                    poolSize = Regex.Replace(poolSize, "[^0-9]", "");
-                    gameSettings.PoolSize[(int)r] = (poolSize == "") ? 0 : int.Parse(poolSize);
+                    int poolSize = EditorGUILayout.DelayedIntField(gameSettings.PoolSize[(int)r]);
+                    gameSettings.PoolSize[(int)r] = Mathf.Clamp(poolSize, 0, 100);
 
                     // Format rarity name to make it look nicer
                     string rarityName = r.ToString();
@@ -59,10 +61,8 @@ public class GameSettingsEditor : Editor {
                     // Add Label for rarity name and corresponding Text Fields
                     GUILayout.Label(rarityName, maxWidth, height);
                     for (int lvl = 0; lvl < NumLevels; lvl++) {
-                        string s = gameSettings.DropChance[lvl, (int)r].ToString();
-                        if (s == null) s = "";
-                        s = Regex.Replace(GUILayout.TextField(s, 3, maxWidth, height), "[^0-9]", "");
-                        gameSettings.DropChance[lvl, (int)r] = (s == "") ? 0 : int.Parse(s);
+                        int dropChance = EditorGUILayout.DelayedIntField(gameSettings.DropChance[lvl, (int)r]);
+                        gameSettings.DropChance[lvl, (int)r] = Mathf.Clamp(dropChance, 0, 100);
                     }
                 }
                 GUILayout.EndVertical();

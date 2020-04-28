@@ -38,6 +38,8 @@ public class RowInt {
         int sum = 0;
         foreach (int num in row) sum += num;
 
+        if (sum == desSum) return;
+
         // Attempt to keep ratios the same while making total sum be desSum
         int overhead = desSum;
         for (int i = 0; i < row.Length; i++) {

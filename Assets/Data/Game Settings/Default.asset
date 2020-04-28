@@ -9,24 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 299ea3368a68a6d409f1aac07ac214be, type: 3}
-  m_Name: Default
+  m_Script: {fileID: 11500000, guid: 9ee364d372d0be046a202fa63ad3594d, type: 3}
+  m_Name: DEFAULT
   m_EditorClassIdentifier: 
-  maxLevel: 10
-  RarityInfos:
-  - rarity: 0
-    poolSize: 45
-  - rarity: 1
-    poolSize: 30
-  - rarity: 2
-    poolSize: 25
-  - rarity: 3
-    poolSize: 15
-  - rarity: 4
-    poolSize: 10
-  - rarity: 5
-    poolSize: 1
-  DropChances:
+  PoolSize: 2d0000001e000000190000000f0000000a00000001000000
+  DropChance:
     array2D:
     - row: 640000000000000000000000000000000000000000000000
     - row: 460000001e00000000000000000000000000000000000000
@@ -36,9 +23,5 @@ MonoBehaviour:
     - row: 210000001e0000001e000000070000000000000000000000
     - row: 1e0000001e0000001e0000000a0000000000000000000000
     - row: 180000001e0000001e0000000f0000000100000000000000
-    - row: 160000001e00000019000000140000000300000000000000
+    - row: 160000001900000019000000190000000300000000000000
     - row: 130000001900000019000000190000000600000000000000
-  BaseUnitPrefabs:
-  - {fileID: 1646739649162652517, guid: c0e29a0df41cae64da3e2ac19e3c5643, type: 3}
-  - {fileID: 4127740652721783343, guid: d44dcf4f74267074fa01a9854f100bd9, type: 3}
-  - {fileID: 6616770131647625879, guid: 651df271e854f4b4f90c84a10c03ac60, type: 3}
