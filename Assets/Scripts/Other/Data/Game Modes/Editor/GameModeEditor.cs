@@ -63,7 +63,7 @@ public class GameModeEditor : Editor {
             for (int i = 0; i < ArenaLayoutSize.x; i++) {
                 EditorGUILayout.BeginVertical();
                 {
-                    for (int j = 0; j < ArenaLayoutSize.y; j++) {
+                    for (int j = ArenaLayoutSize.y - 1; j >= 0; j--) {
                         bool active = mode.arenaLayout[i, j].active;
                         bool shared = mode.arenaLayout[i, j].shared;
 

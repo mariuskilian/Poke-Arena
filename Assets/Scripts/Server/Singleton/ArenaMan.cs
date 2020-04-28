@@ -38,7 +38,7 @@ public class ArenaMan : GlobalEventListener {
 
     private Vector3 GetArenaPosition(int x, int y) {
         int factor = ArenaSize + SpaceBetweenArenas;
-        return Vector3.right * x * factor - Vector3.forward * y * factor;
+        return Vector3.right * x * factor + Vector3.forward * y * factor;
     }
 
 }
