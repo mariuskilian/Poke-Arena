@@ -8,15 +8,13 @@ public class Player : EntityBehaviour<IPlayerState> {
     public BoltConnection Connection;
     public int PlayerID;
 
-    public void InitPlayer() {
+    public void InitPlayer(Transform targetTransform) {
         state.SetTransforms(state.Transform, transform);
-        SetPosition();
+        SetPosition(targetTransform);
     }
 
-    private void SetPosition() {
-        int factor = (true) ? PlayerID : PlayerID / 2;
-        int yRotation = (PlayerID % 2 == 0) ? 0 : 180;
-        transform.rotation = Quaternion.Euler(0, yRotation, 0);
+    private void SetPosition(Transform targetTransform) {
+        transform.position = targetTransform.position;
+        transform.rotation = targetTransform.rotation;
     }
-
 }

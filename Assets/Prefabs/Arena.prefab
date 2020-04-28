@@ -278,6 +278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fce486e7c27c2004d9cb0aa0fc363767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player1: {fileID: 7401875030982048450}
+  Player2: {fileID: 7401875031782614698}
 --- !u!114 &4969823284285458099
 MonoBehaviour:
   m_ObjectHideFlags: 0
