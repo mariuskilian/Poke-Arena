@@ -468,11 +468,25 @@
     },
     {
       "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
-      "Properties": [],
+      "Properties": [
+        {
+          "Name": "PlayerNetID",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Bolt.Compiler.PropertyTypeNetworkId, bolt.compiler"
+          },
+          "AssetSettings": {
+            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        }
+      ],
       "EntitySenders": 3,
       "GlobalSenders": 1,
-      "Name": "GameLoadedEvent",
-      "Guid": "63e15bfa-0e3c-4188-b350-29c0aa77594d",
+      "Name": "PlayerSpawnedEvent",
+      "Guid": "1b84d1ea-ad25-46dc-bc5a-0c238e4e530f",
       "Groups": []
     }
   ],

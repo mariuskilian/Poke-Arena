@@ -16,8 +16,8 @@ public class PoolMan : GlobalEventListener {
         if (Instance == null) Instance = this;
     }
 
-    public override void OnEvent(GameLoadedEvent evnt) {
-        InitPools();
+    public override void SceneLoadLocalDone(string scene, IProtocolToken token) {
+        SubscribeLocalEventHandlers();
     }
 
     #region Pools
@@ -95,6 +95,16 @@ public class PoolMan : GlobalEventListener {
             unit.transform.GetChild(childIdx).gameObject.SetActive(activeState);
         }
     }
+    #endregion
+
+
+    
+    #region Local Event Handlers 
+    private void SubscribeLocalEventHandlers() {
+        GameMan.Instance.GameLoadedEvent += HandleGameLoadedEvent;
+    }
+    
+    private void HandleGameLoadedEvent() { InitPools(); }
     #endregion
 
 }

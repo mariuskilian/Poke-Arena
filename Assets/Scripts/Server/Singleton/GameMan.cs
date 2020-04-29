@@ -1,19 +1,27 @@
 using UnityEngine;
 using Bolt;
 using System.Collections.Generic;
+using System;
 
 [BoltGlobalBehaviour(BoltNetworkModes.Server)]
 public class GameMan : GlobalEventListener {
 
     public static GameMan Instance { get; private set; }
 
+    #region Local Events
+    public Action GameLoadedEvent;
+    #endregion
+
+    // General
     public GameSettings Settings { get; private set; }
     public GameMode Mode { get; private set; }
 
+    // Arenas
     public Arena[] Arenas { get; private set; }
     private readonly int ArenaSize = 20;
     private readonly int SpaceBetweenArenas = 1;
 
+    // Players
     private Queue<Player> PlayerQueue = new Queue<Player>(); // Used while Players Array has not yet been init.ed
     public Player[] Players { get; private set; }
 
@@ -26,6 +34,7 @@ public class GameMan : GlobalEventListener {
         Mode = DataHolder.Instance.GameModes[0];
         InitArenas();
         InitPlayers();
+        GameLoadedEvent?.Invoke();
     }
 
     public override void Connected(BoltConnection connection) {
@@ -42,7 +51,7 @@ public class GameMan : GlobalEventListener {
                 Vector3 pos = (Vector3.right * i + Vector3.forward * j) * (ArenaSize + SpaceBetweenArenas);
                 var arenaEntity = BoltNetwork.Instantiate(BoltPrefabs.Arena, pos, Quaternion.identity);
                 Arena arena = arenaEntity.GetComponent<Arena>();
-                if (!arenaLayout[i, j].shared) arena.Player2 = null;
+                arena.Players = (arenaLayout[i, j].shared) ? new Player[2] : new Player[1];
 
                 for (int k = 0; k < Arenas.Length; k++) if (Arenas[k] == null) { Arenas[k] = arena; break; }
             }
@@ -60,7 +69,11 @@ public class GameMan : GlobalEventListener {
             if (Players[i] == null) Players[i] = PlayerQueue.Dequeue();
 
         // If players array was full, clear the remaining Queue
-        while (PlayerQueue.Count > 0) PlayerQueue.Dequeue().Connection.Disconnect();
+        while (PlayerQueue.Count > 0) {
+            var player = PlayerQueue.Dequeue();
+            player.Connection.Disconnect();
+            BoltNetwork.Destroy(player.gameObject);
+        }
     }
 
     private void InitPlayer(BoltConnection connection) {
