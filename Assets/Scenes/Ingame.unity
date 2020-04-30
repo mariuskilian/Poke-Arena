@@ -293,7 +293,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 446054964}
   m_LocalRotation: {x: 0.4028585, y: 0, z: 0, w: 0.9152623}
-  m_LocalPosition: {x: 10, y: 7.275, z: 0.193}
+  m_LocalPosition: {x: 10, y: 7.275, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2088224693}
@@ -344,7 +344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d42f4b990490f7c46b9fdf3937fe987a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CamOffset: {x: 10, y: 7.275, z: 0.193}
+  CamOffset: {x: 5, y: 7.275, z: 0}
   CamRotationEulers: {x: 30, y: 0, z: 0}
 --- !u!1 &1558936934
 GameObject:

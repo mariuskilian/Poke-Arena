@@ -37,7 +37,7 @@ public class GameMan : GlobalEventListener {
         GameLoadedEvent?.Invoke();
     }
 
-    public override void Connected(BoltConnection connection) {
+    public override void SceneLoadRemoteDone(BoltConnection connection, IProtocolToken token) {
         InitPlayer(connection);
     }
 
