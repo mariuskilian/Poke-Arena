@@ -1,5 +1,6 @@
 using UnityEngine;
 using Bolt;
+using System;
 using System.Collections.Generic;
 using static GameInfo;
 
@@ -7,18 +8,17 @@ using static GameInfo;
 public class PoolMan : GlobalEventListener {
 
     public static PoolMan Instance { get; private set; }
+    private void Awake() { if (Instance == null) Instance = this; }
 
     public Dictionary<string, Queue<Unit>>[] PoolsByRarity { get; private set; }
 
     public static GameSettings test;
 
-    private void Awake() {
-        if (Instance == null) Instance = this;
-    }
+    #region Local Events
+    public Action PoolsInitDoneEvent;
+    #endregion
 
-    public override void SceneLoadLocalDone(string scene, IProtocolToken token) {
-        SubscribeLocalEventHandlers();
-    }
+    private void Start() { SubscribeLocalEventHandlers(); }
 
     #region Pools
     private void InitPools() {
@@ -36,13 +36,16 @@ public class PoolMan : GlobalEventListener {
             }
             PoolsByRarity[(int)unitPrefab.properties.rarity].Add(unitPrefab.properties.name, Pool);
         }
+        Debug.Log("Marius: POOLS INIT DONE");
+        PoolsInitDoneEvent?.Invoke();
     }
     #endregion
 
 
 
     #region Spawning Random Unit
-    private Unit SpawnRandomUnit(Rarity rarity) {
+    public Unit SpawnRandomUnit(int level) {
+        Rarity rarity = DetermineRandomQuality(level);
         Dictionary<string, Queue<Unit>> Pools = PoolsByRarity[(int)rarity];
 
         int numUnits = 0;
@@ -50,8 +53,8 @@ public class PoolMan : GlobalEventListener {
 
         string unitName = "";
         int ticket = RNG.Next(numUnits);
-        foreach (KeyValuePair<string, Queue<Unit>> pool in Pools)
-            if ((ticket -= pool.Value.Count) < 0) unitName = pool.Key;
+        foreach (KeyValuePair<string, Queue<Unit>> pair in Pools)
+            if ((ticket -= pair.Value.Count) < 0) { unitName = pair.Key; break; }
 
         Unit unit = PoolsByRarity[(int)rarity][unitName].Dequeue();
         SetUnitActiveState(unit, false);

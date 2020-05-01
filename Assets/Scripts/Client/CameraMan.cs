@@ -4,17 +4,26 @@ using Bolt;
 public class CameraMan : GlobalEventListener {
 
     public static CameraMan Instance { get; private set; }
+    private void Awake() { if (Instance == null) Instance = this; }
 
     public Vector3 CamOffset;
     public Vector3 CamRotationEulers;
 
-    private void Awake() { if (Instance == null) Instance = this; }
+    public override void OnEvent(EventManClientInitializedEvent evnt) { if (evnt.RaisedBy == null) SubscribeLocalEventHandlers(); }
 
-    public override void OnEvent(PlayerSpawnedEvent evnt) {
-        var playerEntity = BoltNetwork.FindEntity(evnt.PlayerNetID);
-        transform.SetParent(playerEntity.transform);
+    private void AttachCameraToPlayer(Player player) {
+        transform.SetParent(player.transform);
         transform.localPosition = CamOffset;
         transform.localRotation = Quaternion.Euler(CamRotationEulers);
     }
+
+    #region Local Event Handlers
+    private void SubscribeLocalEventHandlers() {
+        ClientEventMan eventMan = ClientEventMan.Instance;
+        eventMan.PlayerReceivedEvent += HandlePlayerReceivedEvent;
+    }
+
+    private void HandlePlayerReceivedEvent(Player player) { AttachCameraToPlayer(player); }
+    #endregion
 
 }

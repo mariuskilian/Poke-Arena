@@ -16,9 +16,9 @@ MonoBehaviour:
     array2D:
     - row:
       - active: 1
-        shared: 1
+        shared: 0
       - active: 1
-        shared: 1
+        shared: 0
       - active: 1
         shared: 0
     - row:

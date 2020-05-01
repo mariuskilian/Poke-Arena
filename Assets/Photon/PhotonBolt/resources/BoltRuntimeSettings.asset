@@ -53,7 +53,7 @@ MonoBehaviour:
   logUncaughtExceptions: 0
   debugEditorMode: 1
   consoleToggleKey: 9
-  consoleVisibleByDefault: 1
+  consoleVisibleByDefault: 0
   compilationWarnLevel: 4
   editorSkin: 4
   scopeModeHideWarningInGui: 0
