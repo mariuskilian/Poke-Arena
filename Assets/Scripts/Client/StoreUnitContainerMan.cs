@@ -6,9 +6,9 @@ using Bolt;
 public class StoreUnitContainerMan : GlobalEventListener {
 
     [SerializeField] private float
-        yOffset = 0.378f,
+        yOffset = 0.5f,
         zOffset = 3f,
-        xOffsetMax = 1.8f
+        xOffsetMax = 4f
         ;
 
     public static StoreUnitContainerMan Instance { get; private set; }

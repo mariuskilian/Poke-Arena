@@ -139,6 +139,6 @@ public class GameMan : GlobalEventListener {
         PoolMan.Instance.PoolsInitDoneEvent += HandlePoolsInitDoneEvent;
     }
 
-    private void HandlePoolsInitDoneEvent() { Debug.Log("Marius: Got it!"); StartCoroutine(CheckAllPlayersLoaded()); }
+    private void HandlePoolsInitDoneEvent() { StartCoroutine(CheckAllPlayersLoaded()); }
     #endregion
 }

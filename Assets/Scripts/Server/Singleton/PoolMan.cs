@@ -36,7 +36,6 @@ public class PoolMan : GlobalEventListener {
             }
             PoolsByRarity[(int)unitPrefab.properties.rarity].Add(unitPrefab.properties.name, Pool);
         }
-        Debug.Log("Marius: POOLS INIT DONE");
         PoolsInitDoneEvent?.Invoke();
     }
     #endregion
