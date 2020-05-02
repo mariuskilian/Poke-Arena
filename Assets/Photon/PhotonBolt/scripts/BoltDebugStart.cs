@@ -1,6 +1,7 @@
 ﻿using Bolt;
 using UdpKit;
 using UnityEngine;
+using System.Collections;
 using Process = System.Diagnostics.Process;
 
 public partial class BoltDebugStart : BoltInternal.GlobalEventListenerBase
@@ -82,8 +83,13 @@ end tell'";
 		}
 		else if (BoltNetwork.IsClient)
 		{
-			BoltNetwork.Connect((ushort)BoltRuntimeSettings.instance.debugStartPort);
+			StartCoroutine(WaitThenStartClient());
 		}
+	}
+
+	private IEnumerator WaitThenStartClient() {
+		yield return new WaitForSeconds(5);
+		BoltNetwork.Connect((ushort)BoltRuntimeSettings.instance.debugStartPort);
 	}
 
 	public override void SceneLoadLocalDone(string scene, IProtocolToken token)
