@@ -1,15 +1,19 @@
 using UnityEngine;
-using Bolt;
+using System;
 
 public class StoreButtonMan : MonoBehaviour {
 
     public static StoreButtonMan Instance { get; private set; }
     private void Awake() { if (Instance == null) Instance = this; }
 
+    #region Local Events
+    public Action<int> TryBuyUnitEvent;
+    #endregion
+
     [SerializeField] private GameObject CatchButtonTemplate = null;
     [SerializeField] private int xOffsetMax = 520;
 
-    private CatchUnitButton[] CatchUnitButtons = new CatchUnitButton[StoreMan.StoreSize];
+    private CatchUnitButton[] CatchUnitButtons = new CatchUnitButton[PlayerStoreMan.StoreSize];
 
     private void Start() { InitStoreButtons(); SubscribeLocalEventHandlers(); }
 
@@ -18,7 +22,7 @@ public class StoreButtonMan : MonoBehaviour {
             GameObject buttonGO = Instantiate(CatchButtonTemplate);
             buttonGO.transform.SetParent(transform);
 
-            float xOffset = (((float)idx / (float)(StoreMan.StoreSize-1)) * xOffsetMax * 2) - xOffsetMax;
+            float xOffset = (((float)idx / (float)(PlayerStoreMan.StoreSize-1)) * xOffsetMax * 2) - xOffsetMax;
             buttonGO.transform.localPosition = Vector3.right * xOffset;
             buttonGO.transform.localScale = Vector3.one;
 
@@ -34,7 +38,7 @@ public class StoreButtonMan : MonoBehaviour {
 
     #region Local Event Handlers
     private void SubscribeLocalEventHandlers() {
-        StoreUnitContainerMan.Instance.UnitArrivedInStoreEvent += HandleUnitArrivedInStoreEvent;
+        ClientStoreMan.Instance.UnitArrivedInStoreEvent += HandleUnitArrivedInStoreEvent;
     }
 
     private void HandleUnitArrivedInStoreEvent(int idx) { ActivateStoreButton(idx); }

@@ -73,6 +73,8 @@ public class PoolMan : GlobalEventListener {
     private Unit InstantiateUnit(Unit unit) { return BoltNetwork.Instantiate(unit.gameObject).GetComponent<Unit>(); }
 
     private void FreezeAllStoreEntities() { foreach (var Pools in PoolsByRarity) foreach (var Pair in Pools) Pair.Value.FreezeAllEntities(); }
+
+    private void EnqueueUnit(Unit unit) { PoolsByRarity[(int)unit.properties.rarity][unit.properties.name].Enqueue(); }
     #endregion
 
 
@@ -84,8 +86,16 @@ public class PoolMan : GlobalEventListener {
         game.AllPlayersLoadedEvent += HandleAllPlayersLoadedEvent;
     }
 
+    private void SubscribePlayerEventHandlers() {
+        foreach (Player p in GameMan.Instance.Players) {
+            PlayerStoreMan store = p.GetPlayerMan<PlayerStoreMan>();
+            store.DespawnUnitEvent += HandleDespawnUnitEvent;
+        }
+    }
+
     private void HandleGameLoadedEvent() { InitPools(); }
-    private void HandleAllPlayersLoadedEvent() { FreezeAllStoreEntities(); }
+    private void HandleAllPlayersLoadedEvent() { FreezeAllStoreEntities(); SubscribePlayerEventHandlers(); }
+    private void HandleDespawnUnitEvent(Unit unit) { EnqueueUnit(unit); }
     #endregion
 
 }
@@ -103,7 +113,7 @@ public class UnitPool {
         storeUnits = new Queue<Unit>();
         storeUnitsVariants = (unit.variant == null) ? null : new Queue<Unit>();
 
-        for (int i = 0; i < StoreMan.StoreSize; i++) {
+        for (int i = 0; i < PlayerStoreMan.StoreSize; i++) {
             var unitEntity = BoltNetwork.Instantiate(unit.gameObject);
             storeUnits.Enqueue(unitEntity.GetComponent<Unit>());
             if (unit.variant == null) continue;
@@ -129,7 +139,7 @@ public class UnitPool {
 
     public void FreezeAllEntities() {
         Unit unit;
-        for (int i = 0; i < StoreMan.StoreSize; i++) {
+        for (int i = 0; i < PlayerStoreMan.StoreSize; i++) {
             unit = storeUnits.Dequeue();
             unit.entity.Freeze(true);
             storeUnits.Enqueue(unit);
@@ -142,5 +152,5 @@ public class UnitPool {
         }
     }
 
-    public void Enueue() { Count++; }
+    public void Enqueue() { Count++; }
 }

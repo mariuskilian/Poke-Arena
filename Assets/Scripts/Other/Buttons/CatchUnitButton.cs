@@ -5,11 +5,11 @@ public class CatchUnitButton : MonoBehaviour {
     private int storeIdx;
 
     public void OnButtonClick() {
-        // Buy Unit
+        StoreButtonMan.Instance.TryBuyUnitEvent?.Invoke(storeIdx);
     }
 
     public void SetStoreIdx(int idx) {
-        storeIdx = Mathf.Clamp(idx, 0, 4);
+        storeIdx = Mathf.Clamp(idx, 0, PlayerStoreMan.StoreSize - 1);
     }
 
     public void ActivateButton() {

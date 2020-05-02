@@ -21,8 +21,9 @@ public class Player : EntityBehaviour<IPlayerState> {
 
     private void AttachPlayerMen() {
         PlayerMen = new List<PlayerManager> {
-            gameObject.AddComponent<StoreMan>(),
-            gameObject.AddComponent<LevelMan>()
+            gameObject.AddComponent<PlayerStoreMan>(),
+            gameObject.AddComponent<PlayerLevelMan>(),
+            gameObject.AddComponent<PlayerFinanceMan>()
         };
     }
 
@@ -37,4 +38,6 @@ public class Player : EntityBehaviour<IPlayerState> {
             
         return null;
     }
+
+    protected virtual void SubscribeLocalEventHandlers() { }
 }

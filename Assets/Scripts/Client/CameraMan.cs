@@ -19,7 +19,7 @@ public class CameraMan : GlobalEventListener {
 
     #region Local Event Handlers
     private void SubscribeLocalEventHandlers() {
-        ClientEventMan eventMan = ClientEventMan.Instance;
+        ClientGlobalEventMan eventMan = ClientGlobalEventMan.Instance;
         eventMan.PlayerReceivedEvent += HandlePlayerReceivedEvent;
     }
 

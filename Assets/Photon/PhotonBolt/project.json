@@ -580,6 +580,39 @@
       "Name": "EventManServerInitializedEvent",
       "Guid": "bc9bba5c-8de2-4661-85da-a010d863055e",
       "Groups": []
+    },
+    {
+      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [
+        {
+          "Name": "StoreIdx",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
+          },
+          "AssetSettings": {
+            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        }
+      ],
+      "EntitySenders": 3,
+      "GlobalSenders": 2,
+      "Name": "ClientTryBuyUnitEvent",
+      "Guid": "bb45d88c-5f36-4a5f-a985-4a61bcd8885a",
+      "Groups": []
+    },
+    {
+      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [],
+      "EntitySenders": 3,
+      "GlobalSenders": 2,
+      "Name": "ClientTryRerollStoreEvent",
+      "Guid": "75cdc169-b801-486a-acc9-d818d3e3f0ba",
+      "Groups": []
     }
   ],
   "ActiveGroup": "Everything"
