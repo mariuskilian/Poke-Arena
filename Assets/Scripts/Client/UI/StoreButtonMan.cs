@@ -1,13 +1,14 @@
 using UnityEngine;
 using System;
+using Bolt;
 
-public class StoreButtonMan : MonoBehaviour {
+public class StoreButtonMan : GlobalEventListener {
 
     public static StoreButtonMan Instance { get; private set; }
     private void Awake() { if (Instance == null) Instance = this; }
 
     #region Local Events
-    public Action<int> TryBuyUnitEvent;
+    public Action<int> TryCatchUnitEvent;
     #endregion
 
     [SerializeField] private GameObject CatchButtonTemplate = null;
@@ -15,14 +16,16 @@ public class StoreButtonMan : MonoBehaviour {
 
     private CatchUnitButton[] CatchUnitButtons = new CatchUnitButton[PlayerStoreMan.StoreSize];
 
-    private void Start() { InitStoreButtons(); SubscribeLocalEventHandlers(); }
+    private void Start() { InitStoreButtons(); }
+
+    public override void OnEvent(EventManClientInitializedEvent evnt) { SubscribeLocalEventHandlers(); }
 
     private void InitStoreButtons() {
         for (int idx = 0; idx < CatchUnitButtons.Length; idx++) {
             GameObject buttonGO = Instantiate(CatchButtonTemplate);
             buttonGO.transform.SetParent(transform);
 
-            float xOffset = (((float)idx / (float)(PlayerStoreMan.StoreSize-1)) * xOffsetMax * 2) - xOffsetMax;
+            float xOffset = (((float)idx / (float)(PlayerStoreMan.StoreSize - 1)) * xOffsetMax * 2) - xOffsetMax;
             buttonGO.transform.localPosition = Vector3.right * xOffset;
             buttonGO.transform.localScale = Vector3.one;
 
@@ -38,10 +41,17 @@ public class StoreButtonMan : MonoBehaviour {
 
     #region Local Event Handlers
     private void SubscribeLocalEventHandlers() {
-        ClientStoreMan.Instance.UnitArrivedInStoreEvent += HandleUnitArrivedInStoreEvent;
+        ClientGlobalEventMan global = ClientGlobalEventMan.Instance;
+        global.UnitCaughtEvent += HandleUnitCaughtEvent;
+        global.NewStoreEvent += HandleNewStoreEvent;
+
+        ClientStoreMan store = ClientStoreMan.Instance;
+        store.UnitArrivedInStoreEvent += HandleUnitArrivedInStoreEvent;
     }
 
-    private void HandleUnitArrivedInStoreEvent(int idx) { ActivateStoreButton(idx); }
+    private void HandleUnitArrivedInStoreEvent(int storeIdx) { ActivateStoreButton(storeIdx); }
+    private void HandleUnitCaughtEvent(int storeIdx) { DeactivateStoreButton(storeIdx); }
+    private void HandleNewStoreEvent(StoreUnit[] _) { for (int idx = 0; idx < PlayerStoreMan.StoreSize; idx++) DeactivateStoreButton(idx); }
     #endregion
 
 }

@@ -64,14 +64,24 @@ public class PlayerBoardMan : PlayerManager {
         return unit;
     }
 
-    private void SubscribeLocalEventHandlers() {
-        var store = player.GetPlayerMan<PlayerStoreMan>();
-        store.TryBuyUnitEvent += HandleTryBuyUnitEvent;
+    public bool CanSpawnUnit(Unit unit) {
+        for (int i = 0; i < BenchSize; i++) if (!Bench[i].IsTileFilled) return true;
+        // TODO: Check for evolution
+        return false;
     }
 
-    private void HandleTryBuyUnitEvent(StoreUnit storeUnit) {
-        Unit unit = SpawnUnit(storeUnit.unit);
-        for (int i = 0; i < BenchSize; i++) if (!Bench[i].IsTileFilled) { Bench[i].FillTile(unit); return; }
+    #region Local Event Handlers
+    private void SubscribeLocalEventHandlers() {
+        var store = player.GetPlayerMan<PlayerStoreMan>();
+        store.UnitCaughtEvent += HandleUnitCaughtEvent;
     }
+
+    private void HandleUnitCaughtEvent(StoreUnit storeUnit) {
+        for (int i = 0; i < BenchSize; i++) if (!Bench[i].IsTileFilled) {
+            Bench[i].FillTile(SpawnUnit(storeUnit.unit));
+            return;
+        }
+    }
+    #endregion
 
 }

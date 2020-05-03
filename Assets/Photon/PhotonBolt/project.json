@@ -303,13 +303,14 @@
       "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
       "Properties": [
         {
-          "Name": "Unit",
+          "Name": "StoreIdx",
           "Enabled": true,
           "Expanded": true,
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeNetworkId, bolt.compiler"
+            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
           },
           "AssetSettings": {
             "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
@@ -318,7 +319,7 @@
       ],
       "EntitySenders": 3,
       "GlobalSenders": 1,
-      "Name": "StoreDespawnUnitEvent",
+      "Name": "StoreUnitCaughtEvent",
       "Guid": "af7458ca-3920-448a-9b8a-206b2b601898",
       "Groups": []
     },
@@ -329,15 +330,6 @@
       "GlobalSenders": 2,
       "Name": "EventManClientInitializedEvent",
       "Guid": "1d3f1b09-ed3e-419a-b995-a51b7a351e4f",
-      "Groups": []
-    },
-    {
-      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
-      "Properties": [],
-      "EntitySenders": 3,
-      "GlobalSenders": 1,
-      "Name": "EventManServerInitializedEvent",
-      "Guid": "bc9bba5c-8de2-4661-85da-a010d863055e",
       "Groups": []
     },
     {
@@ -360,7 +352,7 @@
       ],
       "EntitySenders": 3,
       "GlobalSenders": 2,
-      "Name": "ClientTryBuyUnitEvent",
+      "Name": "ClientTryCatchUnitEvent",
       "Guid": "bb45d88c-5f36-4a5f-a985-4a61bcd8885a",
       "Groups": []
     },

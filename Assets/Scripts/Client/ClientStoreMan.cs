@@ -32,11 +32,14 @@ public class ClientStoreMan : GlobalEventListener {
 
     private void DespawnStore() {
         StopAllCoroutines();
-        for (int idx = 0; idx < StoreUnits.Length; idx++) {
-            StoreUnit storeUnit = StoreUnits[idx];
-            if (storeUnit == null) continue;
-            storeUnit.ResetUnitPosition();
-        }
+        for (int idx = 0; idx < StoreUnits.Length; idx++) DespawnUnit(idx);
+    }
+
+    private void DespawnUnit(int storeIdx) {
+        StoreUnit storeUnit = StoreUnits[storeIdx];
+        if (storeUnit == null) return;
+        StoreUnits[storeIdx] = null;
+        storeUnit.ResetUnitPosition();
     }
 
     private IEnumerator WaitThenSpawn(StoreUnit storeUnit, int index) {
@@ -59,11 +62,14 @@ public class ClientStoreMan : GlobalEventListener {
 
     #region Local Event Handlers
     private void SubscribeLocalEventHandlers() {
-        ClientGlobalEventMan clientMan = ClientGlobalEventMan.Instance;
-        clientMan.NewStoreEvent += HandleNewStoreEvent;
+        ClientGlobalEventMan global = ClientGlobalEventMan.Instance;
+        global.NewStoreEvent += HandleNewStoreEvent;
+        global.UnitCaughtEvent += HandleUnitCaughtEvent;
     }
 
     private void HandleNewStoreEvent(StoreUnit[] Units) { DespawnStore(); SpawnNewStore(Units); }
+
+    private void HandleUnitCaughtEvent(int storeIdx) { DespawnUnit(storeIdx); }
     #endregion
 
 }

@@ -5,7 +5,7 @@ public class CatchUnitButton : MonoBehaviour {
     private int storeIdx;
 
     public void OnButtonClick() {
-        StoreButtonMan.Instance.TryBuyUnitEvent?.Invoke(storeIdx);
+        StoreButtonMan.Instance.TryCatchUnitEvent?.Invoke(storeIdx);
     }
 
     public void SetStoreIdx(int idx) {

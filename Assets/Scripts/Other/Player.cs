@@ -25,7 +25,8 @@ public class Player : EntityBehaviour<IPlayerState> {
             gameObject.AddComponent<PlayerStoreMan>(),
             gameObject.AddComponent<PlayerLevelMan>(),
             gameObject.AddComponent<PlayerFinanceMan>(),
-            gameObject.AddComponent<PlayerBoardMan>()
+            gameObject.AddComponent<PlayerBoardMan>(),
+            gameObject.AddComponent<PlayerBagMan>()
         };
     }
 

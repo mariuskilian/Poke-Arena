@@ -18,6 +18,7 @@ public class ClientGlobalEventMan : GlobalEventListener {
     #region Receiving Global Events
     public Action<Player> PlayerReceivedEvent;
     public Action<StoreUnit[]> NewStoreEvent;
+    public Action<int> UnitCaughtEvent;
 
     public override void ControlOfEntityGained(BoltEntity entity) {
         if (entity.StateIs<IPlayerState>())
@@ -34,20 +35,22 @@ public class ClientGlobalEventMan : GlobalEventListener {
         };
         NewStoreEvent?.Invoke(Units);
     }
+
+    public override void OnEvent(StoreUnitCaughtEvent evnt) { UnitCaughtEvent?.Invoke(evnt.StoreIdx); }
     #endregion
 
     #region Sending Global Events
     private void SubscribeLocalEventHandlers() {
-        StoreButtonMan.Instance.TryBuyUnitEvent += HandleTryBuyUnitEvent;
+        StoreButtonMan.Instance.TryCatchUnitEvent += HandleTryCatchUnitEvent;
 
         InputMan input = InputMan.Instance;
         input.TryRerollStoreEvent += HandleTryRerollStoreEvent;
     }
 
-    private void HandleTryBuyUnitEvent(int idx) {
-        var tryBuyUnitEvent = ClientTryBuyUnitEvent.Create(GlobalTargets.OnlyServer);
-        tryBuyUnitEvent.StoreIdx = idx;
-        tryBuyUnitEvent.Send();
+    private void HandleTryCatchUnitEvent(int idx) {
+        var tryCatchUnitEvent = ClientTryCatchUnitEvent.Create(GlobalTargets.OnlyServer);
+        tryCatchUnitEvent.StoreIdx = idx;
+        tryCatchUnitEvent.Send();
     }
 
     private void HandleTryRerollStoreEvent() { ClientTryRerollStoreEvent.Create(GlobalTargets.OnlyServer).Send(); }

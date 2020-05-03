@@ -89,13 +89,13 @@ public class PoolMan : GlobalEventListener {
     private void SubscribePlayerEventHandlers() {
         foreach (Player p in GameMan.Instance.Players) {
             PlayerStoreMan store = p.GetPlayerMan<PlayerStoreMan>();
-            store.DespawnUnitEvent += HandleDespawnUnitEvent;
+            store.UnitDespawnEvent += HandleUnitDespawnEvent;
         }
     }
 
     private void HandleGameLoadedEvent() { InitPools(); }
     private void HandleAllPlayersLoadedEvent() { FreezeAllStoreEntities(); SubscribePlayerEventHandlers(); }
-    private void HandleDespawnUnitEvent(StoreUnit storeUnit) { EnqueueUnit(storeUnit); }
+    private void HandleUnitDespawnEvent(StoreUnit storeUnit) { EnqueueUnit(storeUnit); }
     #endregion
 
 }
