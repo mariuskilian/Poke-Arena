@@ -20,7 +20,7 @@ public class ClientGlobalEventMan : GlobalEventListener {
     public Action<StoreUnit[]> NewStoreEvent;
 
     public override void ControlOfEntityGained(BoltEntity entity) {
-        if (entity.GetState<IPlayerState>() != null)
+        if (entity.StateIs<IPlayerState>())
             PlayerReceivedEvent?.Invoke(entity.GetComponent<Player>());
     }
 

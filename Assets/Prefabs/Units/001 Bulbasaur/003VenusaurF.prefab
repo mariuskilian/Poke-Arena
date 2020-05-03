@@ -1908,6 +1908,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   evolution: {fileID: 0}
+  evolutionChain: 2
   properties: {fileID: 11400000, guid: fa0626dbb7f7d684baccb954434d4f99, type: 2}
 --- !u!1 &5154433671963740780
 GameObject:

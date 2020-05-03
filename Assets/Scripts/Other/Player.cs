@@ -10,9 +10,10 @@ public class Player : EntityBehaviour<IPlayerState> {
 
     private List<PlayerManager> PlayerMen;
 
+    public GameObject Team;
+
     public void InitPlayer(Transform parent) {
         if (!BoltNetwork.IsServer) return;
-        state.SetTransforms(state.Transform, transform);
         transform.SetParent(parent);
         ResetPosition();
 
@@ -23,7 +24,8 @@ public class Player : EntityBehaviour<IPlayerState> {
         PlayerMen = new List<PlayerManager> {
             gameObject.AddComponent<PlayerStoreMan>(),
             gameObject.AddComponent<PlayerLevelMan>(),
-            gameObject.AddComponent<PlayerFinanceMan>()
+            gameObject.AddComponent<PlayerFinanceMan>(),
+            gameObject.AddComponent<PlayerBoardMan>()
         };
     }
 

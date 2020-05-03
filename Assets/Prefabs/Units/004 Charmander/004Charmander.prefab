@@ -941,6 +941,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   evolution: {fileID: -2414514971138074600, guid: 240909a4bd34b694294eb162aef54f0c,
     type: 3}
+  evolutionChain: 0
   properties: {fileID: 11400000, guid: 4f97fcffca0f0f646b653bacfb68d192, type: 2}
 --- !u!1 &4138023253936758186
 GameObject:

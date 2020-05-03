@@ -8,10 +8,6 @@ public class Arena : EntityBehaviour<IArenaState> {
     public GameObject Player1Handle, Player2Handle;
     [HideInInspector] public Player[] Players;
 
-    public override void Attached() {
-        state.SetTransforms(state.Transform, transform);
-    }
-
     public bool TryAddPlayer(Player player) {
         for (int i = 0; i < Players.Length; i++) {
             if (Players[i] == null) {

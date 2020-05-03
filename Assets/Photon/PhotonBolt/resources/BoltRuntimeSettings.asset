@@ -51,7 +51,7 @@ MonoBehaviour:
   showDebugInfo: 1
   overrideTimeScale: 1
   logUncaughtExceptions: 0
-  debugEditorMode: 2
+  debugEditorMode: 1
   consoleToggleKey: 9
   consoleVisibleByDefault: 0
   compilationWarnLevel: 4
