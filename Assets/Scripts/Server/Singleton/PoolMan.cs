@@ -11,7 +11,7 @@ public class PoolMan : GlobalEventListener {
     public static PoolMan Instance { get; private set; }
     private void Awake() { if (Instance == null) Instance = this; }
 
-    public Dictionary<string, UnitPool>[] PoolsByRarity { get; private set; }
+    public Dictionary<string, StoreUnitPool>[] PoolsByRarity { get; private set; }
 
     public static GameSettings test;
 
@@ -24,14 +24,14 @@ public class PoolMan : GlobalEventListener {
     #region Pools
     private void InitPools() {
         // Initialize pool dictionaries
-        PoolsByRarity = new Dictionary<string, UnitPool>[NumRarities];
-        for (int i = 0; i < NumRarities; i++) PoolsByRarity[i] = new Dictionary<string, UnitPool>();
+        PoolsByRarity = new Dictionary<string, StoreUnitPool>[NumRarities];
+        for (int i = 0; i < NumRarities; i++) PoolsByRarity[i] = new Dictionary<string, StoreUnitPool>();
 
         // Initialize pools
-        foreach (Unit unitPrefab in DataHolder.Instance.BaseUnitPrefabs) {
-            Rarity rarity = unitPrefab.properties.rarity;
-            UnitPool pool = new UnitPool(unitPrefab, GameMan.Instance.Settings.PoolSize[(int)rarity]);
-            PoolsByRarity[(int)rarity].Add(unitPrefab.properties.name, pool);
+        foreach (StoreUnit storeUnitPrefab in DataHolder.Instance.StoreUnitPrefabs) {
+            Rarity rarity = storeUnitPrefab.unit.properties.rarity;
+            StoreUnitPool pool = new StoreUnitPool(storeUnitPrefab, GameMan.Instance.Settings.PoolSize[(int)rarity]);
+            PoolsByRarity[(int)rarity].Add(storeUnitPrefab.unit.properties.name, pool);
         }
 
         PoolsInitDoneEvent?.Invoke();
@@ -42,20 +42,20 @@ public class PoolMan : GlobalEventListener {
 
 
     #region Spawning Random Unit
-    public Unit SpawnRandomUnit(int level) {
+    public StoreUnit SpawnRandomUnit(int level) {
         Rarity rarity = DetermineRandomQuality(level);
-        Dictionary<string, UnitPool> Pools = PoolsByRarity[(int)rarity];
+        Dictionary<string, StoreUnitPool> Pools = PoolsByRarity[(int)rarity];
 
         int numUnits = 0;
-        foreach (KeyValuePair<string, UnitPool> pool in Pools) numUnits += pool.Value.Count;
+        foreach (KeyValuePair<string, StoreUnitPool> pool in Pools) numUnits += pool.Value.Count;
 
         string unitName = "";
         int ticket = RNG.Next(numUnits);
-        foreach (KeyValuePair<string, UnitPool> pair in Pools)
+        foreach (KeyValuePair<string, StoreUnitPool> pair in Pools)
             if ((ticket -= pair.Value.Count) < 0) { unitName = pair.Key; break; }
 
-        Unit unit = PoolsByRarity[(int)rarity][unitName].Dequeue();
-        return unit;
+        StoreUnit storeUnit = PoolsByRarity[(int)rarity][unitName].Dequeue();
+        return storeUnit;
     }
 
     private Rarity DetermineRandomQuality(int level) {
@@ -70,11 +70,11 @@ public class PoolMan : GlobalEventListener {
 
 
     #region Helpers
-    private Unit InstantiateUnit(Unit unit) { return BoltNetwork.Instantiate(unit.gameObject).GetComponent<Unit>(); }
+    private StoreUnit InstantiateUnit(StoreUnit storeUnit) { return BoltNetwork.Instantiate(storeUnit.gameObject).GetComponent<StoreUnit>(); }
 
     private void FreezeAllStoreEntities() { foreach (var Pools in PoolsByRarity) foreach (var Pair in Pools) Pair.Value.FreezeAllEntities(); }
 
-    private void EnqueueUnit(Unit unit) { PoolsByRarity[(int)unit.properties.rarity][unit.properties.name].Enqueue(); }
+    private void EnqueueUnit(StoreUnit storeUnit) { PoolsByRarity[(int)storeUnit.unit.properties.rarity][storeUnit.unit.properties.name].Enqueue(); }
     #endregion
 
 
@@ -95,60 +95,65 @@ public class PoolMan : GlobalEventListener {
 
     private void HandleGameLoadedEvent() { InitPools(); }
     private void HandleAllPlayersLoadedEvent() { FreezeAllStoreEntities(); SubscribePlayerEventHandlers(); }
-    private void HandleDespawnUnitEvent(Unit unit) { EnqueueUnit(unit); }
+    private void HandleDespawnUnitEvent(StoreUnit storeUnit) { EnqueueUnit(storeUnit); }
     #endregion
 
 }
 
-public class UnitPool {
+public class StoreUnitPool {
 
     public int Count { get; private set; }
 
-    private Queue<Unit> storeUnits;
-    private Queue<Unit> storeUnitsVariants;
+    private Queue<StoreUnit> storeUnits;
+    private Queue<StoreUnit> storeUnitsVariants;
     
-    public UnitPool(Unit unit, int poolSize) {
+    public StoreUnitPool(StoreUnit storeUnit, int poolSize) {
         Count = poolSize;
 
-        storeUnits = new Queue<Unit>();
-        storeUnitsVariants = (unit.variant == null) ? null : new Queue<Unit>();
+        storeUnits = new Queue<StoreUnit>();
+        storeUnitsVariants = (storeUnit.variant == null) ? null : new Queue<StoreUnit>();
 
         for (int i = 0; i < PlayerStoreMan.StoreSize; i++) {
-            var unitEntity = BoltNetwork.Instantiate(unit.gameObject);
-            storeUnits.Enqueue(unitEntity.GetComponent<Unit>());
-            if (unit.variant == null) continue;
-            storeUnitsVariants.Enqueue(BoltNetwork.Instantiate(unit.variant.gameObject).GetComponent<Unit>());
+            var storeUnitCopy = BoltNetwork.Instantiate(storeUnit.gameObject).GetComponent<StoreUnit>();
+            storeUnitCopy.ResetUnitPosition();
+            storeUnits.Enqueue(storeUnitCopy);
+
+            if (storeUnit.variant == null) continue;
+
+            storeUnitCopy = BoltNetwork.Instantiate(storeUnit.variant.gameObject).GetComponent<StoreUnit>();
+            storeUnitCopy.ResetUnitPosition();
+            storeUnitsVariants.Enqueue(storeUnitCopy);
         }
     }
 
-    public Unit Dequeue() {
+    public StoreUnit Dequeue() {
         if (Count == 0) return null;
 
-        Unit unit;
+        StoreUnit storeUnit;
         if (storeUnitsVariants != null && RNG.Next(10) < 5) {
-            unit = storeUnitsVariants.Dequeue();
-            storeUnitsVariants.Enqueue(unit);
+            storeUnit = storeUnitsVariants.Dequeue();
+            storeUnitsVariants.Enqueue(storeUnit);
         } else {
-            unit = storeUnits.Dequeue();
-            storeUnits.Enqueue(unit);
+            storeUnit = storeUnits.Dequeue();
+            storeUnits.Enqueue(storeUnit);
         }
 
         Count--;
-        return unit;
+        return storeUnit;
     }
 
     public void FreezeAllEntities() {
-        Unit unit;
+        StoreUnit storeUnit;
         for (int i = 0; i < PlayerStoreMan.StoreSize; i++) {
-            unit = storeUnits.Dequeue();
-            unit.entity.Freeze(true);
-            storeUnits.Enqueue(unit);
+            storeUnit = storeUnits.Dequeue();
+            storeUnit.entity.Freeze(true);
+            storeUnits.Enqueue(storeUnit);
 
-            if (unit.variant == null) continue;
+            if (storeUnit.variant == null) continue;
 
-            unit = storeUnitsVariants.Dequeue();
-            unit.entity.Freeze(true);
-            storeUnitsVariants.Enqueue(unit);
+            storeUnit = storeUnitsVariants.Dequeue();
+            storeUnit.entity.Freeze(true);
+            storeUnitsVariants.Enqueue(storeUnit);
         }
     }
 

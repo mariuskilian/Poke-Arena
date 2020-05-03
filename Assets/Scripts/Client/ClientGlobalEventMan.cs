@@ -17,7 +17,7 @@ public class ClientGlobalEventMan : GlobalEventListener {
 
     #region Receiving Global Events
     public Action<Player> PlayerReceivedEvent;
-    public Action<Unit[]> NewStoreEvent;
+    public Action<StoreUnit[]> NewStoreEvent;
 
     public override void ControlOfEntityGained(BoltEntity entity) {
         if (entity.GetState<IPlayerState>() != null)
@@ -25,12 +25,12 @@ public class ClientGlobalEventMan : GlobalEventListener {
     }
 
     public override void OnEvent(StoreNewStoreEvent evnt) {
-        Unit[] Units = {
-            BoltNetwork.FindEntity(evnt.Unit1).GetComponent<Unit>(),
-            BoltNetwork.FindEntity(evnt.Unit2).GetComponent<Unit>(),
-            BoltNetwork.FindEntity(evnt.Unit3).GetComponent<Unit>(),
-            BoltNetwork.FindEntity(evnt.Unit4).GetComponent<Unit>(),
-            BoltNetwork.FindEntity(evnt.Unit5).GetComponent<Unit>()
+        StoreUnit[] Units = {
+            BoltNetwork.FindEntity(evnt.Unit1).GetComponent<StoreUnit>(),
+            BoltNetwork.FindEntity(evnt.Unit2).GetComponent<StoreUnit>(),
+            BoltNetwork.FindEntity(evnt.Unit3).GetComponent<StoreUnit>(),
+            BoltNetwork.FindEntity(evnt.Unit4).GetComponent<StoreUnit>(),
+            BoltNetwork.FindEntity(evnt.Unit5).GetComponent<StoreUnit>()
         };
         NewStoreEvent?.Invoke(Units);
     }

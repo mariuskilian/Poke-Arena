@@ -8,7 +8,7 @@ public class DataHolder : MonoBehaviour {
 
     public GameSettings[] GameSettings;
 
-    public Unit[] BaseUnitPrefabs;
+    public StoreUnit[] StoreUnitPrefabs;
 
     private void Awake() {
         if (Instance == null) Instance = this;

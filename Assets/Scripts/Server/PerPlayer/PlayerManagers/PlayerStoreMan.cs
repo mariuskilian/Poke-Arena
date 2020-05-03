@@ -6,16 +6,16 @@ public class PlayerStoreMan : PlayerManager {
 
     public const int StoreSize = 5;
 
-    public Unit[] ActiveStore { get; private set; }
+    public StoreUnit[] ActiveStore { get; private set; }
     public bool IsLocked { get; private set; }
 
-    private void Start() { ActiveStore = new Unit[StoreSize]; SubscribeLocalEventHandlers(); }
+    private void Start() { ActiveStore = new StoreUnit[StoreSize]; SubscribeLocalEventHandlers(); }
 
     private void SpawnNewStore() {
         int level = player.GetPlayerMan<PlayerLevelMan>().Level;
         for (int idx = 0; idx < StoreSize; idx++) {
-            Unit unit = PoolMan.Instance.SpawnRandomUnit(level);
-            ActiveStore[idx] = unit;
+            StoreUnit storeUnit = PoolMan.Instance.SpawnRandomUnit(level);
+            ActiveStore[idx] = storeUnit;
         }
 
         var newStoreEvent = StoreNewStoreEvent.Create(player.Connection);
@@ -30,17 +30,17 @@ public class PlayerStoreMan : PlayerManager {
     private void DespawnActiveStore() {
         for (int i = 0; i < StoreSize; i++) {
             if (ActiveStore[i] == null) continue;
-            Unit unit = ActiveStore[i];
+            StoreUnit storeUnit = ActiveStore[i];
             ActiveStore[i] = null;
-            DespawnUnitEvent?.Invoke(unit);
+            DespawnUnitEvent?.Invoke(storeUnit);
         }
     }
 
     
     
     #region Local Events
-    public Action<Unit> TryBuyUnitEvent;
-    public Action<Unit> DespawnUnitEvent;
+    public Action<StoreUnit> TryBuyUnitEvent;
+    public Action<StoreUnit> DespawnUnitEvent;
     #endregion
 
     #region Local Event Handlers

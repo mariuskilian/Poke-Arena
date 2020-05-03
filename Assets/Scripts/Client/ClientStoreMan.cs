@@ -19,11 +19,11 @@ public class ClientStoreMan : GlobalEventListener {
         xOffsetMax = 1.8f
         ;
 
-    private Unit[] StoreUnits = new Unit[PlayerStoreMan.StoreSize];
+    private StoreUnit[] StoreUnits = new StoreUnit[PlayerStoreMan.StoreSize];
 
     public override void OnEvent(EventManClientInitializedEvent evnt) { if (evnt.RaisedBy == null) SubscribeLocalEventHandlers(); }
 
-    private void SpawnNewStore(Unit[] Units) {
+    private void SpawnNewStore(StoreUnit[] Units) {
         for (int idx = 0; idx < Units.Length; idx++) {
             StoreUnits[idx] = Units[idx];
             StartCoroutine(WaitThenSpawn(Units[idx], idx));
@@ -33,21 +33,21 @@ public class ClientStoreMan : GlobalEventListener {
     private void DespawnStore() {
         StopAllCoroutines();
         for (int idx = 0; idx < StoreUnits.Length; idx++) {
-            Unit unit = StoreUnits[idx];
-            if (unit == null) continue;
-            ResetUnitPosition(unit);
+            StoreUnit storeUnit = StoreUnits[idx];
+            if (storeUnit == null) continue;
+            storeUnit.ResetUnitPosition();
         }
     }
 
-    private IEnumerator WaitThenSpawn(Unit unit, int index) {
-        unit.SetActive(true);
-        unit.transform.SetParent(transform);
-        unit.transform.localPosition = GetUnitPosition(index);
-        unit.transform.localRotation = Quaternion.Euler(0, 180, 0);
-        unit.gameObject.transform.Translate(Vector3.up * 1000); //to hide unit while waiting
-        float normalizedIndex = (float)index / (float)(5 - 1); // 0 <= normalizedIndex <= 1
+    private IEnumerator WaitThenSpawn(StoreUnit storeUnit, int index) {
+        storeUnit.SetActive(true);
+        storeUnit.transform.SetParent(transform);
+        storeUnit.transform.localPosition = GetUnitPosition(index);
+        storeUnit.transform.localRotation = Quaternion.Euler(0, 180, 0);
+        storeUnit.gameObject.transform.Translate(Vector3.up * 10); //to hide unit while waiting
+        float normalizedIndex = (float)index / (float)(PlayerStoreMan.StoreSize - 1); // 0 <= normalizedIndex <= 1
         yield return new WaitForSeconds(normalizedIndex * 0.67f);
-        unit.gameObject.transform.Translate(Vector3.down * 1000); //reshow unit
+        storeUnit.gameObject.transform.Translate(Vector3.down * 10); //reshow unit
         UnitArrivedInStoreEvent?.Invoke(index);
     }
 
@@ -57,20 +57,13 @@ public class ClientStoreMan : GlobalEventListener {
         return Vector3.right * x + Vector3.up * yOffset + Vector3.forward * zOffset;
     }
 
-    public void ResetUnitPosition(Unit unit) {
-        unit.transform.parent = null;
-        unit.transform.position = Vector3.left * 100;
-        unit.transform.rotation = Quaternion.identity;
-        unit.SetActive(false);
-    }
-
     #region Local Event Handlers
     private void SubscribeLocalEventHandlers() {
         ClientGlobalEventMan clientMan = ClientGlobalEventMan.Instance;
         clientMan.NewStoreEvent += HandleNewStoreEvent;
     }
 
-    private void HandleNewStoreEvent(Unit[] Units) { DespawnStore(); SpawnNewStore(Units); }
+    private void HandleNewStoreEvent(StoreUnit[] Units) { DespawnStore(); SpawnNewStore(Units); }
     #endregion
 
 }
