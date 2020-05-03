@@ -3,31 +3,31 @@ using static PlayerBoardMan;
 
 public class Tile {
 
-    public Unit unit { get; private set; }
+    public Unit CurrentUnit { get; private set; }
 
-    public bool IsTileFilled { get { return unit != null; } }
+    public bool IsTileFilled { get { return CurrentUnit != null; } }
     public bool IsBoardTile { get { return TilePosition.y != -1; } }
 
     public Vector2Int TilePosition { get; private set; } // y-Component should be set to -1 if it's a bench tile
     public Vector3 LocalPosition { get; private set; }
 
     public Tile(int x, int y) {
-        unit = null;
+        CurrentUnit = null;
         TilePosition = new Vector2Int(x, y);
         LocalPosition = CalculateLocalPosition();
     }
 
-    public Unit ClearTile() { Unit _unit = unit; unit = null; return _unit; }
+    public Unit ClearTile() { Unit _unit = CurrentUnit; CurrentUnit = null; return _unit; }
 
     public void FillTile(Unit unit) {
-        if (this.unit != null) return;
+        if (this.CurrentUnit != null) return;
         if (IsBoardTile) unit.gameObject.transform.SetSiblingIndex(0);
-        this.unit = unit;
-        this.unit.UpdateTile(this);
+        this.CurrentUnit = unit;
+        this.CurrentUnit.UpdateTile(this);
         UpdateUnitTransform();
     }
 
-    public void ResetTile() { if (unit != null) FillTile(ClearTile()); }
+    public void ResetTile() { if (CurrentUnit != null) FillTile(ClearTile()); }
 
     #region Helpers
     private Vector3 CalculateLocalPosition() {
@@ -37,8 +37,8 @@ public class Tile {
     }
 
     private void UpdateUnitTransform() {
-        unit.transform.localPosition = LocalPosition;
-        unit.transform.localRotation = Quaternion.Euler(0f, (IsBoardTile) ? 0f : 180f, 0f);
+        CurrentUnit.transform.localPosition = LocalPosition;
+        CurrentUnit.transform.localRotation = Quaternion.Euler(0f, (IsBoardTile) ? 0f : 180f, 0f);
     }
     #endregion
 

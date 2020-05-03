@@ -17,6 +17,7 @@ public class PlayerBoardMan : PlayerManager {
 
     public Tile[,] Board { get; private set; } // null if invalid Tile
     public Tile[] Bench { get; private set; }
+    private Tile ReserveTile;
 
     private Dictionary<string, UnitContainer> UnitContainers;
 
@@ -37,6 +38,7 @@ public class PlayerBoardMan : PlayerManager {
     private void InitBench() {
         Bench = new Tile[BenchSize];
         for (int i = 0; i < BenchSize; i++) Bench[i] = new Tile(i, -1);
+        ReserveTile = new Tile(BenchSize, -1);
     }
 
     private void InitUnitContainers() { UnitContainers = new Dictionary<string, UnitContainer>(); }
@@ -53,6 +55,23 @@ public class PlayerBoardMan : PlayerManager {
         containerObject.transform.localRotation = Quaternion.identity;
         UnitContainers.Add(unit.properties.name, containerObject.GetComponent<UnitContainer>());
         return UnitContainers[unit.properties.name];
+    }
+    #endregion
+
+    #region Evolution
+    private void CheckForEvolution(Unit unit) {
+        if (unit.evolution == null) return;
+        List<Tile> Tiles = FindOrCreateUnitContainer(unit).CheckForEvolution(unit.evolutionChain);
+        if (Tiles != null) Evolve(Tiles);
+    }
+
+    private void Evolve(List<Tile> Tiles) {
+        Unit evolvedUnit = SpawnUnit(Tiles[0].CurrentUnit.evolution);
+        foreach (Tile t in Tiles) {
+            Unit unit = t.ClearTile();
+            // TODO: Revoke control / destroy unit
+        }
+        // TODO: Properly spawn evolved Unit
     }
     #endregion
 
@@ -77,10 +96,17 @@ public class PlayerBoardMan : PlayerManager {
     }
 
     private void HandleUnitCaughtEvent(StoreUnit storeUnit) {
+        Unit unit = SpawnUnit(storeUnit.unit);
+
+        bool benchHasFreeTile = false;
         for (int i = 0; i < BenchSize; i++) if (!Bench[i].IsTileFilled) {
-            Bench[i].FillTile(SpawnUnit(storeUnit.unit));
-            return;
+            Bench[i].FillTile(unit);
+            benchHasFreeTile = true;
+            break;
         }
+        if (!benchHasFreeTile) ReserveTile.FillTile(unit);
+        
+        CheckForEvolution(unit);
     }
     #endregion
 
