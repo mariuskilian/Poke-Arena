@@ -10,36 +10,31 @@ public class Tile {
 
     public Vector2Int TilePosition { get; private set; } // y-Component should be set to -1 if it's a bench tile
     public Vector3 LocalPosition { get; private set; }
+    public Quaternion LocalRotation { get; private set; }
 
     public Tile(int x, int y) {
         CurrentUnit = null;
         TilePosition = new Vector2Int(x, y);
-        LocalPosition = CalculateLocalPosition();
+        CalculateLocalPositionAndRotation();
     }
 
     public Unit ClearTile() { Unit _unit = CurrentUnit; CurrentUnit = null; return _unit; }
 
     public void FillTile(Unit unit) {
-        if (this.CurrentUnit != null) return;
+        if (this.CurrentUnit != null || unit == null) return;
         if (IsBoardTile) unit.gameObject.transform.SetSiblingIndex(0);
-        this.CurrentUnit = unit;
-        this.CurrentUnit.UpdateTile(this);
-        UpdateUnitTransform();
+        CurrentUnit = unit;
+        CurrentUnit.UpdateTile(this);
     }
 
-    public void ResetTile() { if (CurrentUnit != null) FillTile(ClearTile()); }
+    public void ResetTile() { if (IsTileFilled) FillTile(ClearTile()); }
 
     #region Helpers
-    private Vector3 CalculateLocalPosition() {
-        Vector2 Factor;
-        if (IsBoardTile) Factor = Layout.BoardTileSize * TilePosition + Layout.BoardTileOffset + Layout.BoardOffset;
-        else Factor = Layout.BenchTileSize * TilePosition + Layout.BenchTileOffset + Layout.BenchOffset;
-        return Vector3.right * Factor.x + Vector3.forward * Factor.y;
-    }
-
-    private void UpdateUnitTransform() {
-        CurrentUnit.transform.localPosition = LocalPosition;
-        CurrentUnit.transform.localRotation = Quaternion.Euler(0f, (IsBoardTile) ? 0f : 180f, 0f);
+    private void CalculateLocalPositionAndRotation() {
+        Vector2 Factor = Layout.TileSize * TilePosition + Layout.TileOffset;
+        Factor += (IsBoardTile) ? Layout.BoardOffsetWorld : Layout.BenchOffsetWorld;
+        LocalPosition = Vector3.right * Factor.x + Vector3.forward * Factor.y;
+        LocalRotation = Quaternion.Euler(0, (IsBoardTile) ? 0 : 180, 0);
     }
     #endregion
 

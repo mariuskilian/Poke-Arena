@@ -853,9 +853,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1086484175621271612}
+  - component: {fileID: 615973173250792259}
+  - component: {fileID: 126809485991099596}
   - component: {fileID: -1539175079699317484}
   - component: {fileID: -3573421820126408814}
-  - component: {fileID: 615973173250792259}
   m_Layer: 9
   m_Name: 004Charmander
   m_TagString: Untagged
@@ -879,6 +880,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &615973173250792259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4127740652721783343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 672a0e0768952c34b81ccb71958c91cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  evolution: {fileID: -2414514971138074600, guid: 240909a4bd34b694294eb162aef54f0c,
+    type: 3}
+  evolutionChain: 0
+  properties: {fileID: 11400000, guid: 4f97fcffca0f0f646b653bacfb68d192, type: 2}
+--- !u!64 &126809485991099596
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4127740652721783343}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 698182528124687327, guid: 64fff3dcc98569d43891c84c92322371, type: 3}
 --- !u!95 &-1539175079699317484
 Animator:
   serializedVersion: 3
@@ -927,22 +958,6 @@ MonoBehaviour:
   _entityBehaviourQueryOption: 0
   _entityPriorityCalculatorQueryOption: 0
   _entityReplicationFilterQueryOption: 0
---- !u!114 &615973173250792259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4127740652721783343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 672a0e0768952c34b81ccb71958c91cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  evolution: {fileID: -2414514971138074600, guid: 240909a4bd34b694294eb162aef54f0c,
-    type: 3}
-  evolutionChain: 0
-  properties: {fileID: 11400000, guid: 4f97fcffca0f0f646b653bacfb68d192, type: 2}
 --- !u!1 &4138023253936758186
 GameObject:
   m_ObjectHideFlags: 0

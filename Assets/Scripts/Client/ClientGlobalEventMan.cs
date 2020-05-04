@@ -45,15 +45,26 @@ public class ClientGlobalEventMan : GlobalEventListener {
 
         InputMan input = InputMan.Instance;
         input.TryRerollStoreEvent += HandleTryRerollStoreEvent;
+
+        SelectionMan select = SelectionMan.Instance;
+        select.UnitDeselectEvent += HandleUnitDeselectEvent;
     }
 
     private void HandleTryCatchUnitEvent(int idx) {
-        var tryCatchUnitEvent = ClientTryCatchUnitEvent.Create(GlobalTargets.OnlyServer);
-        tryCatchUnitEvent.StoreIdx = idx;
-        tryCatchUnitEvent.Send();
+        var evnt = ClientTryCatchUnitEvent.Create(GlobalTargets.OnlyServer);
+        evnt.StoreIdx = idx;
+        evnt.Send();
     }
 
     private void HandleTryRerollStoreEvent() { ClientTryRerollStoreEvent.Create(GlobalTargets.OnlyServer).Send(); }
+
+    private void HandleUnitDeselectEvent(Unit unit, Vector3 clickPos, bool clickedBoard) {
+        var evnt = ClientUnitDeselectEvent.Create(GlobalTargets.OnlyServer);
+        evnt.Unit = unit.entity.NetworkId;
+        evnt.ClickPosition = clickPos;
+        evnt.ClickedBoard = clickedBoard;
+        evnt.Send();
+    }
     #endregion
 
 }

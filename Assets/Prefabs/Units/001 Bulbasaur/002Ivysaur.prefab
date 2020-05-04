@@ -131,9 +131,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2601730176957092266}
+  - component: {fileID: -2812685424679914637}
+  - component: {fileID: -3619127431643745128}
   - component: {fileID: 7796045955201621203}
   - component: {fileID: 1392666232814669785}
-  - component: {fileID: -2812685424679914637}
   m_Layer: 9
   m_Name: 002Ivysaur
   m_TagString: Untagged
@@ -157,6 +158,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2812685424679914637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315167739708957625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 672a0e0768952c34b81ccb71958c91cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  evolution: {fileID: 8976623340578385329, guid: 578e56d02b08189449e2a884fbf96e98,
+    type: 3}
+  evolutionChain: 1
+  properties: {fileID: 11400000, guid: fa0626dbb7f7d684baccb954434d4f99, type: 2}
+--- !u!64 &-3619127431643745128
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315167739708957625}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7996707280664869541, guid: cdbb04bda579386409fb7aedbd1fc7f1, type: 3}
 --- !u!95 &7796045955201621203
 Animator:
   serializedVersion: 3
@@ -205,22 +236,6 @@ MonoBehaviour:
   _entityBehaviourQueryOption: 0
   _entityPriorityCalculatorQueryOption: 0
   _entityReplicationFilterQueryOption: 0
---- !u!114 &-2812685424679914637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1315167739708957625}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 672a0e0768952c34b81ccb71958c91cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  evolution: {fileID: 8976623340578385329, guid: 578e56d02b08189449e2a884fbf96e98,
-    type: 3}
-  evolutionChain: 1
-  properties: {fileID: 11400000, guid: fa0626dbb7f7d684baccb954434d4f99, type: 2}
 --- !u!1 &1325732227916037180
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,8 +23,8 @@ public class ArenaLayoutEditor : Editor {
 
         Vector2Int ArenaSize = Vector2Int.zero;
         if (layout.board != null && layout.board.IsInitialized) {
-            ArenaSize.x = layout.BoardSize.x;
-            if (ArenaSize.x > 0) ArenaSize.y = layout.BoardSize.y;
+            ArenaSize.x = layout.BoardSizeTiles.x;
+            if (ArenaSize.x > 0) ArenaSize.y = layout.BoardSizeTiles.y;
         }
 
         GUILayout.Label("");
@@ -46,11 +46,11 @@ public class ArenaLayoutEditor : Editor {
         }
         GUILayout.EndHorizontal();
 
-        layout.BenchSize = EditorGUILayout.DelayedIntField("Bench size", layout.BenchSize);
+        layout.BenchSizeTiles = EditorGUILayout.DelayedIntField("Bench size", layout.BenchSizeTiles);
 
         if (layout.board == null || !layout.board.IsInitialized
-            || layout.BoardSize.x == 0 || layout.BoardSize.x != ArenaSize.x
-            || layout.BoardSize.y != ArenaSize.y) {
+            || layout.BoardSizeTiles.x == 0 || layout.BoardSizeTiles.x != ArenaSize.x
+            || layout.BoardSizeTiles.y != ArenaSize.y) {
             layout.board = new Array2DBool(ArenaSize.x, ArenaSize.y);
         }
 
@@ -121,8 +121,8 @@ public class ArenaLayoutEditor : Editor {
 
         gridSize = Mathf.Min(50, (int)(screenWidth / 20f));
 
-        tileWidth = Mathf.RoundToInt(screenWidth * layout.BoardTileSize.x / 20f) - space.x;
-        tileHeight = Mathf.RoundToInt(screenWidth * layout.BoardTileSize.y / 20f) - space.y;
+        tileWidth = Mathf.RoundToInt(screenWidth * layout.TileSize.x / 20f) - space.x;
+        tileHeight = Mathf.RoundToInt(screenWidth * layout.TileSize.y / 20f) - space.y;
 
         Texture2D
             active = MakeTexture(tileWidth, tileHeight, Color.white),
@@ -189,10 +189,10 @@ public class ArenaLayoutEditor : Editor {
     }
 
     void ArenaSide(bool left) {
-        int sideWidth = (int)((screenWidth - (layout.BoardSize.x * (tileWidth + space.x))) / 2f);
+        int sideWidth = (int)((screenWidth - (layout.BoardSizeTiles.x * (tileWidth + space.x))) / 2f);
         int widthOverhead = (sideWidth % gridSize);
 
-        int sideHeight = (layout.BoardSize.y * (tileWidth + space.y));
+        int sideHeight = (layout.BoardSizeTiles.y * (tileWidth + space.y));
         int heightOverhead = (sideHeight % gridSize);
 
         Texture2D black = MakeTexture(gridSize, gridSize, Color.black);
@@ -261,15 +261,15 @@ public class ArenaLayoutEditor : Editor {
                 GUILayout.FlexibleSpace();
                 bool result = GUILayout.Toggle(input, (Texture2D)null);
                 if (text.StartsWith("Bench")) {
-                    float xOffset = layout.BenchOffset.x;
-                    float yOffset = layout.BenchOffset.y;
+                    float xOffset = layout.BenchOffsetTiles.x;
+                    float yOffset = layout.BenchOffsetTiles.y;
                     if (text.Contains(" X ")) {
                         if (!layout.BenchCentered) xOffset = EditorGUILayout.DelayedFloatField(xOffset);
                     }
                     if (text.Contains(" Y ")) {
                         if (!layout.DefaultYOffset) yOffset = EditorGUILayout.DelayedFloatField(yOffset);
                     }
-                    layout.BenchOffset = new Vector2(xOffset, yOffset);
+                    layout.BenchOffsetTiles = new Vector2(xOffset, yOffset);
                 }
                 GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();

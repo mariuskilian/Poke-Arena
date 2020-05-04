@@ -1656,9 +1656,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8983977397334438706}
+  - component: {fileID: 8976623340578385329}
+  - component: {fileID: 5102458276450790125}
   - component: {fileID: 2464756032973268104}
   - component: {fileID: -4294629790164977313}
-  - component: {fileID: 8976623340578385329}
   m_Layer: 9
   m_Name: 003Venusaur
   m_TagString: Untagged
@@ -1682,6 +1683,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8976623340578385329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5401546649243156769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 672a0e0768952c34b81ccb71958c91cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  evolution: {fileID: 0}
+  evolutionChain: 2
+  properties: {fileID: 11400000, guid: fa0626dbb7f7d684baccb954434d4f99, type: 2}
+--- !u!64 &5102458276450790125
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5401546649243156769}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8551250522350753441, guid: ca2a705a717e8a84bb5752defa51333d, type: 3}
 --- !u!95 &2464756032973268104
 Animator:
   serializedVersion: 3
@@ -1730,21 +1760,6 @@ MonoBehaviour:
   _entityBehaviourQueryOption: 0
   _entityPriorityCalculatorQueryOption: 0
   _entityReplicationFilterQueryOption: 0
---- !u!114 &8976623340578385329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5401546649243156769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 672a0e0768952c34b81ccb71958c91cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  evolution: {fileID: 0}
-  evolutionChain: 2
-  properties: {fileID: 11400000, guid: fa0626dbb7f7d684baccb954434d4f99, type: 2}
 --- !u!1 &5432859907838503336
 GameObject:
   m_ObjectHideFlags: 0

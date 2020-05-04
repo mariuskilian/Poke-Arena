@@ -79,8 +79,8 @@ public class GameMan : GlobalEventListener {
     private Player InitPlayer(BoltConnection connection) {
         // Init player
         var playerEntity = BoltNetwork.Instantiate(BoltPrefabs.Player);
-        playerEntity.AssignControl(connection);
         Player player = playerEntity.GetComponent<Player>();
+        player.entity.AssignControl(connection);
         player.Connection = connection;
         foreach (Arena a in Arenas) if (a.TryAddPlayer(player)) break;
         return player;

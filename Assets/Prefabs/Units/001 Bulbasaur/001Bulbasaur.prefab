@@ -349,9 +349,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2342220508695812470}
+  - component: {fileID: 375144434501584237}
+  - component: {fileID: 8066096182927189082}
   - component: {fileID: -4503716679521164358}
   - component: {fileID: 3681609011508392300}
-  - component: {fileID: 375144434501584237}
   m_Layer: 9
   m_Name: 001Bulbasaur
   m_TagString: Untagged
@@ -375,6 +376,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &375144434501584237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646739649162652517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 672a0e0768952c34b81ccb71958c91cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  evolution: {fileID: -2812685424679914637, guid: 2858261110e0fed48a5460c1cb2e040e,
+    type: 3}
+  evolutionChain: 0
+  properties: {fileID: 11400000, guid: fa0626dbb7f7d684baccb954434d4f99, type: 2}
+--- !u!64 &8066096182927189082
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646739649162652517}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2083591264453597747, guid: 0e4fb6856bcf1b64793edb1bd3da60db, type: 3}
 --- !u!95 &-4503716679521164358
 Animator:
   serializedVersion: 3
@@ -423,22 +454,6 @@ MonoBehaviour:
   _entityBehaviourQueryOption: 0
   _entityPriorityCalculatorQueryOption: 0
   _entityReplicationFilterQueryOption: 0
---- !u!114 &375144434501584237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1646739649162652517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 672a0e0768952c34b81ccb71958c91cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  evolution: {fileID: -2812685424679914637, guid: 2858261110e0fed48a5460c1cb2e040e,
-    type: 3}
-  evolutionChain: 0
-  properties: {fileID: 11400000, guid: fa0626dbb7f7d684baccb954434d4f99, type: 2}
 --- !u!1 &1657320835397661920
 GameObject:
   m_ObjectHideFlags: 0

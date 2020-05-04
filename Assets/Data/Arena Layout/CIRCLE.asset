@@ -24,7 +24,7 @@ MonoBehaviour:
     - row: 00010101010101010100
     - row: 00010101010101010100
     - row: 00000001010101000000
-  BenchSize: 10
+  BenchSizeTiles: 10
   EqualDimensions: 1
   PointSymmetric: 1
   YSymmetric: 1
