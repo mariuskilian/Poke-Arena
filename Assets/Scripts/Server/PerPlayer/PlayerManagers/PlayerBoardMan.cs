@@ -69,9 +69,10 @@ public class PlayerBoardMan : PlayerManager {
         Unit evolvedUnit = SpawnUnit(Tiles[0].CurrentUnit.evolution);
         foreach (Tile t in Tiles) {
             Unit unit = t.ClearTile();
-            // TODO: Revoke control / destroy unit
+            BoltNetwork.Destroy(unit.gameObject);
         }
-        // TODO: Properly spawn evolved Unit
+        Tiles[0].FillTile(evolvedUnit);
+        CheckForEvolution(evolvedUnit);
     }
     #endregion
 
@@ -84,8 +85,8 @@ public class PlayerBoardMan : PlayerManager {
     }
 
     public bool CanSpawnUnit(Unit unit) {
+        if (FindOrCreateUnitContainer(unit).IsReadyForEvolve) return true;
         for (int i = 0; i < BenchSize; i++) if (!Bench[i].IsTileFilled) return true;
-        // TODO: Check for evolution
         return false;
     }
 
