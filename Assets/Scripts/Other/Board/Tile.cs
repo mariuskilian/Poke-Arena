@@ -31,9 +31,10 @@ public class Tile {
 
     #region Helpers
     private Vector3 CalculateLocalPosition() {
-        float xFactor = ((IsBoardTile) ? 0 : BenchXOffset) + TileSize * TilePosition.x + TileOffset;
-        float zFactor = ((IsBoardTile) ? TileSize * TilePosition.y : BenchYOffset) + TileOffset;
-        return Vector3.right * xFactor + Vector3.forward * zFactor;
+        Vector2 Factor;
+        if (IsBoardTile) Factor = Layout.BoardTileSize * TilePosition + Layout.BoardTileOffset + Layout.BoardOffset;
+        else Factor = Layout.BenchTileSize * TilePosition + Layout.BenchTileOffset + Layout.BenchOffset;
+        return Vector3.right * Factor.x + Vector3.forward * Factor.y;
     }
 
     private void UpdateUnitTransform() {

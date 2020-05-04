@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: 451fe4c1c4302544fb0c6aea862853ae,
     type: 2}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -381,6 +381,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2fb9ad3723aaa82409b100dab1c3f930, type: 2}
   GameSettings:
   - {fileID: 11400000, guid: 76e94a074dddd7842ac620ec4c7324ed, type: 2}
+  ArenaLayouts:
+  - {fileID: 11400000, guid: 74bde0180de3be940a003aac7c500870, type: 2}
   StoreUnitPrefabs:
   - {fileID: -9049140579694151119, guid: 33b3ae723fc43c14e9f3bf32f9533ad3, type: 3}
   - {fileID: 7070406469247555936, guid: 34e861ab1a27b11428ad6121e5e3b038, type: 3}

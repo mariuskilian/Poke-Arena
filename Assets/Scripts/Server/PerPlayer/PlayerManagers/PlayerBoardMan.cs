@@ -5,15 +5,7 @@ using System.Collections.Generic;
 
 public class PlayerBoardMan : PlayerManager {
 
-    public const int
-        BoardWidth = 10, BoardHeight = 10,
-        BenchSize = 10, BenchYOffset = -2
-        ;
-    public const float
-        BenchXOffset = (BoardWidth - BenchSize) / 2f,
-        TileSize = 1, TileOffset = 0.5f,
-        DragUnitZOffset = -0.3f
-        ;
+    public static ArenaLayout Layout { get; private set; }
 
     public Tile[,] Board { get; private set; } // null if invalid Tile
     public Tile[] Bench { get; private set; }
@@ -21,24 +13,27 @@ public class PlayerBoardMan : PlayerManager {
 
     private Dictionary<string, UnitContainer> UnitContainers;
 
-    private void Start() { InitBoard(); InitBench(); InitUnitContainers(); SubscribeLocalEventHandlers(); }
-
-    #region Initialization
-    private void InitBoard() {
-        Board = new Tile[BoardWidth, BoardHeight / 2];
-        for (int i = 0; i < BoardWidth; i++) {
-            for (int j = 0; j < BoardHeight / 2; j++) {
-                if ((i == 0 || i == BoardWidth - 1) && j < 3) Board[i, j] = null;
-                else if (j == 0 && (i < 3 || i > BoardWidth - 4)) Board[i, j] = null;
-                else Board[i, j] = new Tile(i, j);
-            }
-        }
+    private void Start() {
+        if (Layout == null) Layout = DataHolder.Instance.ArenaLayouts[0];
+        InitBoardAndBench();
+        InitUnitContainers();
+        SubscribeLocalEventHandlers();
     }
 
-    private void InitBench() {
-        Bench = new Tile[BenchSize];
-        for (int i = 0; i < BenchSize; i++) Bench[i] = new Tile(i, -1);
-        ReserveTile = new Tile(BenchSize, -1);
+    #region Initialization
+    private void InitBoardAndBench() {
+        Layout = DataHolder.Instance.ArenaLayouts[0];
+
+        Board = new Tile[Layout.BoardSize.x, Layout.BoardSize.y];
+        for (int i = 0; i < Layout.BoardSize.x; i++) {
+            for (int j = 0; j < Layout.BoardSize.y / 2; j++) {
+                Board[i, j] = (Layout.board[i, j]) ? new Tile(i, j) : null;
+            }
+        }
+
+        Bench = new Tile[Layout.BenchSize];
+        for (int i = 0; i < Layout.BenchSize; i++) Bench[i] = new Tile(i, -1);
+        ReserveTile = new Tile(Layout.BenchSize, -1);
     }
 
     private void InitUnitContainers() { UnitContainers = new Dictionary<string, UnitContainer>(); }
@@ -86,7 +81,7 @@ public class PlayerBoardMan : PlayerManager {
 
     public bool CanSpawnUnit(Unit unit) {
         if (FindOrCreateUnitContainer(unit).IsReadyForEvolve) return true;
-        for (int i = 0; i < BenchSize; i++) if (!Bench[i].IsTileFilled) return true;
+        for (int i = 0; i < Layout.BenchSize; i++) if (!Bench[i].IsTileFilled) return true;
         return false;
     }
 
@@ -100,13 +95,13 @@ public class PlayerBoardMan : PlayerManager {
         Unit unit = SpawnUnit(storeUnit.unit);
 
         bool benchHasFreeTile = false;
-        for (int i = 0; i < BenchSize; i++) if (!Bench[i].IsTileFilled) {
-            Bench[i].FillTile(unit);
-            benchHasFreeTile = true;
-            break;
-        }
+        for (int i = 0; i < Layout.BenchSize; i++) if (!Bench[i].IsTileFilled) {
+                Bench[i].FillTile(unit);
+                benchHasFreeTile = true;
+                break;
+            }
         if (!benchHasFreeTile) ReserveTile.FillTile(unit);
-        
+
         CheckForEvolution(unit);
     }
     #endregion
