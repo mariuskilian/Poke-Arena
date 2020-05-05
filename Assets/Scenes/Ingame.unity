@@ -376,8 +376,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameModes:
-  - {fileID: 11400000, guid: 310c8d5b47708764f8e19ab4cafe58b8, type: 2}
   - {fileID: 11400000, guid: 1dd23499ec684be44a9cb875180d7f36, type: 2}
+  - {fileID: 11400000, guid: 310c8d5b47708764f8e19ab4cafe58b8, type: 2}
   - {fileID: 11400000, guid: 2fb9ad3723aaa82409b100dab1c3f930, type: 2}
   GameSettings:
   - {fileID: 11400000, guid: 76e94a074dddd7842ac620ec4c7324ed, type: 2}
