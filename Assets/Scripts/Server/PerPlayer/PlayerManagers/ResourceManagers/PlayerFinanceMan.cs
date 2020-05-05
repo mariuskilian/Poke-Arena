@@ -1,23 +1,19 @@
 using UnityEngine;
 using System;
+using static GameInfo;
 
 public class PlayerFinanceMan : PlayerManager {
 
-    private static readonly int[] StreakMilestones = new int[] { 2, 4, 6 };
-    private const int
-        BaseEarningRound = 5,
-        PriceRerollStore = 2,
-        PriceBuyExp = 4,
-        MaxCoins = 99
-        ;
-    
-    public int Coins { get; private set; }
+    public int Coins {
+        get { return player.state.PlayerInfo.Coins; }
+        private set { player.state.PlayerInfo.Coins = value; }
+    }
     public int Streak { get; private set; }
 
     private bool CanRerollStore { get { return Coins >= PriceRerollStore; } }
     private bool CanBuyExp { get { return Coins >= PriceBuyExp; } }
 
-    public void Start() { Coins = 99; } // DEBUG
+    public void Start() { Coins = -1; Coins = 99; } // DEBUG
 
     private int Interest() { return Coins / 10; }
 
@@ -28,17 +24,19 @@ public class PlayerFinanceMan : PlayerManager {
         return bonus;
     }
 
-
+    public bool TryBuyExp() {
+        if (CanBuyExp) { Coins -= PriceBuyExp; return true; }
+        return false;
+    }
 
     #region Local Events
     public Action RerollStoreEvent;
-    public Action BuyExpEvent;
     #endregion
 
     #region Global Event Handlers
     public override void OnEvent(ClientTryRerollStoreEvent evnt) {
         if (!IsThisPlayer(evnt.RaisedBy)) return;
-        if (CanRerollStore) { Coins -= PriceRerollStore; RerollStoreEvent.Invoke(); }
+        if (CanRerollStore) { Coins -= PriceRerollStore; RerollStoreEvent?.Invoke(); }
     }
     #endregion
 

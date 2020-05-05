@@ -9,7 +9,7 @@ public class CameraMan : GlobalEventListener {
     public Vector3 CamOffset;
     public Vector3 CamRotationEulers;
 
-    public override void OnEvent(EventManClientInitializedEvent evnt) { if (evnt.RaisedBy == null) SubscribeLocalEventHandlers(); }
+    public override void OnEvent(ClientEventManInitializedEvent evnt) { if (evnt.RaisedBy == null) SubscribeLocalEventHandlers(); }
 
     private void AttachCameraToPlayer(Player player) {
         transform.SetParent(player.transform);

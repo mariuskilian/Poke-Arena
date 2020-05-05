@@ -10,9 +10,13 @@ public class InputMan : MonoBehaviour {
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.D)) TryRerollStoreEvent?.Invoke();
+        if (Input.GetKeyDown(KeyCode.F)) TryBuyExpEvent?.Invoke();
+        if (Input.GetKeyDown(KeyCode.Space)) ToggleStoreEvent?.Invoke();
     }
 
     #region Local Events
     public Action TryRerollStoreEvent;
+    public Action TryBuyExpEvent;
+    public Action ToggleStoreEvent;
     #endregion
 }

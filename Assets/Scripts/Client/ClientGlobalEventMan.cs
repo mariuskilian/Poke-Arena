@@ -10,7 +10,7 @@ public class ClientGlobalEventMan : GlobalEventListener {
     private void Awake() { if (Instance == null) Instance = this; }
 
     public override void SceneLoadLocalDone(string scene, Bolt.IProtocolToken token) {
-        EventManClientInitializedEvent.Create(Bolt.GlobalTargets.OnlySelf).Send();
+        ClientEventManInitializedEvent.Create(Bolt.GlobalTargets.OnlySelf).Send();
         SubscribeLocalEventHandlers();
     }
     #endregion
@@ -45,6 +45,7 @@ public class ClientGlobalEventMan : GlobalEventListener {
 
         InputMan input = InputMan.Instance;
         input.TryRerollStoreEvent += HandleTryRerollStoreEvent;
+        input.TryBuyExpEvent += HandleTryBuyExpEvent;
 
         SelectionMan select = SelectionMan.Instance;
         select.UnitDeselectEvent += HandleUnitDeselectEvent;
@@ -57,6 +58,8 @@ public class ClientGlobalEventMan : GlobalEventListener {
     }
 
     private void HandleTryRerollStoreEvent() { ClientTryRerollStoreEvent.Create(GlobalTargets.OnlyServer).Send(); }
+
+    private void HandleTryBuyExpEvent() { ClientTryBuyExpEvent.Create(GlobalTargets.OnlyServer).Send(); }
 
     private void HandleUnitDeselectEvent(Unit unit, Vector3 clickPos, bool clickedBoard) {
         var evnt = ClientUnitDeselectEvent.Create(GlobalTargets.OnlyServer);

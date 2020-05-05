@@ -18,7 +18,7 @@ public class StoreButtonMan : GlobalEventListener {
 
     private void Start() { InitStoreButtons(); }
 
-    public override void OnEvent(EventManClientInitializedEvent evnt) { SubscribeLocalEventHandlers(); }
+    public override void OnEvent(ClientEventManInitializedEvent evnt) { SubscribeLocalEventHandlers(); }
 
     private void InitStoreButtons() {
         for (int idx = 0; idx < CatchUnitButtons.Length; idx++) {

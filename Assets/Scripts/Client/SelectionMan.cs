@@ -31,11 +31,7 @@ public class SelectionMan : MonoBehaviour {
     private void SelectUnit() {
         if (!Camera.main) return;
 
-        Debug.Log("Marius: unit selection start");
-
-        if (EventSystem.current.IsPointerOverGameObject()) return;
-
-        Debug.Log("Marius: Click registered, starting ray cast");
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out var hit, 25f, LayerMask.GetMask("Units"))) {
@@ -45,7 +41,7 @@ public class SelectionMan : MonoBehaviour {
             }
         }
 
-        UnitSelectEvent?.Invoke(selectedUnit);
+        if (selectedUnit != null) UnitSelectEvent?.Invoke(selectedUnit);
     }
 
     private void DeselectUnit() {

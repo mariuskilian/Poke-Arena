@@ -175,7 +175,26 @@
     },
     {
       "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
-      "Properties": [],
+      "Properties": [
+        {
+          "Name": "PlayerInfo",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 2,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Bolt.Compiler.PropertyTypeObject, bolt.compiler",
+            "StructGuid": "0c1cad31-919f-4327-832c-05d0789c57bf"
+          },
+          "AssetSettings": {
+            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        }
+      ],
       "PacketMaxBits": 512,
       "PacketMaxProperties": 16,
       "InitialPositionCompression": {
@@ -425,7 +444,7 @@
       "Properties": [],
       "EntitySenders": 3,
       "GlobalSenders": 2,
-      "Name": "EventManClientInitializedEvent",
+      "Name": "ClientEventManInitializedEvent",
       "Guid": "1d3f1b09-ed3e-419a-b995-a51b7a351e4f",
       "Groups": []
     },
@@ -721,8 +740,151 @@
           }
         }
       ],
+      "EntitySenders": 3,
+      "GlobalSenders": 2,
       "Name": "ClientUnitDeselectEvent",
       "Guid": "3953c576-9ada-4455-847d-d415feabbeb0",
+      "Groups": []
+    },
+    {
+      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [],
+      "EntitySenders": 3,
+      "GlobalSenders": 2,
+      "Name": "ClientTryBuyExpEvent",
+      "Guid": "81bc0739-0f5c-4eed-aaca-22079069a4e4",
+      "Groups": []
+    },
+    {
+      "$type": "Bolt.Compiler.ObjectDefinition, bolt.compiler",
+      "Properties": [
+        {
+          "Name": "Progression",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Bolt.Compiler.PropertyTypeObject, bolt.compiler",
+            "StructGuid": "93adf415-f331-4b35-913e-c5d450817fc4"
+          },
+          "AssetSettings": {
+            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        },
+        {
+          "Name": "Coins",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 2,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
+          },
+          "AssetSettings": {
+            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        },
+        {
+          "Name": "Bag",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 2,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Bolt.Compiler.PropertyTypeObject, bolt.compiler",
+            "StructGuid": "ca16b4a9-825f-40a9-b7ea-12b62ec52af6"
+          },
+          "AssetSettings": {
+            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        }
+      ],
+      "Name": "PlayerInfo",
+      "Guid": "0c1cad31-919f-4327-832c-05d0789c57bf",
+      "Groups": []
+    },
+    {
+      "$type": "Bolt.Compiler.ObjectDefinition, bolt.compiler",
+      "Properties": [
+        {
+          "Name": "Level",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
+          },
+          "AssetSettings": {
+            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        },
+        {
+          "Name": "Exp",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 2,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
+          },
+          "AssetSettings": {
+            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        }
+      ],
+      "Name": "PlayerProgression",
+      "Guid": "93adf415-f331-4b35-913e-c5d450817fc4",
+      "Groups": []
+    },
+    {
+      "$type": "Bolt.Compiler.ObjectDefinition, bolt.compiler",
+      "Properties": [
+        {
+          "Name": "Pokeballs",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 2,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
+          },
+          "AssetSettings": {
+            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        }
+      ],
+      "Name": "PlayerBag",
+      "Guid": "ca16b4a9-825f-40a9-b7ea-12b62ec52af6",
       "Groups": []
     }
   ],

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Bolt;
+using System;
 
 public class Player : EntityBehaviour<IPlayerState> {
 
@@ -11,6 +12,10 @@ public class Player : EntityBehaviour<IPlayerState> {
     private List<PlayerManager> PlayerMen;
 
     public GameObject Team;
+
+    public override void Attached() {
+        state.AddCallback("PlayerInfo", () => PlayerInfoUpdatedEvent?.Invoke(state.PlayerInfo));
+    }
 
     public void InitPlayer(Transform parent) {
         if (!BoltNetwork.IsServer) return;
@@ -42,5 +47,5 @@ public class Player : EntityBehaviour<IPlayerState> {
         return null;
     }
 
-    protected virtual void SubscribeLocalEventHandlers() { }
+    public Action<PlayerInfo> PlayerInfoUpdatedEvent;
 }

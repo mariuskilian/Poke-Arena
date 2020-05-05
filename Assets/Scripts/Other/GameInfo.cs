@@ -11,9 +11,22 @@ public static class GameInfo {
 
     public enum EvlChain { BASE, MID, TOP }
 
-    public static readonly int NumLevels = 10;
-    public static readonly int NumRarities = Enum.GetValues(typeof(Rarity)).Length;
+    // Finance
+    public static readonly int[] StreakMilestones = new int[] { 2, 4, 6 };
+    public const int
+        BaseEarningRound = 5,
+        PriceRerollStore = 2,
+        PriceBuyExp = 4,
+        MaxCoins = 99
+        ;
 
+    // Level
+    public static readonly int[] ExpUntilNextLevel = { 1, 1, 2, 4, 8, 16, 24, 32, 40 };
+    public static readonly int ExpPerBuy = 4;
+
+    public static readonly int NumLevels = ExpUntilNextLevel.Length + 1;
+    public static readonly int MaxLevel = NumLevels - 1;
+    public static readonly int NumRarities = Enum.GetValues(typeof(Rarity)).Length;
 
     public static Rarity[] Rarities {
         get {

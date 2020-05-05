@@ -21,7 +21,7 @@ public class ClientStoreMan : GlobalEventListener {
 
     private StoreUnit[] StoreUnits = new StoreUnit[PlayerStoreMan.StoreSize];
 
-    public override void OnEvent(EventManClientInitializedEvent evnt) { if (evnt.RaisedBy == null) SubscribeLocalEventHandlers(); }
+    public override void OnEvent(ClientEventManInitializedEvent evnt) { if (evnt.RaisedBy == null) SubscribeLocalEventHandlers(); }
 
     private void SpawnNewStore(StoreUnit[] Units) {
         for (int idx = 0; idx < Units.Length; idx++) {
