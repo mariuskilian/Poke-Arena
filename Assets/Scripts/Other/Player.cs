@@ -14,7 +14,7 @@ public class Player : EntityBehaviour<IPlayerState> {
     public GameObject Team;
 
     public override void Attached() {
-        state.AddCallback("PlayerInfo", () => PlayerInfoUpdatedEvent?.Invoke(state.PlayerInfo));
+        if (!BoltNetwork.IsServer) state.AddCallback("PlayerInfo", () => PlayerInfoUpdatedEvent?.Invoke(state.PlayerInfo));
     }
 
     public void InitPlayer(Transform parent) {

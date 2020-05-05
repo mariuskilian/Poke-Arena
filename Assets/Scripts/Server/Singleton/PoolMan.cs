@@ -60,7 +60,7 @@ public class PoolMan : GlobalEventListener {
 
     private Rarity DetermineRandomQuality(int level) {
         int ticket = RNG.Next(100);
-        foreach (Rarity rarity in GameInfo.Rarities)
+        foreach (Rarity rarity in ArrayOfEnum<Rarity>())
             if ((ticket -= GameMan.Instance.Settings.DropChance[level, (int)rarity]) < 0) return rarity;
 
         return Rarity.COMMON;

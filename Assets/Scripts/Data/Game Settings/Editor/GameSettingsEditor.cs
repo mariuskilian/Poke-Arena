@@ -46,7 +46,7 @@ public class GameSettingsEditor : Editor {
             GUILayout.EndVertical();
 
             // Draw all input boxes with their rarity as a header
-            foreach (Rarity r in Rarities) {
+            foreach (Rarity r in ArrayOfEnum<Rarity>()) {
                 GUILayout.BeginVertical();
                 {
                     int poolSize = EditorGUILayout.DelayedIntField(gameSettings.PoolSize[(int)r]);

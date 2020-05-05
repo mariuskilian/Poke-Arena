@@ -38,7 +38,7 @@ public class Unit : EntityBehaviour<IUnitState> {
 
         state.Position = transform.position - Vector3.up;
         state.Position = transform.position;
-        state.Rotation = Quaternion.Euler(22, 1, 1996);
+        state.Rotation = Quaternion.Euler(Vector3.up) * transform.rotation;
         state.Rotation = transform.rotation;
     }
 

@@ -6,7 +6,7 @@ public class PlayerFinanceMan : PlayerManager {
 
     public int Coins {
         get { return player.state.PlayerInfo.Coins; }
-        private set { player.state.PlayerInfo.Coins = value; }
+        private set { player.state.PlayerInfo.Coins = Mathf.Clamp(value, 0, MaxCoins); }
     }
     public int Streak { get; private set; }
 
