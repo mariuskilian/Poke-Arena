@@ -12,7 +12,7 @@ public class GameMan : GlobalEventListener {
 
     #region Local Events
     public Action GameLoadedEvent;
-    public Action AllPlayersLoadedEvent;
+    public Action StartGameEvent;
     #endregion
 
     // General
@@ -130,7 +130,13 @@ public class GameMan : GlobalEventListener {
         }
 
         // Fully loaded game
-        AllPlayersLoadedEvent?.Invoke();
+        StartCoroutine(StartGame());
+    }
+
+    private IEnumerator StartGame() {
+        yield return new WaitForSeconds(5);
+        StartGameEvent?.Invoke();
+        GameStartEvent.Create().Send();
     }
 
 

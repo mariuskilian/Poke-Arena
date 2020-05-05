@@ -12,7 +12,6 @@ public class RoundMan : GlobalEventListener {
     private void Awake() { if (Instance == null) Instance = this; }
 
     public Round Round { get; private set; }
-    public RoundType CurrentRoundType { get; private set; }
     public int StageNumber {
         get { return Round.state.RoundInfo.Stage; }
         set { Round.state.RoundInfo.Stage = value; }
@@ -29,6 +28,11 @@ public class RoundMan : GlobalEventListener {
     public float TimeLeft {
         get { return _timeLeft; }
         set { Round.state.RoundInfo.Time = Mathf.Clamp((int)value, 0, StartTime); _timeLeft = value; }
+    }
+    private RoundType _currentRoundType;
+    public RoundType CurrentRoundType {
+        get { return _currentRoundType; }
+        set { Round.state.RoundInfo.RoundType = _currentRoundType.ToString(); _currentRoundType = value; }
     }
 
     private Queue<RoundType> CurrentStage;
@@ -58,7 +62,7 @@ public class RoundMan : GlobalEventListener {
             CurrentPhase = Phase.Start;
             DetermineNextRoundType();
         } else CurrentPhase = ArrayOfEnum<Phase>()[(int)CurrentPhase + 1];
-        
+
         StartPhase();
     }
 
@@ -84,11 +88,11 @@ public class RoundMan : GlobalEventListener {
     private void SubscribeLocalEventHandlers() {
         GameMan game = GameMan.Instance;
         game.GameLoadedEvent += HandleGameLoadedEvent;
-        game.AllPlayersLoadedEvent += HandleAllPlayersLoadedEvent;
+        game.StartGameEvent += HandleAllPlayersLoadedEvent;
     }
 
-    private void HandleAllPlayersLoadedEvent() { InitFirstRound(); }
-
     private void HandleGameLoadedEvent() { Round = BoltNetwork.Instantiate(BoltPrefabs.Round).GetComponent<Round>(); }
+
+    private void HandleAllPlayersLoadedEvent() { InitFirstRound(); }
 
 }

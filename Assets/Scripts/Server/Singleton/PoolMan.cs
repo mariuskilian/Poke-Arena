@@ -83,7 +83,7 @@ public class PoolMan : GlobalEventListener {
     private void SubscribeLocalEventHandlers() {
         GameMan game = GameMan.Instance;
         game.GameLoadedEvent += HandleGameLoadedEvent;
-        game.AllPlayersLoadedEvent += HandleAllPlayersLoadedEvent;
+        game.StartGameEvent += HandleAllPlayersLoadedEvent;
     }
 
     private void SubscribePlayerEventHandlers() {

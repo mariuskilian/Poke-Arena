@@ -55,7 +55,7 @@ public class PlayerStoreMan : PlayerManager {
 
     #region Local Event Handlers
     private void SubscribeLocalEventHandlers() {
-        GameMan.Instance.AllPlayersLoadedEvent += HandleAllPlayersLoadedEvent;
+        GameMan.Instance.StartGameEvent += HandleAllPlayersLoadedEvent;
 
         var finance = player.GetPlayerMan<PlayerFinanceMan>();
         finance.RerollStoreEvent += HandleRerollStoreEvent;

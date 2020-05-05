@@ -17,6 +17,7 @@ public class ClientGlobalEventMan : GlobalEventListener {
 
     #region Receiving Global Events
     public Action<Player> PlayerReceivedEvent;
+    public Action GameStartEvent;
     public Action<StoreUnit[]> NewStoreEvent;
     public Action<int> UnitCaughtEvent;
 
@@ -24,6 +25,8 @@ public class ClientGlobalEventMan : GlobalEventListener {
         if (entity.StateIs<IPlayerState>())
             PlayerReceivedEvent?.Invoke(entity.GetComponent<Player>());
     }
+
+    public override void OnEvent(GameStartEvent evnt) { GameStartEvent?.Invoke(); }
 
     public override void OnEvent(StoreNewStoreEvent evnt) {
         StoreUnit[] Units = {
@@ -41,13 +44,14 @@ public class ClientGlobalEventMan : GlobalEventListener {
 
     #region Sending Global Events
     private void SubscribeLocalEventHandlers() {
-        StoreButtonMan.Instance.TryCatchUnitEvent += HandleTryCatchUnitEvent;
+        var UI = UIMan.Instance;
+        UI.TryCatchUnitEvent += HandleTryCatchUnitEvent;
 
-        InputMan input = InputMan.Instance;
+        var input = InputMan.Instance;
         input.TryRerollStoreEvent += HandleTryRerollStoreEvent;
         input.TryBuyExpEvent += HandleTryBuyExpEvent;
 
-        SelectionMan select = SelectionMan.Instance;
+        var select = SelectionMan.Instance;
         select.UnitDeselectEvent += HandleUnitDeselectEvent;
     }
 

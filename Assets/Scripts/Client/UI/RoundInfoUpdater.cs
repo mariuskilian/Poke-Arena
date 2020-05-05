@@ -10,8 +10,17 @@ public class RoundInfoUpdater : GlobalEventListener {
         roundText = null
         ;
 
-    public override void EntityReceived(BoltEntity entity) {
-        if (entity.StateIs<IRoundState>()) entity.GetComponent<Round>().RoundInfoUpdatedEvent += HandleRoundInfoUpdatedEvent;
+    private void Start() { timeText.text = "0"; roundText.text = "Loading Game"; }
+    
+    public override void OnEvent(ClientEventManInitializedEvent evnt) { SubscribeLocalEventHandlers(); }
+
+    private void SubscribeLocalEventHandlers() {
+        var global = ClientGlobalEventMan.Instance;
+        global.GameStartEvent += HandleGameStartEvent;
+    }
+
+    private void HandleGameStartEvent() {
+        ClientRoundMan.Instance.Round.RoundInfoUpdatedEvent += HandleRoundInfoUpdatedEvent;
     }
 
     private void HandleRoundInfoUpdatedEvent(RoundInfo info) {
