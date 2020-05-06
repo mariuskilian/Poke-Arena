@@ -382,6 +382,7 @@ MonoBehaviour:
   GameSettings:
   - {fileID: 11400000, guid: 76e94a074dddd7842ac620ec4c7324ed, type: 2}
   ArenaLayouts:
+  - {fileID: 11400000, guid: b0a65c871e8bf425f88d0cd43a87382f, type: 2}
   - {fileID: 11400000, guid: 74bde0180de3be940a003aac7c500870, type: 2}
   StoreUnitPrefabs:
   - {fileID: -9049140579694151119, guid: 33b3ae723fc43c14e9f3bf32f9533ad3, type: 3}

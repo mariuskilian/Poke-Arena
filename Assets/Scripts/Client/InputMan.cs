@@ -9,7 +9,7 @@ public class InputMan : MonoBehaviour {
     private void Awake() { if (Instance == null) Instance = this; }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.D)) TryRerollStoreEvent?.Invoke();
+        if (Input.GetKeyDown(KeyCode.D)) if (UIMan.Instance.IsStoreActive) TryRerollStoreEvent?.Invoke();
         if (Input.GetKeyDown(KeyCode.F)) TryBuyExpEvent?.Invoke();
         if (Input.GetKeyDown(KeyCode.Space)) ToggleStoreEvent?.Invoke();
     }

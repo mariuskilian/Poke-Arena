@@ -54,8 +54,7 @@
         {
           "Name": "Rotation",
           "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 2,
+          "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
             "$type": "Bolt.Compiler.PropertyTypeQuaternion, bolt.compiler",

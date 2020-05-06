@@ -8,7 +8,7 @@ public class UIMan : GlobalEventListener {
     public static UIMan Instance { get; private set; }
     private void Awake() { if (Instance == null) Instance = this; }
 
-    public bool StoreActive { get { return store.activeSelf; } }
+    public bool IsStoreActive { get { return store.activeSelf; } }
 
     [SerializeField] private GameObject store = null;
     [SerializeField] private Camera storeCam = null;    
@@ -28,6 +28,7 @@ public class UIMan : GlobalEventListener {
             buttonGO.transform.SetParent(store.transform);
 
             float xOffset = (((float)idx / (float)(PlayerStoreMan.StoreSize - 1)) * xOffsetMax * 2) - xOffsetMax;
+            buttonGO.transform.position = CatchButtonTemplate.transform.position;
             Vector3 pos = buttonGO.transform.localPosition;
             buttonGO.transform.localPosition = new Vector3(xOffset, pos.y, pos.z);
             buttonGO.transform.localScale = Vector3.one;
