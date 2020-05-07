@@ -11,14 +11,13 @@ public class BoardUnitAnimation : UnitAnimation {
 
     // Dictionaries map clip names to the Actions of accessing and changing the correct parameters
     protected Dictionary<string, Action> TriggerOnlyGestures, TriggerOnlyAnimations;
-    protected Dictionary<string, Action<bool>> TimedGestures, BoolOnlyAnimations;
+    protected Dictionary<string, Action<bool>> TimedGestures;
     protected Dictionary<string, Action<int>> TriggerGesturesWithVersions;
     private void InitDictionaries() {
         // Animations that are specific to an action. All units have these animations
         TriggerOnlyAnimations = new Dictionary<string, Action> {
-            { PickedUp, () => This<BoardUnit>().state.PickedUp() } };
-        BoolOnlyAnimations = new Dictionary<string, Action<bool>> {
-            { Carried, b => This<BoardUnit>().state.Carried = b} };
+            { PickedUp, () => This<BoardUnit>().state.PickedUp() },
+            { Dropped, () => This<BoardUnit>().state.Dropped() } };
 
         // Animations that can be randomly triggered, but not all units have all these animations
         TriggerOnlyGestures = new Dictionary<string, Action> {
@@ -57,7 +56,7 @@ public class BoardUnitAnimation : UnitAnimation {
         
         foreach (var g in TriggerGesturesWithVersions) {
             int numVersions = 0;
-            for (int v = 1; v <= MaxNumVersions; v++) if (AvailableGestures.Contains(g.Key + "V" + v)) numVersions++;
+            for (int v = 1; v <= MaxNumVersions; v++) if (AvailableGestures.Contains(g.Key + " V" + v)) numVersions++;
 
             if (numVersions == 0) continue;
             Gestures.Add(g.Key, b => { TriggerAsReactive = b; g.Value?.Invoke(RNG.Next(numVersions) + 1); });

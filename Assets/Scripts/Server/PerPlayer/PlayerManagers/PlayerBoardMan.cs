@@ -102,6 +102,11 @@ public class PlayerBoardMan : PlayerManager {
         return false;
     }
 
+    #region Local Events
+    public Action<BoardUnit> UnitPlacedEvent;
+    public Action<BoardUnit> UnitTeleportedEvent;
+    #endregion
+
     #region Local Event Handlers
     private void SubscribeLocalEventHandlers() {
         var store = player.GetPlayerMan<PlayerStoreMan>();
@@ -131,7 +136,11 @@ public class PlayerBoardMan : PlayerManager {
         if (!unit.entity.IsController(evnt.RaisedBy)) return;
         Tile tile = FindTile(evnt.ClickPosition, evnt.ClickedBoard);
         if (tile == null) unit.CurrentTile.ResetTile();
-        else Tile.SwapTiles(unit.CurrentTile, tile);
+        else {
+            UnitPlacedEvent?.Invoke(unit);
+            if (tile.IsTileFilled) UnitTeleportedEvent?.Invoke(tile.CurrentUnit);
+            Tile.SwapTiles(unit.CurrentTile, tile);
+        }
     }
 
     private void Update() {

@@ -35,9 +35,9 @@ MonoBehaviour:
     commandRedundancy: 6
     commandPingMultiplier: 1.25
     useNetworkSimulation: 1
-    simulatedLoss: 0
-    simulatedPingMean: 0
-    simulatedPingJitter: 0
+    simulatedLoss: 0.13
+    simulatedPingMean: 100
+    simulatedPingJitter: 50
     simulatedRandomFunction: 0
     connectionTimeout: 10000
     connectionRequestTimeout: 500
@@ -51,7 +51,7 @@ MonoBehaviour:
   showDebugInfo: 1
   overrideTimeScale: 1
   logUncaughtExceptions: 0
-  debugEditorMode: 1
+  debugEditorMode: 2
   consoleToggleKey: 9
   consoleVisibleByDefault: 0
   compilationWarnLevel: 4

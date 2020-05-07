@@ -12,30 +12,33 @@ public abstract class UnitAnimation : UnitComponent {
         Name = "Name", Doze = "Doze", Excited = "Excited", Shake = "Shake";
     
     // Other parameter names
-    protected const string PickedUp = "PickedUp", Carried = "Carried", DroppedInStore = "DroppedInStore",
+    protected const string PickedUp = "PickedUp", Dropped = "Dropped", DroppedInStore = "DroppedInStore",
         CarryPreClipSpeed = "CarryPreClipSpeedNormalizer", CarryPostClipSpeed = "CarryPostClipSpeedNormalizer";
 
-    protected static readonly int MaxNumVersions = 5;
+    public const int MaxNumVersions = 5;
+    public const float PickUpAndDropClipLengths = 0.33f;
 
     protected Animator animator;
 
     private List<string> AllGestures;
     protected List<string> AvailableGestures;
 
-    protected new void Awake() { base.Awake(); animator = GetComponent<Animator>(); FindAvailableGestures(); }
+    protected List<KeyValuePair<AnimationClip, AnimationClip>> overrideClips;
 
-    private void FindAvailableGestures() {
+    protected new void Awake() { base.Awake(); animator = GetComponent<Animator>(); Initialization(); }
+
+    private void Initialization() {
         AllGestures = new List<string> {
             ComeHere, LookThere, NoThanks, Name, Doze };
-        for (int v = 0; v < MaxNumVersions; v++) {
-            AllGestures.Add(Excited + "V" + v);
-            AllGestures.Add(Shake + "V" + v);
+        for (int v = 1; v <= MaxNumVersions; v++) {
+            AllGestures.Add(Excited + " V" + v);
+            AllGestures.Add(Shake + " V" + v);
         }
 
         AvailableGestures = new List<string>();
 
         var aoc = animator.runtimeAnimatorController as AnimatorOverrideController;
-        var overrideClips = new List<KeyValuePair<AnimationClip, AnimationClip>>(aoc.overridesCount);
+        overrideClips = new List<KeyValuePair<AnimationClip, AnimationClip>>(aoc.overridesCount);
         aoc.GetOverrides(overrideClips);
         var overrideClipNames = overrideClips.ToDictionary(
             pair => pair.Key.name,

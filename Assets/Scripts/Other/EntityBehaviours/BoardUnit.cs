@@ -22,17 +22,22 @@ public class BoardUnit : EntityBehaviour<IBoardUnitState> {
         state.AddCallback("Position", () => transform.position = state.Position);
         state.AddCallback("Rotation", () => transform.rotation = state.Rotation);
 
-        if (BoltNetwork.IsServer) InitUnitServerBehaviours();
-        if (BoltNetwork.IsClient) {
-            if (entity.HasControl) AddCollisionPlane();
-        }
-        
+        InitUnit();
     }
 
-    private void InitUnitServerBehaviours() {
-        UnitBehaviours = new List<UnitComponent> {
-            gameObject.AddComponent<BoardUnitRandomGesture>()
-        };
+    private void InitUnit() {
+        if (BoltNetwork.IsServer) {
+            UnitBehaviours = new List<UnitComponent> {
+                gameObject.AddComponent<BoardUnitRandomGesture>(),
+                gameObject.AddComponent<BoardUnitBoardAnimations>()
+            };
+        }
+        else if (BoltNetwork.IsClient) {
+            if (entity.HasControl) AddCollisionPlane();
+            UnitBehaviours = new List<UnitComponent> {
+                gameObject.AddComponent<BoardUnitCarryAnimation>()
+            };
+        }
     }
 
     public void UpdateTile(Tile tile) { CurrentTile = tile; SetPositionAndRotation(tile.LocalPosition, tile.LocalRotation, true); }

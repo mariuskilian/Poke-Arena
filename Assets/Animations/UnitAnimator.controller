@@ -8,8 +8,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: Carried
+  - m_ConditionMode: 1
+    m_ConditionEvent: Dropped
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2926957590978924979}
@@ -751,7 +751,7 @@ AnimatorStateMachine:
     second:
     - {fileID: -1192809113424469218}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -230, y: 600, z: 0}
+  m_AnyStatePosition: {x: -230, y: 590, z: 0}
   m_EntryPosition: {x: 30, y: 360, z: 0}
   m_ExitPosition: {x: 290, y: 360, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
@@ -983,7 +983,7 @@ AnimatorState:
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 1
+  m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
@@ -1076,8 +1076,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: Carried
+  - m_ConditionMode: 1
+    m_ConditionEvent: Dropped
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2926957590978924979}
@@ -1211,6 +1211,9 @@ AnimatorStateMachine:
   - first: {fileID: 8932048041981304758}
     second:
     - {fileID: -3731055973789448854}
+  - first: {fileID: -7656242202031260147}
+    second:
+    - {fileID: -2671512363220489994}
   - first: {fileID: 1802949476721583265}
     second:
     - {fileID: 5655045087822457895}
@@ -1220,9 +1223,6 @@ AnimatorStateMachine:
   - first: {fileID: 9733020321264247}
     second:
     - {fileID: 6422979833481734396}
-  - first: {fileID: -7656242202031260147}
-    second:
-    - {fileID: -2671512363220489994}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: -70, y: 220, z: 0}
   m_EntryPosition: {x: 140, y: 220, z: 0}
@@ -1566,21 +1566,9 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Carried
-    m_Type: 4
+  - m_Name: Dropped
+    m_Type: 9
     m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: CarryPreClipSpeedNormalizer
-    m_Type: 1
-    m_DefaultFloat: 1
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: CarryPostClipSpeedNormalizer
-    m_Type: 1
-    m_DefaultFloat: 1
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
@@ -1882,7 +1870,7 @@ AnimatorState:
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 1
+  m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
