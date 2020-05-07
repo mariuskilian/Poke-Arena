@@ -7,108 +7,98 @@ using static GameInfo;
 
 public abstract class UnitAnimation : UnitBehaviour {
 
-    /*protected static readonly Action // Gestures
-        ReactiveGesture, NonReactiveGesture;
+    // Type of gesture
+    protected const string Reactive = "ReactiveGesture", NonReactive = "NonReactiveGesture";
 
-    protected static readonly Action
-        ComeHere, Distracted, LookThere, NoThanks, Name, Doze, Sleep;
+    // Clip names
+    protected const string ComeHere = "ComeHere", Distracted = "Distracted", LookThere = "LookThere", NoThanks = "NoThanks",
+        Name = "Name", Doze = "Doze", Sleep = "Sleep", Excited = "Excited", Shake = "Shake";
+    
+    // Other parameter names
+    protected const string PickedUp = "PickedUp", Carried = "Carried", CarryPreClipSpeed = "CarryPreClipSpeedNormalizer",
+        CarryPostClipSpeed = "CarryPostClipSpeedNormalizer";
 
-    protected static readonly Action
-        Excited, Shake;
+    protected bool TriggerAsReactive { set { if (value) unit.state.ReactiveGesture(); else unit.state.NonReactiveGesture(); } }
 
-    private const int
-        MaxNumVersions = 5 // Max. number of versions any unit has for a single animation
-        ;
+    // Dictionaries map clip names to the Actions of accessing and changing the correct parameters
+    protected Dictionary<string, Action> TriggerOnlyGestures, TriggerOnlyAnimations;
+    protected Dictionary<string, Action<bool>> TimedGestures, BoolOnlyAnimations;
+    protected Dictionary<string, Action<int>> TriggerGesturesWithVersions;
+    private void InitDictionaries() {
+        // Animations that are specific to an action. All units have these animations
+        TriggerOnlyAnimations = new Dictionary<string, Action> {
+            { PickedUp, () => unit.state.PickedUp() } };
+        BoolOnlyAnimations = new Dictionary<string, Action<bool>> {
+            { Carried, b => unit.state.Carried = b} };
 
-    private static readonly float[]
-        SleepRange = { 3f, 15f },
-        DozeRange = { 1f, 5f }
-        ;
-
-    private readonly Dictionary<string, float[]> TimedGestureLengths = new Dictionary<string, float[]> { { Sleep, SleepRange }, { Doze, DozeRange } };
-
-    private readonly List<string>
-        TriggerOnlyGestures = new List<Action> { ComeHere, Distracted, LookThere, NoThanks, Name },
-        BoolOnlyGestures = new List<Action> { Doze, Sleep },
-        TriggerGesturesWithVersions = new List<Action> { Excited, Shake }
-        ;
-
-    protected Dictionary<string, Action<bool>> AvailableAnimations;
-
-    protected Animator anim;
-
-    protected new void Awake() {
-        base.Awake();
-        anim = unit.state.Animator;
-        Initialization();
+        // Animations that can be randomly triggered, but not all units have all these animations
+        TriggerOnlyGestures = new Dictionary<string, Action> {
+            { ComeHere, () => unit.state.ComeHere() },
+            { Distracted, () => unit.state.Distracted() },
+            { LookThere, () => unit.state.LookThere() },
+            { NoThanks, () => unit.state.NoThanks() },
+            { Name, () => unit.state.Name() } };
+        TimedGestures = new Dictionary<string, Action<bool>> {
+            { Doze, b => unit.state.Doze = b},
+            { Sleep, b => unit.state.Sleep = b} };
+        TriggerGesturesWithVersions = new Dictionary<string, Action<int>> {
+            { Excited, v => { unit.state.Excited(); unit.state.ExcitedIndex = v; } },
+            { Shake, v => { unit.state.Shake(); unit.state.ShakeIndex = v; } } };
     }
 
+    protected readonly Dictionary<string, float[]> TimedLengths = new Dictionary<string, float[]> {
+        {"Doze", new float[]{ 1f, 5f } }, {"Sleep", new float[]{ 3f, 15f } } };
+
+    protected Animator animator;
+    protected Dictionary<string, Action<bool>> AvailableGestures;
+
+    private static readonly int MaxNumVersions = 5;
+
+    protected new void Awake() { base.Awake(); Initialization(); }
+
     private void Initialization() {
-        // Get list of all overridden clips
-        var aoc = anim.runtimeAnimatorController as AnimatorOverrideController;
+        animator = unit.state.Animator;
+        InitDictionaries();
+        AvailableGestures = new Dictionary<string, Action<bool>>();
+
+        var aoc = animator.runtimeAnimatorController as AnimatorOverrideController;
         var overrideClips = new List<KeyValuePair<AnimationClip, AnimationClip>>(aoc.overridesCount);
         aoc.GetOverrides(overrideClips);
 
-        AvailableAnimations = new Dictionary<string, Action<bool>>();
-
-        Dictionary<string, string> overrideClipNames = overrideClips.ToDictionary(
+        var overrideClipNames = overrideClips.ToDictionary(
             pair => pair.Key.name,
             pair => { if (pair.Value != null) return pair.Value.name; else return null; }
         );
 
-        foreach (string clip in TriggerOnlyGestures) {
-            if (!overrideClipNames.TryGetValue(clip, out var newClip)) continue;
-            var copy = clip;
-            if (newClip != null) AvailableAnimations.Add(copy, isReactive => TriggerGesture(copy, isReactive));
+        foreach (var g in TriggerOnlyGestures) {
+            if (!overrideClipNames.TryGetValue(g.Key, out var newClip) || newClip == null) continue;
+            AvailableGestures.Add(g.Key, b => { TriggerAsReactive = b; g.Value?.Invoke(); });
         }
 
-        foreach (string clip in BoolOnlyGestures) {
-            if (!overrideClipNames.TryGetValue(clip, out var newClip)) continue;
-            var copy = clip; var range = TimedGestureLengths[copy];
-            if (newClip != null) AvailableAnimations.Add(copy, isReactive => StartCoroutine(TimedGesture(copy, range[0], range[1], isReactive)));
+        foreach (var g in TimedGestures) {
+            if (!overrideClipNames.TryGetValue(g.Key, out var newClip) || newClip == null) continue;
+            var l = TimedLengths[g.Key];
+            AvailableGestures.Add(g.Key, b => { TriggerAsReactive = b; StartCoroutine(TimedGesture(g.Value, l[0], l[1])); });
         }
-
-        foreach (string clip in TriggerGesturesWithVersions) {
+        
+        foreach (var g in TriggerGesturesWithVersions) {
             int numVersions = 0;
-            for (int i = 1; i < MaxNumVersions; i++) {
-                if (!overrideClipNames.TryGetValue(clip + "V" + i, out var newClip)) continue;
-                if (newClip != null) numVersions++;
-            }
-            if (numVersions > 0) {
-                var copy = clip;
-                AvailableAnimations.Add(copy, isReactive => {
-                    int version = RNG.Next(numVersions);
-                    unit.state.Animator.SetInteger(copy + Index, version + 1);
-                    TriggerGesture(copy, isReactive);
-                });
-            }
+            for (int v = 1; v <= MaxNumVersions; v++)
+                if (overrideClipNames.TryGetValue(g.Key + "V" + v, out var newClip) && newClip != null) numVersions++;
+
+            if (numVersions == 0) continue;
+            AvailableGestures.Add(g.Key, b => { TriggerAsReactive = b; g.Value?.Invoke(RNG.Next(numVersions) + 1); });
         }
     }
 
-    private void TriggerGesture(string gestureName, bool isReactive) {
-        if (isReactive) { ResetAllTriggers(); unit.state.ReactiveGesture(); } else unit.state.NonReactiveGesture();
-
-        anim.SetTrigger(gestureName);
+    private IEnumerator TimedGesture(Action<bool> action, float minLength, float maxLength) {
+        action?.Invoke(true);
+        yield return new WaitForSeconds((float)RNG.NextDouble() * (maxLength - minLength) + minLength);
+        action?.Invoke(false);
     }
 
-    private IEnumerator TimedGesture(string gestureName, float minLength, float maxLength, bool isReactive) {
-        string gestureType = (isReactive) ? ReactiveGesture : NonReactiveGesture;
-        anim.SetTrigger(gestureName);
-        anim.SetBool(gestureName, true);
-        yield return new WaitForSeconds(((float)RNG.NextDouble() * (maxLength - minLength)) + minLength);
-        anim.SetBool(gestureName, false);
+    protected void TryPerformGesture(string name, bool isReactive) {
+        AvailableGestures.TryGetValue(name, out Action<bool> action);
+        action?.Invoke(isReactive);
     }
-
-    private void ResetAllTriggers() {
-        foreach (var par in unit.state.Animator.parameters)
-            if (par.type == AnimatorControllerParameterType.Trigger) anim.ResetTrigger(par.name);
-    }
-
-    protected void TryPerformAnimation(string name, bool isReactive) { AvailableAnimations.TryGetValue(name, out var func); func?.Invoke(isReactive); }
-
-}
-
-public class AnimationClass {
-    public string Name { get; private set; }
-    public Action*/
 }

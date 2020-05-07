@@ -5,7 +5,7 @@ using static GameInfo;
 
 public class UnitRandomAnimation : UnitAnimation {
 
-    /*private bool isDoingRandomGesture = false;
+    private bool isDoingRandomGesture = false;
 
     private void Update() { if (!isDoingRandomGesture) StartCoroutine(RandomGesture()); }
 
@@ -13,11 +13,11 @@ public class UnitRandomAnimation : UnitAnimation {
         isDoingRandomGesture = true;
         float random = (float)RNG.NextDouble();
         yield return new WaitForSeconds((random * random * 20f) + 5f);
-        if (!anim.GetBool(NonReactiveGesture)) {
-            int index = RNG.Next(AvailableAnimations.Count);
-            var key = new List<string>(AvailableAnimations.Keys)[index];
-            TryPerformAnimation(key, false);
+        if (!animator.GetBool(NonReactive)) {
+            int index = RNG.Next(AvailableGestures.Count);
+            var key = new List<string>(AvailableGestures.Keys)[index];
+            TryPerformGesture(key, false);
         }
         isDoingRandomGesture = false;
-    }*/
+    }
 }
