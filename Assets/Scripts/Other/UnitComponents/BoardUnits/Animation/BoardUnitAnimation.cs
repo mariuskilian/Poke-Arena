@@ -23,20 +23,18 @@ public class BoardUnitAnimation : UnitAnimation {
         // Animations that can be randomly triggered, but not all units have all these animations
         TriggerOnlyGestures = new Dictionary<string, Action> {
             { ComeHere, () => This<BoardUnit>().state.ComeHere() },
-            { Distracted, () => This<BoardUnit>().state.Distracted() },
             { LookThere, () => This<BoardUnit>().state.LookThere() },
             { NoThanks, () => This<BoardUnit>().state.NoThanks() },
             { Name, () => This<BoardUnit>().state.Name() } };
         TimedGestures = new Dictionary<string, Action<bool>> {
-            { Doze, b => This<BoardUnit>().state.Doze = b},
-            { Sleep, b => This<BoardUnit>().state.Sleep = b} };
+            { Doze, b => This<BoardUnit>().state.Doze = b} };
         TriggerGesturesWithVersions = new Dictionary<string, Action<int>> {
             { Excited, v => { This<BoardUnit>().state.Excited(); This<BoardUnit>().state.ExcitedIndex = v; } },
             { Shake, v => { This<BoardUnit>().state.Shake(); This<BoardUnit>().state.ShakeIndex = v; } } };
     }
 
     protected readonly Dictionary<string, float[]> TimedLengths = new Dictionary<string, float[]> {
-        {"Doze", new float[]{ 1f, 5f } }, {"Sleep", new float[]{ 3f, 15f } } };
+        {Doze, new float[]{ 1f, 5f } } };
     protected Dictionary<string, Action<bool>> Gestures;
 
     protected new void Awake() { base.Awake(); Initialization(); }

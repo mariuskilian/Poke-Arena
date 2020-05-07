@@ -8,8 +8,8 @@ public abstract class UnitAnimation : UnitComponent {
     protected const string Reactive = "ReactiveGesture", NonReactive = "NonReactiveGesture";
 
     // Clip names
-    protected const string ComeHere = "ComeHere", Distracted = "Distracted", LookThere = "LookThere", NoThanks = "NoThanks",
-        Name = "Name", Doze = "Doze", Sleep = "Sleep", Excited = "Excited", Shake = "Shake";
+    protected const string ComeHere = "ComeHere", LookThere = "LookThere", NoThanks = "NoThanks",
+        Name = "Name", Doze = "Doze", Excited = "Excited", Shake = "Shake";
     
     // Other parameter names
     protected const string PickedUp = "PickedUp", Carried = "Carried", DroppedInStore = "DroppedInStore",
@@ -26,7 +26,7 @@ public abstract class UnitAnimation : UnitComponent {
 
     private void FindAvailableGestures() {
         AllGestures = new List<string> {
-            ComeHere, Distracted, LookThere, NoThanks, Name, Doze, Sleep };
+            ComeHere, LookThere, NoThanks, Name, Doze };
         for (int v = 0; v < MaxNumVersions; v++) {
             AllGestures.Add(Excited + "V" + v);
             AllGestures.Add(Shake + "V" + v);

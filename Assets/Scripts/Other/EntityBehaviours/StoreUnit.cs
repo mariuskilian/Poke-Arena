@@ -20,7 +20,8 @@ public class StoreUnit : EntityBehaviour<IStoreUnitState> {
 
     private void InitUnitClientBehaviours() {
         UnitBehaviours = new List<UnitComponent> {
-            gameObject.AddComponent<StoreUnitAnimation>()
+            gameObject.AddComponent<StoreUnitAnimation>(),
+            gameObject.AddComponent<StoreUnitSpawnShaderEffect>()
         };
     }
 
