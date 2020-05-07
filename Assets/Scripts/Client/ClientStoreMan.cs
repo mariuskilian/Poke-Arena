@@ -10,7 +10,7 @@ public class ClientStoreMan : GlobalEventListener {
     private void Awake() { if (Instance == null) Instance = this; }
 
     #region Local Events
-    public Action<int> UnitArrivedInStoreEvent;
+    public Action<StoreUnit, int> UnitArrivedInStoreEvent;
     #endregion
 
     [SerializeField] private float
@@ -51,7 +51,7 @@ public class ClientStoreMan : GlobalEventListener {
         float normalizedIndex = (float)index / (float)(PlayerStoreMan.StoreSize - 1); // 0 <= normalizedIndex <= 1
         yield return new WaitForSeconds(normalizedIndex * 0.67f);
         storeUnit.gameObject.transform.Translate(Vector3.down * 10); //reshow unit
-        UnitArrivedInStoreEvent?.Invoke(index);
+        UnitArrivedInStoreEvent?.Invoke(storeUnit, index);
     }
 
     //Positions unit accordingly on camera so it shows in store

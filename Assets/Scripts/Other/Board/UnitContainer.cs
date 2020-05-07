@@ -8,7 +8,7 @@ public class UnitContainer : MonoBehaviour {
 
     public bool IsReadyForEvolve { get { return numBaseUnits == 2; } }
     
-    public bool TryAddUnit(Unit unit) {
+    public bool TryAddUnit(BoardUnit unit) {
         if (unit.properties.name != gameObject.name) return false;
         unit.transform.SetParent(transform);
         if (unit.evolutionChain == EvlChain.BASE) numBaseUnits++;
@@ -20,7 +20,7 @@ public class UnitContainer : MonoBehaviour {
         if (evolutionChain == EvlChain.TOP) return null;
         var Tiles = new List<Tile>();
         for (int childIdx = 0; childIdx < transform.childCount; childIdx++) {
-            Unit unit = transform.GetChild(childIdx).GetComponent<Unit>();
+            BoardUnit unit = transform.GetChild(childIdx).GetComponent<BoardUnit>();
             if (unit.evolutionChain == evolutionChain) Tiles.Add(unit.CurrentTile);
         }
         if (Tiles.Count == 3) return Tiles;

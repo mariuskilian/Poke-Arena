@@ -65,7 +65,7 @@ public class ClientGlobalEventMan : GlobalEventListener {
 
     private void HandleTryBuyExpEvent() { ClientTryBuyExpEvent.Create(GlobalTargets.OnlyServer).Send(); }
 
-    private void HandleUnitDeselectEvent(Unit unit, Vector3 clickPos, bool clickedBoard) {
+    private void HandleUnitDeselectEvent(BoardUnit unit, Vector3 clickPos, bool clickedBoard) {
         var evnt = ClientUnitDeselectEvent.Create(GlobalTargets.OnlyServer);
         evnt.Unit = unit.entity.NetworkId;
         evnt.ClickPosition = clickPos;

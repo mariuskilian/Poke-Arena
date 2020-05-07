@@ -64,10 +64,10 @@ public class UIMan : GlobalEventListener {
     }
 
     private void HandleToggleStoreEvent() { SetStoreActive(!store.activeSelf); }
-    private void HandleUnitSelectEvent(Unit _) { if (store.activeSelf) SetStoreActive(!(forcedHidden = true)); }
-    private void HandleUnitDeselectEvent(Unit _u, Vector3 _v, bool _b) { if (forcedHidden) SetStoreActive(!(forcedHidden = false)); }
+    private void HandleUnitSelectEvent(BoardUnit _) { if (store.activeSelf) SetStoreActive(!(forcedHidden = true)); }
+    private void HandleUnitDeselectEvent(BoardUnit _u, Vector3 _v, bool _b) { if (forcedHidden) SetStoreActive(!(forcedHidden = false)); }
     private void HandleGameStartEvent() { SetStoreActive(true); }
-    private void HandleUnitArrivedInStoreEvent(int storeIdx) { ActivateCatchButton(storeIdx); }
+    private void HandleUnitArrivedInStoreEvent(StoreUnit _, int storeIdx) { ActivateCatchButton(storeIdx); }
     private void HandleUnitCaughtEvent(int storeIdx) { DeactivateCatchButton(storeIdx); }
     private void HandleNewStoreEvent(StoreUnit[] _) { for (int idx = 0; idx < PlayerStoreMan.StoreSize; idx++) DeactivateCatchButton(idx); }
 

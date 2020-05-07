@@ -1151,11 +1151,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6616770131647625879}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8382530f9e014b44381d41b906b9bc2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e77de78b6316d041bbd6ec33d348556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   variant: {fileID: 0}
-  unit: {fileID: -5143813020075713509, guid: 651df271e854f4b4f90c84a10c03ac60, type: 3}
+  boardUnit: {fileID: -5143813020075713509, guid: 651df271e854f4b4f90c84a10c03ac60,
+    type: 3}
 --- !u!95 &-1259158128457321734
 Animator:
   serializedVersion: 3
@@ -1189,7 +1190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneGuid: 
   _serializerGuid: 54999bf8-0394-442d-acfc-ddf1e16e8eeb
-  _prefabId: 6
+  _prefabId: 16
   _updateRate: 1
   _autoFreezeProxyFrames: 0
   _clientPredicted: 1

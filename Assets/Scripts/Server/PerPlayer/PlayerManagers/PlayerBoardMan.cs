@@ -56,7 +56,7 @@ public class PlayerBoardMan : PlayerManager {
     #endregion
 
     #region Unit Containers
-    private UnitContainer FindOrCreateUnitContainer(Unit unit) {
+    private UnitContainer FindOrCreateUnitContainer(BoardUnit unit) {
         if (UnitContainers.TryGetValue(unit.properties.name, out var container)) return container;
 
         GameObject containerObject = new GameObject(unit.properties.name);
@@ -70,16 +70,16 @@ public class PlayerBoardMan : PlayerManager {
     #endregion
 
     #region Evolution
-    private void CheckForEvolution(Unit unit) {
+    private void CheckForEvolution(BoardUnit unit) {
         if (unit.evolution == null) return;
         List<Tile> Tiles = FindOrCreateUnitContainer(unit).CheckForEvolution(unit.evolutionChain);
         if (Tiles != null) Evolve(Tiles);
     }
 
     private void Evolve(List<Tile> Tiles) {
-        Unit evolvedUnit = SpawnUnit(Tiles[0].CurrentUnit.evolution);
+        BoardUnit evolvedUnit = SpawnUnit(Tiles[0].CurrentUnit.evolution);
         foreach (Tile t in Tiles) {
-            Unit unit = t.ClearTile();
+            BoardUnit unit = t.ClearTile();
             BoltNetwork.Destroy(unit.gameObject);
         }
         Tiles[0].FillTile(evolvedUnit);
@@ -87,20 +87,25 @@ public class PlayerBoardMan : PlayerManager {
     }
     #endregion
 
-    private Unit SpawnUnit(Unit unitPrefab) {
+    private BoardUnit SpawnUnit(BoardUnit unitPrefab) {
         var unitEntity = BoltNetwork.Instantiate(unitPrefab.gameObject);
         unitEntity.AssignControl(player.Connection);
-        Unit unit = unitEntity.GetComponent<Unit>();
+        BoardUnit unit = unitEntity.GetComponent<BoardUnit>();
         unit.SetOwner(player);
         FindOrCreateUnitContainer(unit).TryAddUnit(unit);
         return unit;
     }
 
-    public bool CanSpawnUnit(Unit unit) {
+    public bool CanSpawnUnit(BoardUnit unit) {
         if (FindOrCreateUnitContainer(unit).IsReadyForEvolve) return true;
         for (int i = 0; i < Layout.BenchSizeTiles; i++) if (!Bench[i].IsTileFilled) return true;
         return false;
     }
+
+    #region Local Events
+    public Action<BoardUnit> UnitPlacedEvent;
+    public Action<BoardUnit> UnitTeleportedEvent;
+    #endregion
 
     #region Local Event Handlers
     private void SubscribeLocalEventHandlers() {
@@ -109,7 +114,7 @@ public class PlayerBoardMan : PlayerManager {
     }
 
     private void HandleUnitCaughtEvent(StoreUnit storeUnit) {
-        Unit unit = SpawnUnit(storeUnit.unit);
+        BoardUnit unit = SpawnUnit(storeUnit.boardUnit);
 
         bool benchHasFreeTile = false;
         for (int i = 0; i < Layout.BenchSizeTiles; i++) if (!Bench[i].IsTileFilled) {
@@ -127,11 +132,15 @@ public class PlayerBoardMan : PlayerManager {
     public override void OnEvent(ClientUnitDeselectEvent evnt) {
         if (!IsThisPlayer(evnt.RaisedBy)) return;
         var entity = BoltNetwork.FindEntity(evnt.Unit);
-        if (entity == null || !entity.TryGetComponent<Unit>(out Unit unit)) return;
+        if (entity == null || !entity.TryGetComponent<BoardUnit>(out BoardUnit unit)) return;
         if (!unit.entity.IsController(evnt.RaisedBy)) return;
         Tile tile = FindTile(evnt.ClickPosition, evnt.ClickedBoard);
         if (tile == null) unit.CurrentTile.ResetTile();
-        else Tile.SwapTiles(unit.CurrentTile, tile);
+        else {
+            UnitPlacedEvent?.Invoke(unit);
+            if (tile.IsTileFilled) UnitTeleportedEvent?.Invoke(tile.CurrentUnit);
+            Tile.SwapTiles(unit.CurrentTile, tile);
+        }
     }
 
     private void Update() {
