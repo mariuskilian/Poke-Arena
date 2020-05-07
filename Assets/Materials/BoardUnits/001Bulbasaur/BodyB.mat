@@ -81,6 +81,7 @@ Material:
     - _DissolveThickness: 0.05
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _EvoAlphaFade: 1
     - _EvoFade: 0
     - _EvoSize: 200
     - _Fade: 0.5

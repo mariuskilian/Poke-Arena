@@ -21,6 +21,7 @@ public class BoardUnit : EntityBehaviour<IBoardUnitState> {
 
         state.AddCallback("Position", () => transform.position = state.Position);
         state.AddCallback("Rotation", () => transform.rotation = state.Rotation);
+        state.AddCallback("LayerIdx", UpdateLayerIdx);
 
         InitUnit();
     }
@@ -29,13 +30,15 @@ public class BoardUnit : EntityBehaviour<IBoardUnitState> {
         if (BoltNetwork.IsServer) {
             UnitBehaviours = new List<UnitComponent> {
                 gameObject.AddComponent<BoardUnitRandomGesture>(),
-                gameObject.AddComponent<BoardUnitBoardAnimations>()
+                gameObject.AddComponent<BoardUnitBoardAnimations>(),
+                gameObject.AddComponent<BoardUnitEvolutionShaderEffect>()
             };
         }
         else if (BoltNetwork.IsClient) {
             if (entity.HasControl) AddCollisionPlane();
             UnitBehaviours = new List<UnitComponent> {
-                gameObject.AddComponent<BoardUnitCarryAnimation>()
+                gameObject.AddComponent<BoardUnitCarryAnimation>(),
+                gameObject.AddComponent<BoardUnitEvolutionShaderEffect>()
             };
         }
     }
@@ -61,5 +64,13 @@ public class BoardUnit : EntityBehaviour<IBoardUnitState> {
         state.Rotation = Quaternion.Euler(Vector3.up) * transform.rotation;
         state.Rotation = transform.rotation;
     }
+
+    private void UpdateLayerIdx() {
+        gameObject.layer = state.LayerIdx;
+        for (int childIdx = 0; childIdx < transform.childCount; childIdx++)
+            transform.GetChild(childIdx).gameObject.layer = state.LayerIdx;
+    }
+
+    public void SetClickable(bool clickable) { state.LayerIdx = (clickable) ? LayerMask.NameToLayer("Units") : 0; }
 
 }

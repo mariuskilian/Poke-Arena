@@ -35,8 +35,8 @@ public class StoreUnitSpawnShaderEffect : UnitShaderEffects {
 
     private void Update() {
         if (spawned) return;
+        float speed = 0.5f;
         foreach (Material m in Materials) {
-            float speed = 0.5f;
             m.SetFloat(AlphaFade, m.GetFloat(AlphaFade) + speed * Time.deltaTime);
             if (m.GetFloat(AlphaFade) >= 2f + 0.05f) spawned = true;
         }

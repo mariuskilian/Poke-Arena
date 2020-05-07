@@ -9,7 +9,7 @@ public class UnitShaderEffects : UnitComponent {
 
     protected List<Material> Materials;
 
-    private new void Awake() {
+    protected new void Awake() {
         base.Awake();
         Materials = new List<Material>();
         foreach (var m in gameObject.GetComponentInChildren<Renderer>().materials) {
