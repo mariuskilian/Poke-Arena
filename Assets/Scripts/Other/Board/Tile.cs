@@ -3,7 +3,7 @@ using static PlayerBoardMan;
 
 public class Tile {
 
-    public Unit CurrentUnit { get; private set; }
+    public BoardUnit CurrentUnit { get; private set; }
 
     public bool IsTileFilled { get { return CurrentUnit != null; } }
     public bool IsBoardTile { get { return TilePosition.y != -1; } }
@@ -18,9 +18,9 @@ public class Tile {
         CalculateLocalPositionAndRotation();
     }
 
-    public Unit ClearTile() { Unit _unit = CurrentUnit; CurrentUnit = null; return _unit; }
+    public BoardUnit ClearTile() { BoardUnit _unit = CurrentUnit; CurrentUnit = null; return _unit; }
 
-    public void FillTile(Unit unit) {
+    public void FillTile(BoardUnit unit) {
         if (this.CurrentUnit != null || unit == null) return;
         if (IsBoardTile) unit.gameObject.transform.SetSiblingIndex(0);
         CurrentUnit = unit;
@@ -44,7 +44,7 @@ public class Tile {
         if (!t1.IsTileFilled && !t2.IsTileFilled) return;
         else if (t1.IsTileFilled && !t2.IsTileFilled) t2.FillTile(t1.ClearTile());
         else if (!t1.IsTileFilled && t2.IsTileFilled) t1.FillTile(t2.ClearTile());
-        else { Unit unit = t1.ClearTile(); t1.FillTile(t2.ClearTile()); t2.FillTile(unit); }
+        else { BoardUnit unit = t1.ClearTile(); t1.FillTile(t2.ClearTile()); t2.FillTile(unit); }
     }
 
 }

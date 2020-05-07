@@ -29,9 +29,9 @@ public class PoolMan : GlobalEventListener {
 
         // Initialize pools
         foreach (StoreUnit storeUnitPrefab in DataHolder.Instance.StoreUnitPrefabs) {
-            Rarity rarity = storeUnitPrefab.unit.properties.rarity;
+            Rarity rarity = storeUnitPrefab.boardUnit.properties.rarity;
             StoreUnitPool pool = new StoreUnitPool(storeUnitPrefab, GameMan.Instance.Settings.PoolSize[(int)rarity]);
-            PoolsByRarity[(int)rarity].Add(storeUnitPrefab.unit.properties.name, pool);
+            PoolsByRarity[(int)rarity].Add(storeUnitPrefab.boardUnit.properties.name, pool);
         }
 
         PoolsInitDoneEvent?.Invoke();
@@ -74,7 +74,7 @@ public class PoolMan : GlobalEventListener {
 
     private void FreezeAllStoreEntities() { foreach (var Pools in PoolsByRarity) foreach (var Pair in Pools) Pair.Value.FreezeAllEntities(); }
 
-    private void EnqueueUnit(StoreUnit storeUnit) { PoolsByRarity[(int)storeUnit.unit.properties.rarity][storeUnit.unit.properties.name].Enqueue(); }
+    private void EnqueueUnit(StoreUnit storeUnit) { PoolsByRarity[(int)storeUnit.boardUnit.properties.rarity][storeUnit.boardUnit.properties.name].Enqueue(); }
     #endregion
 
 

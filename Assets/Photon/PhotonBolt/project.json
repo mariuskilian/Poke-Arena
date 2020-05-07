@@ -559,7 +559,7 @@
           "BitsRequired": 8
         }
       },
-      "Name": "UnitState",
+      "Name": "BoardUnitState",
       "Guid": "e58168f2-d05b-4999-aa0b-172ceb89fcbc",
       "Groups": []
     },

@@ -63,7 +63,7 @@ public class PlayerStoreMan : PlayerManager {
 
     private void HandleAllPlayersLoadedEvent() { SpawnNewStore(); }
     private void HandleRerollStoreEvent() { DespawnActiveStore(); SpawnNewStore(); }
-    private void HandleUnitCaughtAndSpawnedEvent(Unit unit) {  }
+    private void HandleUnitCaughtAndSpawnedEvent(BoardUnit unit) {  }
     #endregion
 
     #region Global Event Handlers
@@ -71,8 +71,8 @@ public class PlayerStoreMan : PlayerManager {
         if (!IsThisPlayer(evnt.RaisedBy)) return;
         StoreUnit storeUnit = ActiveStore[evnt.StoreIdx];
         if (storeUnit == null) return;
-        if (!player.GetPlayerMan<PlayerBoardMan>().CanSpawnUnit(storeUnit.unit)) return;
-        if (!player.GetPlayerMan<PlayerBagMan>().TryCatchUnit(storeUnit.unit.properties.rarity)) return;
+        if (!player.GetPlayerMan<PlayerBoardMan>().CanSpawnUnit(storeUnit.boardUnit)) return;
+        if (!player.GetPlayerMan<PlayerBagMan>().TryCatchUnit(storeUnit.boardUnit.properties.rarity)) return;
         CatchUnit(evnt.StoreIdx);
     }
     #endregion

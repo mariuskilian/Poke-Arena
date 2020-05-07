@@ -1,15 +1,27 @@
 using UnityEngine;
 using Bolt;
+using System.Collections.Generic;
 
 public class StoreUnit : EntityBehaviour<IStoreUnitState> {
 
     public StoreUnit variant;
-    public Unit unit;
+    public BoardUnit boardUnit;
+
+    private List<UnitComponent> UnitBehaviours;
 
     public override void Attached() {
         state.AddCallback("Position", UpdatePosition);
         state.AddCallback("Rotation", UpdateRotation);
         state.AddCallback("Active", ChangeActiveState);
+        if (BoltNetwork.IsClient) {
+            InitUnitClientBehaviours();
+        }
+    }
+
+    private void InitUnitClientBehaviours() {
+        UnitBehaviours = new List<UnitComponent> {
+            gameObject.AddComponent<StoreUnitAnimation>()
+        };
     }
 
     private void UpdatePosition() { transform.position = state.Position; }

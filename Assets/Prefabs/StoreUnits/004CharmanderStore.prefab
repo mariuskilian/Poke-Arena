@@ -892,7 +892,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   variant: {fileID: 0}
-  unit: {fileID: 615973173250792259, guid: d44dcf4f74267074fa01a9854f100bd9, type: 3}
+  boardUnit: {fileID: 615973173250792259, guid: d44dcf4f74267074fa01a9854f100bd9,
+    type: 3}
 --- !u!95 &-1539175079699317484
 Animator:
   serializedVersion: 3
@@ -926,7 +927,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneGuid: 
   _serializerGuid: 54999bf8-0394-442d-acfc-ddf1e16e8eeb
-  _prefabId: 5
+  _prefabId: 15
   _updateRate: 1
   _autoFreezeProxyFrames: 0
   _clientPredicted: 1
