@@ -59,7 +59,7 @@ public class PlayerBoardMan : PlayerManager {
     #region Unit Containers
     private UnitContainer FindOrCreateUnitContainer(BoardUnit unit) {
         if (UnitContainers.TryGetValue(unit.properties.name, out var container)) return container;
-
+        
         GameObject containerObject = new GameObject(unit.properties.name);
         containerObject.AddComponent<UnitContainer>();
         containerObject.transform.SetParent(player.Team.transform);
@@ -71,58 +71,16 @@ public class PlayerBoardMan : PlayerManager {
     #endregion
 
     #region Evolution
-    private void CheckForEvolution(BoardUnit unit) {
-        if (unit.evolution == null) return;
-        List<Tile> Tiles = FindOrCreateUnitContainer(unit).CheckForEvolution(unit.evolutionChain);
-        if (Tiles != null) StartCoroutine(Evolve(Tiles));
-    }
-
-    private IEnumerator Evolve(List<Tile> Tiles) {
-
-        BoardUnit firstUnit = Tiles[0].CurrentUnit;
-        BoardUnit lastUnit = Tiles[Tiles.Count - 1].CurrentUnit;
-        List<BoardUnit> Units = new List<BoardUnit>();
-
-        // Start evolution for base units
-        foreach (var t in Tiles) {
-            t.CurrentUnit.SetClickable(false);
-            EvolvingUnitEvent?.Invoke(t.CurrentUnit);
-            Units.Add(t.CurrentUnit);
-            yield return new WaitForSeconds(0.2f); // Tiny delay between each of them
-        }
-
-        // Wait until last one is ready
-        while (lastUnit.state.ShaderEvoFade < 1f) yield return new WaitForEndOfFrame();
-        yield return new WaitForSeconds(0.1f); // Then wait just a little bit more
-
-        // Spawn evolution
-        BoardUnit evolvedUnit = SpawnUnit(firstUnit.evolution);
-        evolvedUnit.SetClickable(false);
-        yield return new WaitForEndOfFrame();
-        Tiles[0].ClearTile();
-        Tiles[0].FillTile(evolvedUnit);
-        SpawnedEvolvedUnitEvent?.Invoke(evolvedUnit);
-
-        // Wait until it has spawned
-        while (evolvedUnit.state.ShaderEvoAlphaFade < 1f) yield return new WaitForEndOfFrame();
-        yield return new WaitForSeconds(0.1f); // Then wait just a little bit more
-
-        // Despawn base units once last one is invisible
-        while (lastUnit.state.ShaderEvoAlphaFade > 0f) yield return new WaitForEndOfFrame();
-        yield return new WaitForSeconds(0.1f); // Then wait just a little bit more ;)
-
-        foreach (var unit in Units) { if (unit != firstUnit) unit.CurrentTile.ClearTile(); BoltNetwork.Destroy(unit.gameObject); }
-
-        // Check if this unit can evolve
-        CheckForEvolution(evolvedUnit);
-
-        // Wait for evolved unit to be done spawning
-        while (evolvedUnit.state.ShaderEvoFade > 0f) yield return new WaitForEndOfFrame();
-        evolvedUnit.SetClickable(true);
+    public bool TryEvolve(BoardUnit unit) {
+        if (unit.evolution == null) return false;
+        List<Tile> Tiles = FindOrCreateUnitContainer(unit).TryGetEvolvingUnits(unit.evolutionChain);
+        if (Tiles == null) return false;
+        EvolvingUnitsEvent?.Invoke(Tiles);
+        return true;
     }
     #endregion
 
-    private BoardUnit SpawnUnit(BoardUnit unitPrefab) {
+    public BoardUnit SpawnUnit(BoardUnit unitPrefab) {
         var unitEntity = BoltNetwork.Instantiate(unitPrefab.gameObject);
         unitEntity.AssignControl(player.Connection);
         BoardUnit unit = unitEntity.GetComponent<BoardUnit>();
@@ -133,7 +91,7 @@ public class PlayerBoardMan : PlayerManager {
     }
 
     public bool CanSpawnUnit(BoardUnit unit) {
-        if (FindOrCreateUnitContainer(unit).IsReadyForEvolve) return true;
+        if (FindOrCreateUnitContainer(unit).IsReadyForEvolve(unit.evolutionChain)) return true;
         for (int i = 0; i < Layout.BenchSizeTiles; i++) if (!Bench[i].IsTileFilled) return true;
         return false;
     }
@@ -141,8 +99,7 @@ public class PlayerBoardMan : PlayerManager {
     #region Local Events
     public Action<BoardUnit> UnitPlacedEvent;
     public Action<BoardUnit> UnitTeleportedEvent;
-    public Action<BoardUnit> EvolvingUnitEvent;
-    public Action<BoardUnit> SpawnedEvolvedUnitEvent;
+    public Action<List<Tile>> EvolvingUnitsEvent;
     #endregion
 
     #region Local Event Handlers
@@ -162,7 +119,7 @@ public class PlayerBoardMan : PlayerManager {
             }
         if (!benchHasFreeTile) ReserveTile.FillTile(unit);
 
-        CheckForEvolution(unit);
+        TryEvolve(unit);
     }
     #endregion
 

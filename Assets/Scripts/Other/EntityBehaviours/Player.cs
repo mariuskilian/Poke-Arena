@@ -31,7 +31,8 @@ public class Player : EntityBehaviour<IPlayerState> {
             gameObject.AddComponent<PlayerLevelMan>(),
             gameObject.AddComponent<PlayerFinanceMan>(),
             gameObject.AddComponent<PlayerBoardMan>(),
-            gameObject.AddComponent<PlayerBagMan>()
+            gameObject.AddComponent<PlayerBagMan>(),
+            gameObject.AddComponent<PlayerEvolutionMan>()
         };
     }
 

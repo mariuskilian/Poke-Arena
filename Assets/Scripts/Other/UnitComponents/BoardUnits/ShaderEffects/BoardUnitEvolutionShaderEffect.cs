@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using static GameInfo;
+using static PlayerEvolutionMan;
 
 public class BoardUnitEvolutionShaderEffect : UnitShaderEffects {
 
@@ -17,10 +17,6 @@ public class BoardUnitEvolutionShaderEffect : UnitShaderEffects {
         EvoFade = "_EvoFade",
         EvoAlphaFade = "_EvoAlphaFade"
         ;
-    
-    private bool isEvolving = false;
-
-    private float speed = 0.5f;
 
     private new void Awake() {
         base.Awake();
@@ -28,22 +24,44 @@ public class BoardUnitEvolutionShaderEffect : UnitShaderEffects {
         This<BoardUnit>().state.AddCallback("ShaderEvoAlphaFade", UpdateEvoParameters);
     }
 
-    private void Start() { if (BoltNetwork.IsServer) { SubscribeLocalEventHandlers(); } }
+    private void Start() { if (BoltNetwork.IsServer) {
+        ShaderEvoFade = 1f; // Dummy to trigger Callback
+        ShaderEvoFade = 0f;
+        ShaderEvoAlphaFade = 0f; // Dummy to trigger Callback
+        ShaderEvoAlphaFade = 1f;
+        SubscribeLocalEventHandlers();
+    } }
+
+    // Handles to avoid race conditions between Coroutines affecting ShaderEvoFade and ShaderEvoAlphaFade;
+    private Coroutine _evoFadeAlphaCoroutine;
+    private IEnumerator EvoFadeAlphaCoroutine {
+        set {
+            if (_evoFadeAlphaCoroutine != null) StopCoroutine(_evoFadeAlphaCoroutine);
+            _evoFadeAlphaCoroutine = StartCoroutine(value);
+        }
+    }
+    private Coroutine _evoFadeCoroutine;
+    private IEnumerator EvoFadeCoroutine {
+        set {
+            if (_evoFadeCoroutine != null) StopCoroutine(_evoFadeCoroutine);
+            _evoFadeCoroutine = StartCoroutine(value);
+        }
+    }
 
     private IEnumerator EvolveUnit() {
-        yield return new WaitForSeconds(2 * speed * ShaderEvoFade);
-        ShaderEvoAlphaFade =  1f;
-        isEvolving = true;
-        while (isEvolving) {
-            ShaderEvoFade += speed * Time.deltaTime;
-            if (ShaderEvoFade == 1f) isEvolving = false;
+        yield return new WaitForSeconds(SpeedOfEffects * ShaderEvoFade); // In case ShaderEvoFade doesn't quite start at 0, so that timings remain intact
+        while (true) {
+            ShaderEvoFade += SpeedOfEffects * Time.deltaTime;
+            if (ShaderEvoFade == 1f) break;
             yield return new WaitForEndOfFrame();
         }
-        yield return new WaitForSeconds(0.1f);
-        isEvolving = true;
-        while (isEvolving) {
-            ShaderEvoAlphaFade -= speed * Time.deltaTime;
-            if (ShaderEvoAlphaFade == 0f) isEvolving = false;
+    }
+
+    private IEnumerator DespawnEvolvingUnit() {
+        yield return new WaitForSeconds(SpeedOfEffects * (1 - ShaderEvoAlphaFade)); // In case ShaderEvoAlphaFade doesn't quite start at 1, so that timings remain intact
+        while (true) {
+            ShaderEvoAlphaFade -= SpeedOfEffects * Time.deltaTime;
+            if (ShaderEvoAlphaFade == 0f) break;
             yield return new WaitForEndOfFrame();
         }
     }
@@ -52,17 +70,18 @@ public class BoardUnitEvolutionShaderEffect : UnitShaderEffects {
         ShaderEvoFade =  1f;
         ShaderEvoAlphaFade = 1f;
         ShaderEvoAlphaFade = 0f;
-        isEvolving = true;
-        while (isEvolving) {
-            ShaderEvoAlphaFade += speed * Time.deltaTime;
-            if (ShaderEvoAlphaFade == 1f) isEvolving = false;
+        while (true) {
+            ShaderEvoAlphaFade += SpeedOfEffects * Time.deltaTime;
+            if (ShaderEvoAlphaFade == 1f) break;
             yield return new WaitForEndOfFrame();
         }
-        yield return new WaitForSeconds(0.1f);
-        isEvolving = true;
-        while (isEvolving) {
-            ShaderEvoFade -= speed * Time.deltaTime;
-            if (ShaderEvoFade == 0f) isEvolving = false;
+    }
+
+    private IEnumerator FinalizeEvolvedUnit() {
+        yield return new WaitForSeconds(SpeedOfEffects * (1 - ShaderEvoFade)); // In case ShaderEvoFade doesn't quite start at 1, so that timings remain intact
+        while (true) {
+            ShaderEvoFade -= SpeedOfEffects * Time.deltaTime;
+            if (ShaderEvoFade == 0f) break;
             yield return new WaitForEndOfFrame();
         }
     }
@@ -76,20 +95,31 @@ public class BoardUnitEvolutionShaderEffect : UnitShaderEffects {
 
     private void SubscribeLocalEventHandlers() {
         Player player = This<BoardUnit>().Owner;
-        var board = player.GetPlayerMan<PlayerBoardMan>();
-        board.EvolvingUnitEvent += HandleEvolvingUnitEvent;
-        board.SpawnedEvolvedUnitEvent += HandleSpawnedEvolvedUnitEvent;
+        var evolution = player.GetPlayerMan<PlayerEvolutionMan>();
+        evolution.EvolvingUnitEvent += HandleEvolvingUnitEvent;
+        evolution.DespawningUnitEvent += HandleDespawningUnitEvent;
+        evolution.SpawningEvolvedUnitEvent += HandleSpawningEvolvedUnitEvent;
+        evolution.FinalizeEvolvedSpawnEvent += HandleFinalizeEvolvedSpawnEvent;
     }
 
     private void HandleEvolvingUnitEvent(BoardUnit unit) {
         if (!IsThis<BoardUnit>(unit)) return;
-        StopAllCoroutines();
-        StartCoroutine(EvolveUnit());
+        EvoFadeCoroutine = EvolveUnit();
     }
 
-    private void HandleSpawnedEvolvedUnitEvent(BoardUnit unit) {
+    private void HandleDespawningUnitEvent(BoardUnit unit) {
         if (!IsThis<BoardUnit>(unit)) return;
-        StartCoroutine(SpawnEvolvedUnit());
+        EvoFadeAlphaCoroutine = DespawnEvolvingUnit();
+    }
+
+    private void HandleSpawningEvolvedUnitEvent(BoardUnit unit) {
+        if (!IsThis<BoardUnit>(unit)) return;
+        EvoFadeAlphaCoroutine = SpawnEvolvedUnit();
+    }
+
+    private void HandleFinalizeEvolvedSpawnEvent(BoardUnit unit) {
+        if (!IsThis<BoardUnit>(unit)) return;
+        EvoFadeCoroutine = FinalizeEvolvedUnit();
     }
 
 }
