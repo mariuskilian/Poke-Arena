@@ -12,17 +12,24 @@ public class Tile {
     public Vector3 LocalPosition { get; private set; }
     public Quaternion LocalRotation { get; private set; }
 
+    private bool isReserveTile = false;
+    public void UseAsTmpReserveTile() { isReserveTile = true; }
+
     public Tile(int x, int y) {
         CurrentUnit = null;
         TilePosition = new Vector2Int(x, y);
         CalculateLocalPositionAndRotation();
     }
 
-    public BoardUnit ClearTile() { BoardUnit _unit = CurrentUnit; CurrentUnit = null; return _unit; }
+    public BoardUnit ClearTile() {
+        isReserveTile = false;
+        BoardUnit _unit = CurrentUnit;
+        CurrentUnit = null;
+        return _unit; }
 
     public void FillTile(BoardUnit unit) {
         if (this.CurrentUnit != null || unit == null) return;
-        if (IsBoardTile) unit.gameObject.transform.SetSiblingIndex(0);
+        if (IsBoardTile && !isReserveTile) unit.gameObject.transform.SetSiblingIndex(0);
         CurrentUnit = unit;
         CurrentUnit.UpdateTile(this);
     }

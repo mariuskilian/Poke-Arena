@@ -15,6 +15,8 @@ public class BoardUnit : EntityBehaviour<IBoardUnitState> {
 
     private List<UnitComponent> UnitBehaviours;
 
+    public bool IsClickable { get { return gameObject.layer == LayerMask.NameToLayer("Units"); } }
+
     public override void Attached() {
         state.SetAnimator(GetComponent<Animator>());
         state.Animator.applyRootMotion = entity.IsOwner;

@@ -49,18 +49,18 @@ public class BoardUnitEvolutionShaderEffect : UnitShaderEffects {
     }
 
     private IEnumerator EvolveUnit() {
-        yield return new WaitForSeconds(SpeedOfEffects * ShaderEvoFade); // In case ShaderEvoFade doesn't quite start at 0, so that timings remain intact
+        yield return new WaitForSeconds(DurationGlowEffects * ShaderEvoFade); // In case ShaderEvoFade doesn't quite start at 0, so that timings remain intact
         while (true) {
-            ShaderEvoFade += SpeedOfEffects * Time.deltaTime;
+            ShaderEvoFade += DurationGlowEffects * Time.deltaTime;
             if (ShaderEvoFade == 1f) break;
             yield return new WaitForEndOfFrame();
         }
     }
 
     private IEnumerator DespawnEvolvingUnit() {
-        yield return new WaitForSeconds(SpeedOfEffects * (1 - ShaderEvoAlphaFade)); // In case ShaderEvoAlphaFade doesn't quite start at 1, so that timings remain intact
+        yield return new WaitForSeconds(DurationAlphaEffects * (1 - ShaderEvoAlphaFade)); // In case ShaderEvoAlphaFade doesn't quite start at 1, so that timings remain intact
         while (true) {
-            ShaderEvoAlphaFade -= SpeedOfEffects * Time.deltaTime;
+            ShaderEvoAlphaFade -= DurationAlphaEffects * Time.deltaTime;
             if (ShaderEvoAlphaFade == 0f) break;
             yield return new WaitForEndOfFrame();
         }
@@ -71,16 +71,16 @@ public class BoardUnitEvolutionShaderEffect : UnitShaderEffects {
         ShaderEvoAlphaFade = 1f;
         ShaderEvoAlphaFade = 0f;
         while (true) {
-            ShaderEvoAlphaFade += SpeedOfEffects * Time.deltaTime;
+            ShaderEvoAlphaFade += DurationAlphaEffects * Time.deltaTime;
             if (ShaderEvoAlphaFade == 1f) break;
             yield return new WaitForEndOfFrame();
         }
     }
 
     private IEnumerator FinalizeEvolvedUnit() {
-        yield return new WaitForSeconds(SpeedOfEffects * (1 - ShaderEvoFade)); // In case ShaderEvoFade doesn't quite start at 1, so that timings remain intact
+        yield return new WaitForSeconds(DurationGlowEffects * (1 - ShaderEvoFade)); // In case ShaderEvoFade doesn't quite start at 1, so that timings remain intact
         while (true) {
-            ShaderEvoFade -= SpeedOfEffects * Time.deltaTime;
+            ShaderEvoFade -= DurationGlowEffects * Time.deltaTime;
             if (ShaderEvoFade == 0f) break;
             yield return new WaitForEndOfFrame();
         }

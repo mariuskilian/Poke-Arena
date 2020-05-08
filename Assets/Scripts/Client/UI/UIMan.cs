@@ -54,7 +54,7 @@ public class UIMan : GlobalEventListener {
 
         var selection = SelectionMan.Instance;
         selection.UnitSelectEvent += HandleUnitSelectEvent;
-        selection.UnitDeselectEvent += HandleUnitDeselectEvent;
+        selection.UnitDeselectOnBoardBenchEvent += HandleUnitDeselectEvent;
 
         var input = InputMan.Instance;
         input.ToggleStoreEvent += HandleToggleStoreEvent;

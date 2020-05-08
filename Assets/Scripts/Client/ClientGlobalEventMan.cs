@@ -52,7 +52,7 @@ public class ClientGlobalEventMan : GlobalEventListener {
         input.TryBuyExpEvent += HandleTryBuyExpEvent;
 
         var select = SelectionMan.Instance;
-        select.UnitDeselectEvent += HandleUnitDeselectEvent;
+        select.UnitDeselectOnBoardBenchEvent += HandleUnitDeselectEvent;
     }
 
     private void HandleTryCatchUnitEvent(int idx) {

@@ -8,7 +8,7 @@ public class BoardUnitBoardAnimations : BoardUnitAnimation {
     private void SubscribeLocalEventHandlers() {
         Player player = This<BoardUnit>().Owner;
         var board = player.GetPlayerMan<PlayerBoardMan>();
-        board.UnitPlacedEvent += HandleUnitPlacedEvent;
+        board.UnitDeselectEvent += HandleUnitPlacedEvent;
         board.UnitTeleportedEvent += HandleUnitTeleportedEvent;
     }
 

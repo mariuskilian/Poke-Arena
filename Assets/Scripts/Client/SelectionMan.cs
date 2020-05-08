@@ -14,7 +14,8 @@ public class SelectionMan : MonoBehaviour {
     private BoardUnit selectedUnit = null;
 
     public Action<BoardUnit> UnitSelectEvent;
-    public Action<BoardUnit, Vector3, bool> UnitDeselectEvent;
+    public Action<BoardUnit, Vector3, bool> UnitDeselectOnBoardBenchEvent;
+    public Action<BoardUnit> UnitDeselectOnVoidEvent;
 
     private void Update() {
         CheckForInput();
@@ -50,8 +51,11 @@ public class SelectionMan : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out var hit, 25f, LayerMask.GetMask("Board", "Bench"))) {
             bool clickedBoard = hit.transform.gameObject.layer == LayerMask.NameToLayer("Board");
-            UnitDeselectEvent?.Invoke(selectedUnit, hit.point, clickedBoard);
-        } else selectedUnit.transform.position = selectedPos;
+            UnitDeselectOnBoardBenchEvent?.Invoke(selectedUnit, hit.point, clickedBoard);
+        } else {
+            selectedUnit.transform.position = selectedPos;
+            UnitDeselectOnVoidEvent?.Invoke(selectedUnit);
+        }
 
         selectedUnit = null;
         selectedPos = Vector3.zero;

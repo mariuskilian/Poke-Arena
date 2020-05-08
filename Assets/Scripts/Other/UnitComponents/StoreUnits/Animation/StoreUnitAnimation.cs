@@ -15,7 +15,7 @@ public class StoreUnitAnimation : UnitAnimation {
     }
 
     private void HandleUnitArrivedInStoreEvent(StoreUnit storeUnit, int _) {
-        if (IsThis<StoreUnit>(storeUnit)) animator.SetTrigger(DroppedInStore);
+        if (IsThis<StoreUnit>(storeUnit)) animator.SetTrigger(Dropped);
     }
 
 }

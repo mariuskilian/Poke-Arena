@@ -12,8 +12,7 @@ public abstract class UnitAnimation : UnitComponent {
         Name = "Name", Doze = "Doze", Excited = "Excited", Shake = "Shake";
     
     // Other parameter names
-    protected const string PickedUp = "PickedUp", Dropped = "Dropped", DroppedInStore = "DroppedInStore",
-        CarryPreClipSpeed = "CarryPreClipSpeedNormalizer", CarryPostClipSpeed = "CarryPostClipSpeedNormalizer";
+    protected const string PickedUp = "PickedUp", Dropped = "Dropped";
 
     public const int MaxNumVersions = 5;
     public const float PickUpAndDropClipLengths = 0.33f;

@@ -7,47 +7,47 @@ using static GameInfo;
 public class PlayerEvolutionMan : PlayerManager {
 
     public const float
-        SpeedOfEffects = 0.6f,
+        DurationGlowEffects = 0.6f,
+        DurationAlphaEffects = 0.4f,
         MaxDelayBetweenUnits = 0.35f,
-        EffectThreshhold = 0.5f
+        GlowEffectThreshhold = 0.5f,
+        AlphaEffectThreshhold = 0.6f
         ;
 
-    private IEnumerator Evolve(List<Tile> Tiles) {
+    private IEnumerator Evolve(List<BoardUnit> Units) {
 
-        BoardUnit firstUnit = Tiles[0].CurrentUnit; // The unit we will replace with the evolved Unit
-        BoardUnit lastUnit = Tiles[Tiles.Count - 1].CurrentUnit; // The reference unit to check if transitions are done
-        List<BoardUnit> Units = new List<BoardUnit>();
+        BoardUnit firstUnit = Units[0]; // The unit we will replace with the evolved Unit
+        BoardUnit lastUnit = Units[Units.Count - 1]; // The reference unit to check if transitions are done
 
         // Start evolution for base units
-        foreach (var t in Tiles) {
-            BoardUnit unit = t.CurrentUnit;
+        foreach (var unit in Units) {
             unit.SetClickable(false);
             EvolvingUnitEvent?.Invoke(unit);
-            Units.Add(unit);
             yield return new WaitForSeconds((float)RNG.NextDouble() * MaxDelayBetweenUnits);
         }
 
         // Wait until last one is ready
-        while (lastUnit.state.ShaderEvoFade < EffectThreshhold)
+        while (lastUnit.state.ShaderEvoFade < GlowEffectThreshhold)
             yield return new WaitForEndOfFrame();
 
         // Spawn evolution
         BoardUnit evolution = firstUnit.evolution;
 
         StartCoroutine(DespawnEvolvingUnits(Units));
-        yield return new WaitForSeconds(SpeedOfEffects);
+        yield return new WaitForSeconds(DurationAlphaEffects);
 
         BoardUnit evolvedUnit = player.GetPlayerMan<PlayerBoardMan>().SpawnUnit(evolution);
         evolvedUnit.SetClickable(false);
         yield return new WaitForEndOfFrame();
-        Tiles[0].ClearTile();
-        Tiles[0].FillTile(evolvedUnit);
+        Tile tile = firstUnit.CurrentTile;
+        tile.ClearTile();
+        tile.FillTile(evolvedUnit);
         StartCoroutine(SpawnEvolvedUnit(evolvedUnit));
     }
 
     private IEnumerator SpawnEvolvedUnit(BoardUnit evolvedUnit) {
         SpawningEvolvedUnitEvent?.Invoke(evolvedUnit);
-        while (evolvedUnit.state.ShaderEvoAlphaFade < EffectThreshhold)
+        while (evolvedUnit.state.ShaderEvoAlphaFade < AlphaEffectThreshhold)
             yield return new WaitForEndOfFrame();
         
         evolvedUnit.SetClickable(true);
@@ -84,8 +84,8 @@ public class PlayerEvolutionMan : PlayerManager {
         board.EvolvingUnitsEvent += HandleEvolvingUnitsEvent;
     }
 
-    private void HandleEvolvingUnitsEvent(List<Tile> Tiles) {
-        StartCoroutine(Evolve(Tiles));
+    private void HandleEvolvingUnitsEvent(List<BoardUnit> Units) {
+        StartCoroutine(Evolve(Units));
     }
 
 }
